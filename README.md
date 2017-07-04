@@ -1,4 +1,4 @@
-# Project Title
+# dvbern-lib-iso20022
 
 Library for exporting payment orders (pain) using the iso20022 format.
 
