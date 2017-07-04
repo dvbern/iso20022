@@ -40,9 +40,9 @@ Further information on how to report inapropriate behaviour by others, check the
 
 Since we're trying to keep the code structured, readable and standardised, please check out and implement our Code Styles & Inspections if you are using IntelliJ IDEA.
 
-[Code Styles](https://git.dvbern.dvb.ch/raw/dvbern/lib/codestyle.git/master/src!IDE-settings!IntelliJ!DVBern-Conventions-2017-05-29.xml)(Add Scheme under Project Settings > Editor > Code Style)
+[Code Styles](https://raw.githubusercontent.com/dvbern/codestyles/master/src!IDE-settings!IntelliJ!DVBern-Conventions-2017-05-29.xml)(Add Scheme under Project Settings > Editor > Code Style)
 
-[Inspections](https://git.dvbern.dvb.ch/raw/dvbern/lib/codestyle.git/master/src!IDE-settings!IntelliJ!DVBern_Inspections_2017_05_19.xml)(Add Profile under Project Settings > Editor > Inspections)
+[Inspections](https://raw.githubusercontent.com/dvbern/codestyles/master/src!IDE-settings!IntelliJ!DVBern_Inspections_2017_05_19.xml)(Add Profile under Project Settings > Editor > Inspections)
 
 ### 6. Make a Pull Request
 
