@@ -6,28 +6,17 @@ This library can be used for exporting payment orders (pain) using the iso20022 
 
 These instructions will get you an overview on how to implement and use the dvbern-lib-iso20022 library. See further down for installing or deployment notes.
 
-### Prerequisites
-
-<What things you need to install the software and how to install them>
-
-```
-<example>
-```
-
 ### Installing
 
-<A step by step series of examples to get a development env running>
-
-<This step does this>
 
 ```
-<example>
+            <dependency>
+                <groupId>ch.dvbern.lib</groupId>
+                <artifactId>dvbern-lib-iso20022-impl</artifactId>
+                <version>1.0.1</version>
+            </dependency>
 ```
 
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
