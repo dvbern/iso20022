@@ -113,21 +113,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
             </plugin>
-
-             <plugin>
-                <groupId>external.atlassian.jgitflow</groupId>
-                <artifactId>jgitflow-maven-plugin</artifactId>
-                <configuration>
-                     <flowInitContext>
-                        <masterBranchName>master</masterBranchName>
-                        <developBranchName>dev</developBranchName>
-                        <featureBranchPrefix>feature/</featureBranchPrefix>
-                        <releaseBranchPrefix>release/</releaseBranchPrefix>
-                        <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-                        <versionTagPrefix />
-                    </flowInitContext>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
