@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xsi:schemaLocation="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd pain.001.001.03.ch.02.xsd" xmlns="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CstmrCdtTrfInitn>
+        <GrpHdr>
+            <MsgId>Test-ID</MsgId>
+            <CreDtTm>2017-08-04T10:15:00.000+02:00</CreDtTm>
+            <NbOfTxs>2</NbOfTxs>
+            <CtrlSum>1010</CtrlSum>
+            <InitgPty>
+                <Nm>Pestalozzi GMBH</Nm>
+                <CtctDtls>
+                    <Nm>DVBern Payment Tool</Nm>
+                    <Othr>V01</Othr>
+                </CtctDtls>
+            </InitgPty>
+        </GrpHdr>
+        <PmtInf>
+            <PmtInfId>Test-ID</PmtInfId>
+            <PmtMtd>TRA</PmtMtd>
+            <BtchBookg>true</BtchBookg>
+            <PmtTpInf/>
+            <ReqdExctnDt>2017-06-30+02:00</ReqdExctnDt>
+            <Dbtr>
+                <Nm>Pestalozzi GMBH</Nm>
+            </Dbtr>
+            <DbtrAcct>
+                <Id>
+                    <IBAN>CH9300762011623852957</IBAN>
+                </Id>
+            </DbtrAcct>
+            <DbtrAgt>
+                <FinInstnId>
+                    <BIC>POFICHBEXXX</BIC>
+                </FinInstnId>
+            </DbtrAgt>
+            <ChrgsAcct>
+                <Id>
+                    <IBAN>CH9300762011623852957</IBAN>
+                </Id>
+            </ChrgsAcct>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <InstrId>1</InstrId>
+                    <EndToEndId>1/6/Auszahlung 1</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="CHF">10</InstdAmt>
+                </Amt>
+                <CdtrAgt>
+                    <FinInstnId>
+                        <ClrSysMmbId>
+                            <ClrSysId>
+                                <Cd>CHBCC</Cd>
+                            </ClrSysId>
+                            <MmbId>POFICHBEXXX</MmbId>
+                        </ClrSysMmbId>
+                    </FinInstnId>
+                </CdtrAgt>
+                <Cdtr>
+                    <Nm>Auszahlung 1</Nm>
+                    <PstlAdr>
+                        <StrtNm>Teststrasse</StrtNm>
+                        <BldgNb>1</BldgNb>
+                        <PstCd>3000</PstCd>
+                        <TwnNm>Bern</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>Auszahlung 1</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <InstrId>2</InstrId>
+                    <EndToEndId>2/6/Auszahlung 2</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="CHF">1000</InstdAmt>
+                </Amt>
+                <CdtrAgt>
+                    <FinInstnId>
+                        <ClrSysMmbId>
+                            <ClrSysId>
+                                <Cd>CHBCC</Cd>
+                            </ClrSysId>
+                            <MmbId>POFICHBEXXX</MmbId>
+                        </ClrSysMmbId>
+                    </FinInstnId>
+                </CdtrAgt>
+                <Cdtr>
+                    <Nm>Auszahlung 2</Nm>
+                    <PstlAdr>
+                        <StrtNm>Teststrasse</StrtNm>
+                        <BldgNb>2</BldgNb>
+                        <PstCd>4000</PstCd>
+                        <TwnNm>Zurich</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>Auszahlung 2</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+        </PmtInf>
+    </CstmrCdtTrfInitn>
+</Document>
