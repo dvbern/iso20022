@@ -12,7 +12,7 @@ These instructions will get you an overview on how to implement and use the dvbe
 ```xml
 <dependency>
 	<groupId>ch.dvbern.oss.lib</groupId>
-	<artifactId>dvbern-lib-iso20022-impl</artifactId>
+	<artifactId>dvbern-lib-iso20022-ch-impl</artifactId>
 	<version>(NEWEST_VERSION)</version>
 </dependency>
 ```
