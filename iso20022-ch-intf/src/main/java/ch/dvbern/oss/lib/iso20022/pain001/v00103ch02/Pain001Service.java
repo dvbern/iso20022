@@ -16,7 +16,7 @@
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
 /**
- * Service fuer Generierung des Zahlungsfile gemäss ISO200022
+ * Service implementation to generate Payment-File Pain001 according to ISO20022 for a swiss bank
  */
 public interface Pain001Service {
 

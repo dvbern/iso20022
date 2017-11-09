@@ -54,23 +54,24 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.GroupHeader32CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
+import org.apache.commons.lang3.Validate;
 import org.xml.sax.SAXException;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
 /**
- * Service fuer Generierung des Zahlungsfile gemäss ISO20022 an eine Schweizer Bank in Schweizer Franken
+ * Service implementation to generate Payment-File Pain001 according to ISO20022 for a swiss bank
  */
 @Stateless
 @Local(Pain001Service.class)
 public class Pain001V00103CH02Service implements Pain001Service {
 
-	private static final String CCY = "CHF"; // Auszahlung in Schweizer Franken
-	private static final String CTCTDTLS_OTHR = "V01"; // Versionierung (nicht gebraucht)
+	private static final String CCY = "CHF"; // Code for swiss francs
+	private static final String CTCTDTLS_OTHR = "V01"; // versioning
 	private static final PaymentMethod3Code PAYMENT_METHOD_3_CODE = PaymentMethod3Code.TRA;
 	private static final Boolean BTCHBOOKG = true;
-	private static final String CLRSYS_CD = "CHBCC"; // Code Schweizer Bank
+	private static final String CLRSYS_CD = "CHBCC"; // Code swiss bank
 	private static final Pattern FIND_SPACES = Pattern.compile(SPACE);
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
@@ -96,15 +97,14 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, SCHEMA_LOCATION + SPACE + SCHEMA_NAME);
 
-			// Hier bitte nicht lambda verwenden, es gibt teilweise Fehler mit Java-Version
+			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new PainValidationEventHandler());
 
-			jaxbMarshaller.marshal(getElementToMarshall(document), documentXmlString); // ohne @XmlRootElement
-			// annotation
+			jaxbMarshaller.marshal(getElementToMarshall(document), documentXmlString); // without @XmlRootElement annotation
 
 		} catch (final Exception e) {
 
-			throw new Iso20022RuntimeException("Unerwarteter Fehler beim generieren des Zahlungsfile", e);
+			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file", e);
 		}
 		return documentXmlString.toString();
 	}
@@ -130,7 +130,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	}
 
 	/**
-	 * Beispiel:
+	 * Example:
 	 * <pre>
 	 * {@code
 	 * <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -158,20 +158,19 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String debtorIbanGebuehren = pain001DTO.getSchuldnerIBANGebuehren();
 
 		if (debtorName == null) {
-			throw new Iso20022RuntimeException("Schuldner Name ist leer: debtor_name muss angegeben werden");
+			throw new Iso20022RuntimeException("Empty deptor name: debtor_name is required");
 		}
 		if (debtorBic == null) {
-			throw new Iso20022RuntimeException("Schuldner Bank BIC Nummer ist leer: debtor_bic muss angegeben werden");
+			throw new Iso20022RuntimeException("Empty deptor Bank BIC Number: debtor_bic is required");
 		}
 		if (debtorIban == null) {
 			throw new Iso20022RuntimeException(
-				"Schuldner Konto IBAN Nummer ist leer: debtor_iban muss angegeben werden");
+				"Empty IBAN Number: debtor_iban is required");
 		}
 		if (debtorIbanGebuehren == null) {
 			debtorIbanGebuehren = debtorIban;
 		}
 
-		// DocumentStruktur (A und B-Level) zum Validieren
 		ObjectFactory objectFactory = new ObjectFactory();
 		Document document = objectFactory.createDocument();
 		document.setCstmrCdtTrfInitn(objectFactory.createCustomerCreditTransferInitiationV03CH());
@@ -191,6 +190,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		int transaktion = 0;
 		BigDecimal ctrlSum = BigDecimal.ZERO;
 		for (AuszahlungDTO auszahlungDTO : pain001DTO.getAuszahlungen()) {
+			Validate.notNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
 			transaktion++;
 
 			ctrlSum = ctrlSum.add(auszahlungDTO.getBetragTotalZahlung());
@@ -211,7 +211,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	}
 
 	/**
-	 * Beispiel:
+	 * Example:
 	 * <pre>
 	 * {@code
 	 * <CdtTrfTxInf>
@@ -246,7 +246,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * 		</Id>
 	 * 	</CdtrAcct>
 	 * 	<RmtInf>
-	 * 		<Ustrd>Irgend ein blabla</Ustrd>
+	 * 		<Ustrd>some text...</Ustrd>
 	 * 	</RmtInf>
 	 * </CdtTrfTxInf>
 	 * }
@@ -258,10 +258,14 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		AuszahlungDTO auszahlungDTO,
 		LocalDate date) {
 
+		Validate.notNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
+		Validate.notNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+		Validate.notNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
+
 		CreditTransferTransactionInformation10CH cTTI10CH = objectFactory
 			.createCreditTransferTransactionInformation10CH();
 
-		// struktur
+		// structure
 		cTTI10CH.setPmtId(objectFactory.createPaymentIdentification1());
 
 		cTTI10CH.setAmt(objectFactory.createAmountType3Choice());
@@ -286,13 +290,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getPmtId().setInstrId(transaktionStr); // 2.29
 
 		String zahlungsempfaegerName = auszahlungDTO.getZahlungsempfaegerName();
-		// "{id}/{Monat Nummer}/{KitaName normalisiert ohne öäü} => "1/2/Brunnen
+		// "{id}/{Monat Number}/{normalized without öäü} => "1/2/Brunnen
 		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName;
 		endToEndId = normalize(endToEndId);
 		// 2.30 max 35 signs
 		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
 
-		// Wert
+		// Value
 		cTTI10CH.getAmt().getInstdAmt().setCcy(CCY);// 2.43
 		cTTI10CH.getAmt().getInstdAmt().setValue(auszahlungDTO.getBetragTotalZahlung());// 2.43
 
@@ -307,16 +311,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String iban = FIND_SPACES.matcher(auszahlungDTO.getZahlungsempfaegerIBAN()).replaceAll(EMPTY);
 		cTTI10CH.getCdtrAcct().getId().setIBAN(iban); // 2.80
 
-		// 1.1.1	ETAB 503.2: EZAG für PC- / IBAN-Auszahlung aufbereiten, 2. Teil
-		// Strukturierte Daten
 		cTTI10CH.setCdtr(objectFactory.createPartyIdentification32CHName());
 		cTTI10CH.getCdtr().setNm(normalize(zahlungsempfaegerName)); // 2.79
-		cTTI10CH.getCdtr().setPstlAdr(objectFactory.createPostalAddress6CH());
-		cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaegerStrasse())); // 2.79
-		cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaegerHausnummer()); // 2.79
-		cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaegerPlz());// 2.79
-		cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaegerOrt()));// 2.79
-		cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaegerLand());// 2.79
+		setPstlAdr(objectFactory, auszahlungDTO, cTTI10CH);
 
 		cTTI10CH.setRmtInf(objectFactory.createRemittanceInformation5CH());
 
@@ -330,12 +327,40 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		return cTTI10CH;
 	}
 
+	@SuppressWarnings({ "PMD.NcssMethodCount", "PMD.CyclomaticComplexity", "checkstyle:CyclomaticComplexity" , "checkstyle:BooleanExpressionComplexity" })
+	private void setPstlAdr(ObjectFactory objectFactory, AuszahlungDTO auszahlungDTO, CreditTransferTransactionInformation10CH cTTI10CH) {
+		if (auszahlungDTO.getZahlungsempfaegerStrasse() != null || auszahlungDTO.getZahlungsempfaegerHausnummer() != null
+			|| auszahlungDTO.getZahlungsempfaegerPlz() != null || auszahlungDTO.getZahlungsempfaegerOrt() != null
+			|| auszahlungDTO.getZahlungsempfaegerLand() != null) {
+			cTTI10CH.getCdtr().setPstlAdr(objectFactory.createPostalAddress6CH());
+			if (auszahlungDTO.getZahlungsempfaegerStrasse() != null) {
+				cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaegerStrasse())); // 2.79
+			}
+			if (auszahlungDTO.getZahlungsempfaegerHausnummer() != null) {
+				cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaegerHausnummer()); // 2.79
+			}
+			if (auszahlungDTO.getZahlungsempfaegerPlz() != null) {
+				cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaegerPlz());// 2.79
+			}
+			if (auszahlungDTO.getZahlungsempfaegerOrt() != null) {
+				cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaegerOrt()));// 2.79
+			}
+			if (auszahlungDTO.getZahlungsempfaegerLand() != null) {
+				cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaegerLand());// 2.79
+			}
+		}
+	}
+
 	private String normalize(String text) {
-		return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
+		if (text != null) {
+			return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
+		} else {
+			return null;
+		}
 	}
 
 	/**
-	 * Beispiel PaymentInformation:
+	 * Example PaymentInformation:
 	 * <pre>
 	 * {@code
 	 * <PmtInf>
@@ -349,7 +374,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * 	</PmtTpInf>
 	 * 	<ReqdExctnDt>2017-01</ReqdExctnDt>
 	 * 	<Dbtr>
-	 * 		<Nm>Jugendamt</Nm>
+	 * 		<Nm>Name of Deptor</Nm>
 	 * 	</Dbtr>
 	 * 	<DbtrAcct>
 	 * 		<Id>
@@ -367,7 +392,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * 		</Id>
 	 * 	</ChrgsAcct>
 	 * 	<CdtTrfTxInf>
-	 * 		<!--Auszahlungen-->
+	 * 		<!--Payments-->
 	 * 	</CdtTrfTxInf>
 	 * </PmtInf>
 	 * }
@@ -419,7 +444,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	}
 
 	/**
-	 * Beispiel:
+	 * Example:
 	 * <pre>
 	 * {@code <GrpHdr>
 	 * 	<MsgId>01-201611-01</MsgId>
@@ -427,7 +452,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * 	<NbOfTxs>130</NbOfTxs>
 	 * 	<CtrlSum>204013</CtrlSum>
 	 * 	<InitgPty>
-	 * 		<Nm>Jugendamt</Nm>
+	 * 		<Nm>Name of Deptor</Nm>
 	 * 		<CtctDtls>
 	 * 			<Nm>Kitac</Nm>
 	 * 			<Othr>V01</Othr>
@@ -444,7 +469,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		BigDecimal ctrlSum,
 		String debtorName) {
 		// GroupHeader
-		// struktur
+		// structure
 		GroupHeader32CH groupHeader32CH = objectFactory.createGroupHeader32CH();
 
 		groupHeader32CH.setInitgPty(objectFactory.createPartyIdentification32CHNameAndId());
@@ -475,7 +500,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		try {
 			aDateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
 		} catch (DatatypeConfigurationException e) {
-			throw new Iso20022RuntimeException("Unerwarteter Fehler beim generieren des Zahlungsfile", e);
+			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file", e);
 		}
 		return aDateTime;
 	}
@@ -483,7 +508,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static class PainValidationEventHandler implements ValidationEventHandler {
 		@Override
 		public boolean handleEvent(ValidationEvent event) {
-			throw new Iso20022RuntimeException("Unerwarteter Fehler beim generieren des Zahlungsfile: "
+			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file: "
 				+ event.getMessage(), event.getLinkedException());
 		}
 	}
