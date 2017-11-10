@@ -28,8 +28,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.xml.XMLConstants;
@@ -54,7 +56,7 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.GroupHeader32CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
-import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.Contract;
 import org.xml.sax.SAXException;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -100,7 +102,8 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new PainValidationEventHandler());
 
-			jaxbMarshaller.marshal(getElementToMarshall(document), documentXmlString); // without @XmlRootElement annotation
+			// without @XmlRootElement annotation
+			jaxbMarshaller.marshal(getElementToMarshall(document), documentXmlString);
 
 		} catch (final Exception e) {
 
@@ -164,8 +167,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			throw new Iso20022RuntimeException("Empty deptor Bank BIC Number: debtor_bic is required");
 		}
 		if (debtorIban == null) {
-			throw new Iso20022RuntimeException(
-				"Empty IBAN Number: debtor_iban is required");
+			throw new Iso20022RuntimeException("Empty IBAN: debtor_iban is required");
 		}
 		if (debtorIbanGebuehren == null) {
 			debtorIbanGebuehren = debtorIban;
@@ -190,7 +192,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		int transaktion = 0;
 		BigDecimal ctrlSum = BigDecimal.ZERO;
 		for (AuszahlungDTO auszahlungDTO : pain001DTO.getAuszahlungen()) {
-			Validate.notNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+			Objects.requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
 			transaktion++;
 
 			ctrlSum = ctrlSum.add(auszahlungDTO.getBetragTotalZahlung());
@@ -258,9 +260,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		AuszahlungDTO auszahlungDTO,
 		LocalDate date) {
 
-		Validate.notNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
-		Validate.notNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
-		Validate.notNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
+		Objects.requireNonNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
+		Objects.requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+		Objects.requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
 
 		CreditTransferTransactionInformation10CH cTTI10CH = objectFactory
 			.createCreditTransferTransactionInformation10CH();
@@ -290,13 +292,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getPmtId().setInstrId(transaktionStr); // 2.29
 
 		String zahlungsempfaegerName = auszahlungDTO.getZahlungsempfaegerName();
-		// "{id}/{Monat Number}/{normalized without öäü} => "1/2/Brunnen
+		// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
 		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName;
 		endToEndId = normalize(endToEndId);
 		// 2.30 max 35 signs
 		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
 
-		// Value
+		// value
 		cTTI10CH.getAmt().getInstdAmt().setCcy(CCY);// 2.43
 		cTTI10CH.getAmt().getInstdAmt().setValue(auszahlungDTO.getBetragTotalZahlung());// 2.43
 
@@ -327,36 +329,50 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		return cTTI10CH;
 	}
 
-	@SuppressWarnings({ "PMD.NcssMethodCount", "PMD.CyclomaticComplexity", "checkstyle:CyclomaticComplexity" , "checkstyle:BooleanExpressionComplexity" })
-	private void setPstlAdr(ObjectFactory objectFactory, AuszahlungDTO auszahlungDTO, CreditTransferTransactionInformation10CH cTTI10CH) {
-		if (auszahlungDTO.getZahlungsempfaegerStrasse() != null || auszahlungDTO.getZahlungsempfaegerHausnummer() != null
-			|| auszahlungDTO.getZahlungsempfaegerPlz() != null || auszahlungDTO.getZahlungsempfaegerOrt() != null
-			|| auszahlungDTO.getZahlungsempfaegerLand() != null) {
-			cTTI10CH.getCdtr().setPstlAdr(objectFactory.createPostalAddress6CH());
-			if (auszahlungDTO.getZahlungsempfaegerStrasse() != null) {
-				cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaegerStrasse())); // 2.79
-			}
-			if (auszahlungDTO.getZahlungsempfaegerHausnummer() != null) {
-				cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaegerHausnummer()); // 2.79
-			}
-			if (auszahlungDTO.getZahlungsempfaegerPlz() != null) {
-				cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaegerPlz());// 2.79
-			}
-			if (auszahlungDTO.getZahlungsempfaegerOrt() != null) {
-				cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaegerOrt()));// 2.79
-			}
-			if (auszahlungDTO.getZahlungsempfaegerLand() != null) {
-				cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaegerLand());// 2.79
-			}
+	private void setPstlAdr(
+		ObjectFactory objectFactory,
+		AuszahlungDTO auszahlungDTO,
+		CreditTransferTransactionInformation10CH cTTI10CH) {
+
+		if (!hasAddressData(auszahlungDTO)) {
+			return;
+		}
+
+		cTTI10CH.getCdtr().setPstlAdr(objectFactory.createPostalAddress6CH());
+		if (auszahlungDTO.getZahlungsempfaegerStrasse() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaegerStrasse())); // 2.79
+		}
+		if (auszahlungDTO.getZahlungsempfaegerHausnummer() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaegerHausnummer()); // 2.79
+		}
+		if (auszahlungDTO.getZahlungsempfaegerPlz() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaegerPlz());// 2.79
+		}
+		if (auszahlungDTO.getZahlungsempfaegerOrt() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaegerOrt()));// 2.79
+		}
+		if (auszahlungDTO.getZahlungsempfaegerLand() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaegerLand());// 2.79
 		}
 	}
 
-	private String normalize(String text) {
-		if (text != null) {
-			return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
-		} else {
+	@SuppressWarnings("checkstyle:BooleanExpressionComplexity")
+	private boolean hasAddressData(AuszahlungDTO auszahlungDTO) {
+		return auszahlungDTO.getZahlungsempfaegerStrasse() != null
+			|| auszahlungDTO.getZahlungsempfaegerHausnummer() != null
+			|| auszahlungDTO.getZahlungsempfaegerPlz() != null
+			|| auszahlungDTO.getZahlungsempfaegerOrt() != null
+			|| auszahlungDTO.getZahlungsempfaegerLand() != null;
+	}
+
+	@Contract("!null->!null; null->null;")
+	@Nullable
+	private String normalize(@Nullable String text) {
+		if (null == text) {
 			return null;
 		}
+
+		return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
 	}
 
 	/**
