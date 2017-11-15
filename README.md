@@ -11,9 +11,9 @@ These instructions will get you an overview on how to implement and use the iso2
 
 ```xml
 <dependency>
-	<groupId>ch.dvbern.oss.iso20022</groupId>
-	<artifactId>iso20022-impl</artifactId>
-	<version>(NEWEST_VERSION)</version>
+    <groupId>ch.dvbern.oss.iso20022</groupId>
+    <artifactId>iso20022-impl</artifactId>
+    <version>(NEWEST_VERSION)</version>
 </dependency>
 ```
 
@@ -21,57 +21,73 @@ These instructions will get you an overview on how to implement and use the iso2
 ```java
 public class MyCDIEnabledClass {
 
-	@Inject
-	private Pain001Service pain001Service;
-	
-	private void createPainFile(String debitorName, String debitorBic, String debitorIban, String debitorIbanGebuehren, PaymentOrder paymentOrder) {
-		Pain001DTO pain001DTO = wrapPaymentOrder(paymentOrder, debitorName, debitorIban, debitorBic, debitorIbanGebuehren);
-		final byte[] painFileContent = pain001Service.getPainFileContent(pain001DTO);
-	}
-		
-	// FIXME PaymentOrder gibt es nicht in dieser Lib
-	private Pain001DTO wrapPaymentOrder(PaymentOrder paymentOrder, String debitorName, String debitorIban, String debitorBic, String debitorIbanGebuehren) {
-		Pain001DTO pain001DTO = new Pain001DTO();
-			
-		pain001DTO.setAuszahlungsDatum(paymentOrder.getDatumFaellig());
-		pain001DTO.setGenerierungsDatum(LocalDateTime.now());
-			
-		pain001DTO.setSchuldnerName(debitorName);
-		pain001DTO.setSchuldnerIBAN(debitorIban);
-		pain001DTO.setSchuldnerBIC(debitorBic);
-		pain001DTO.setSchuldnerIBANGebuehren(debitorIbanGebuehren);
-		pain001DTO.setSoftwareName("MyAppName");        
-		pain001DTO.setMsgId(paymentOrder.getRef());
-			
-		paymentOrder.getPayments().stream()
-			.filter(payment -> payment.getTotal().signum() == 1)
-			.map(payment -> {
-				AuszahlungDTO auszahlungDTO = new AuszahlungDTO();
-				auszahlungDTO.setBetragTotalZahlung(payments.getTotal());
-		
-				auszahlungDTO.setZahlungsempfaegerName(payment.readContact().getFullName());
-				// FIXME Adresse gibt es nicht in dieser Lib
-				Adresse addressAccountOwner = payment.readContact().getAddress();
-				// FIXME AccountOwner gibt es nicht in dieser Lib
-				if (AccountOwner != null) {
-					auszahlungDTO.setZahlungsempfaegerStrasse(addressAccountOwner.getStrasse());
-					auszahlungDTO.setZahlungsempfaegerHausnummer(addressAccountOwner.getHausnummer());
-					auszahlungDTO.setZahlungsempfaegerPlz(addressAccountOwner.getPlz());
-					auszahlungDTO.setZahlungsempfaegerOrt(addressAccountOwner.getOrt());
-				}
-				auszahlungDTO.setZahlungsempfaegerLand("CH");
-				auszahlungDTO.setZahlungText(getPaymentText(payment.getPaymentText()));
-		
-				auszahlungDTO.setZahlungsempfaegerIBAN(payment.getIban());
-				auszahlungDTO.setZahlungsempfaegerBankClearingNumber(payment.getIban().extractClearingNumberWithoutLeadingZeros());
-		
-				return auszahlungDTO;
-			})
-			.collect(Collectors.toList());
-			
-			return pain001DTO;
-		}
-	}
+    @Inject
+    private Pain001Service pain001Service;
+    
+    private static final String STORE_PATH = "target/painDemoFile.xml";
+    
+    public void createDemoPainFile() {
+        Pain001DTO pain001DTO = demoPaymentOrder();
+        final byte[] painFileContent = pain001Service.getPainFileContent(pain001DTO);
+        writeResultsToFile(painFileContent);
+    }
+        
+    private Pain001DTO demoPaymentOrder() {
+        Pain001DTO pain001DTO = new Pain001DTO();
+            
+        pain001DTO.setAuszahlungsDatum(LocalDate.now());
+        pain001DTO.setGenerierungsDatum(LocalDateTime.now());            
+        pain001DTO.setSchuldnerName("John Deptor");
+        pain001DTO.setSchuldnerIBAN("CH9300762011623852957");
+        pain001DTO.setSchuldnerBIC("POFICHBEXXX");
+        pain001DTO.setSoftwareName("DVBern Payment Tool");
+        pain001DTO.setMsgId("Test-ID");
+            
+        List<AuszahlungDTO> payments = new ArrayList<>();
+
+        // first paying out
+        AuszahlungDTO payment1 = new AuszahlungDTO();
+        payment1.setBetragTotalZahlung(BigDecimal.TEN);
+        payment1.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
+        payment1.setZahlungsempfaegerIBAN("CH9300762011623852957");
+        payment1.setZahlungsempfaegerLand("CH");
+        payment1.setZahlungsempfaegerName("Hans Payee");
+        payment1.setZahlungsempfaegerStrasse("Teststreet");
+        payment1.setZahlungsempfaegerHausnummer("1");
+        payment1.setZahlungsempfaegerPlz("3000");
+        payment1.setZahlungsempfaegerOrt("Bern");
+        payment1.setZahlungText("This is my fist payment");
+        payments.add(payment1);
+
+        // second paying out
+        AuszahlungDTO payment2 = new AuszahlungDTO();
+        payment2.setBetragTotalZahlung(new BigDecimal(1000));
+        payment2.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
+        payment2.setZahlungsempfaegerIBAN("CH9300762011623852957");
+        payment2.setZahlungsempfaegerLand("CH");
+        payment2.setZahlungsempfaegerName("Kurt Payee");
+        payment2.setZahlungsempfaegerStrasse("Teststreet");
+        payment2.setZahlungsempfaegerHausnummer("2");
+        payment2.setZahlungsempfaegerPlz("4000");
+        payment2.setZahlungsempfaegerOrt("Zürich");
+        payment1.setZahlungText("This is my second payment");
+        payments.add(payment2);
+        
+        pain001DTO.setAuszahlungen(payments);
+        
+        return pain001DTO;        
+    }
+        
+    /**
+     * Write data to File
+    */
+    private void writeResultsToFile(byte[] data) throws IOException {
+        FileOutputStream fos = new FileOutputStream(STORE_PATH);
+        fos.write(data);
+        fos.close();
+    }
+}
+    
 ```
                     
 ## Built With
