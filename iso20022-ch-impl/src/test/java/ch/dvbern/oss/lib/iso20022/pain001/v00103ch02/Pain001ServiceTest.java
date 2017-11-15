@@ -80,6 +80,13 @@ public class Pain001ServiceTest {
 		auszahlung2.setZahlungsempfaegerOrt("Zürich");
 		auszahlungen.add(auszahlung2);
 
+		AuszahlungDTO auszahlungWithout = new AuszahlungDTO();
+		auszahlungWithout.setBetragTotalZahlung(new BigDecimal(2000));
+		auszahlungWithout.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
+		auszahlungWithout.setZahlungsempfaegerIBAN("CH9300762011623852957");
+		auszahlungWithout.setZahlungsempfaegerName("Auszahlung Without address");
+		auszahlungen.add(auszahlungWithout);
+
 		zahlungsauftrag = new Pain001DTO();
 		zahlungsauftrag.setMsgId("Test-ID");
 		zahlungsauftrag.setSoftwareName("DVBern Payment Tool");
@@ -92,8 +99,9 @@ public class Pain001ServiceTest {
 		zahlungsauftrag.setAuszahlungen(auszahlungen);
 	}
 
+
 	@Test
-	public void getPainFileContentTest() throws JAXBException, IOException {
+	public void getPainFileContentTestAndWriteToFile() throws JAXBException, IOException {
 
 		final byte[] painFileContent = pain001Service.getPainFileContent(zahlungsauftrag);
 
@@ -134,7 +142,7 @@ public class Pain001ServiceTest {
 	}
 
 	/**
-	 * Schreibt die berechneten Werte in die Files, wenn true ist
+	 * Write date to File
 	 */
 	private void writeResultsToFile(byte[] data) throws IOException {
 		FileOutputStream fos = new FileOutputStream(STORE_PATH);
