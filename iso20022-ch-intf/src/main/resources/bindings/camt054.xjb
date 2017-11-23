@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<jaxb:bindings
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+		xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+		jaxb:extensionBindingPrefixes="inheritance"
+		jaxb:version="2.1">
+
+	<jaxb:bindings schemaLocation="../iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd">
+		<!--<jaxb:bindings node="//xs:element[@type='StructuredRemittanceInformation9']">-->
+		<jaxb:bindings node="//xs:complexType[@name='StructuredRemittanceInformation9']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.StructuredRemittanceInformation</inheritance:implements>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

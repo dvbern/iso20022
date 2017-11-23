@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04 camt.054.001.04.xsd" xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<BkToCstmrDbtCdtNtfctn>
+		<GrpHdr>
+			<MsgId>MSGID-201707271400</MsgId>
+			<CreDtTm>2017-07-27T14:00:40Z</CreDtTm>
+		</GrpHdr>
+		<Ntfctn>
+			<Id>NtfctnId20170727</Id>
+			<CreDtTm>2017-07-27T14:00:40Z</CreDtTm>
+			<Acct>
+				<Id>
+					<IBAN>CH1600774012312345678</IBAN>
+				</Id>
+			</Acct>
+			<Ntry>
+				<Amt Ccy="CHF">113.00</Amt>
+				<CdtDbtInd>CRDT</CdtDbtInd>
+				<RvslInd>false</RvslInd>
+				<Sts>BOOK</Sts>
+				<BookgDt>
+					<Dt>2017-07-27</Dt>
+				</BookgDt>
+				<AcctSvcrRef>2017072700000000000</AcctSvcrRef>
+				<BkTxCd>
+					<Domn>
+						<Cd>PMNT</Cd>
+						<Fmly>
+							<Cd>RCDT</Cd>
+							<SubFmlyCd>AUTT</SubFmlyCd>
+						</Fmly>
+					</Domn>
+				</BkTxCd>
+				<NtryDtls>
+					<Btch>
+						<NbOfTxs>2</NbOfTxs>
+					</Btch>
+					<TxDtls>
+						<Refs>
+							<AcctSvcrRef>170727CH00A1ABCD</AcctSvcrRef>
+							<Prtry>
+								<Tp>00</Tp>
+								<Ref>20170727012345678912345</Ref>
+							</Prtry>
+						</Refs>
+						<Amt Ccy="CHF">111.00</Amt>
+						<CdtDbtInd>CRDT</CdtDbtInd>
+						<RltdPties>
+							<Dbtr>
+								<Nm>Ada Lovelace</Nm>
+							</Dbtr>
+						</RltdPties>
+						<RmtInf>
+							<Ustrd>TEST MITTEILUNG</Ustrd>
+							<Strd>
+								<AddtlRmtInf>?REJECT?0</AddtlRmtInf>
+							</Strd>
+						</RmtInf>
+					</TxDtls>
+					<TxDtls>
+						<Refs>
+							<AcctSvcrRef>170727CH00A2ABCD</AcctSvcrRef>
+							<Prtry>
+								<Tp>00</Tp>
+								<Ref>20170727012345678912346</Ref>
+							</Prtry>
+						</Refs>
+						<Amt Ccy="CHF">2.00</Amt>
+						<CdtDbtInd>CRDT</CdtDbtInd>
+						<RltdPties>
+							<Dbtr>
+								<Nm>Lord Bayron</Nm>
+							</Dbtr>
+						</RltdPties>
+						<RmtInf>
+							<Ustrd>TEST MITTEILUNG</Ustrd>
+							<Strd>
+								<AddtlRmtInf>?REJECT?0</AddtlRmtInf>
+							</Strd>
+						</RmtInf>
+					</TxDtls>
+				</NtryDtls>
+				<AddtlNtryInf>SAMMELGUTSCHRIFT ES VERARBEITUNG VOM 27.07.2017 PAKET ID: 123456789</AddtlNtryInf>
+			</Ntry>
+		</Ntfctn>
+	</BkToCstmrDbtCdtNtfctn>
+</Document>
