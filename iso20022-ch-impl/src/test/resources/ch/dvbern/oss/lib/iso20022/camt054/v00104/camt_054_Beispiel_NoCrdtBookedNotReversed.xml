@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04 camt.054.001.04.xsd" xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<BkToCstmrDbtCdtNtfctn>
+		<GrpHdr>
+			<MsgId>MSGID-201707261400</MsgId>
+			<CreDtTm>2017-07-26T14:00:30Z</CreDtTm>
+		</GrpHdr>
+		<Ntfctn>
+			<Id>NtfctnId20170726</Id>
+			<CreDtTm>2017-07-26T14:00:30Z</CreDtTm>
+			<Acct>
+				<Id>
+					<IBAN>CH1600774012312345678</IBAN>
+				</Id>
+			</Acct>
+			<Ntry>
+				<Amt Ccy="CHF">111.00</Amt>
+				<CdtDbtInd>CRDT</CdtDbtInd>
+				<RvslInd>true</RvslInd>
+				<Sts>BOOK</Sts>
+				<BookgDt>
+					<Dt>2017-07-26</Dt>
+				</BookgDt>
+				<BkTxCd>
+					<Domn>
+						<Cd>PMNT</Cd>
+						<Fmly>
+							<Cd>RCDT</Cd>
+							<SubFmlyCd>VCOM</SubFmlyCd>
+						</Fmly>
+					</Domn>
+				</BkTxCd>
+				<NtryDtls>
+					<TxDtls>
+						<Amt Ccy="CHF">111.00</Amt>
+						<CdtDbtInd>CRDT</CdtDbtInd>
+						<RltdPties>
+							<Dbtr>
+								<Nm>Ada Lovelace</Nm>
+							</Dbtr>
+						</RltdPties>
+						<RmtInf>
+							<Strd>
+								<CdtrRefInf>
+									<Ref>123456789012345678901234567</Ref>
+								</CdtrRefInf>
+							</Strd>
+						</RmtInf>
+					</TxDtls>
+				</NtryDtls>
+			</Ntry>
+			<Ntry>
+				<Amt Ccy="CHF">2.00</Amt>
+				<CdtDbtInd>CRDT</CdtDbtInd>
+				<Sts>PDNG</Sts>
+				<AcctSvcrRef>170557CH00T3HG30</AcctSvcrRef>
+				<BkTxCd>
+					<Domn>
+						<Cd>PMNT</Cd>
+						<Fmly>
+							<Cd>RCDT</Cd>
+							<SubFmlyCd>VCOM</SubFmlyCd>
+						</Fmly>
+					</Domn>
+				</BkTxCd>
+				<NtryDtls>
+					<TxDtls>
+						<Amt Ccy="CHF">2.00</Amt>
+						<CdtDbtInd>CRDT</CdtDbtInd>
+						<RltdPties>
+							<Dbtr>
+								<Nm>Ada Lovelace</Nm>
+							</Dbtr>
+						</RltdPties>
+						<RmtInf>
+							<Strd>
+								<CdtrRefInf>
+									<Ref>184365082655685438543854377</Ref>
+								</CdtrRefInf>
+							</Strd>
+						</RmtInf>
+					</TxDtls>
+				</NtryDtls>
+			</Ntry>
+			<Ntry>
+				<Amt Ccy="CHF">3.00</Amt>
+				<CdtDbtInd>DBIT</CdtDbtInd>
+				<Sts>BOOK</Sts>
+				<BookgDt>
+					<Dt>2017-07-26</Dt>
+				</BookgDt>
+				<BkTxCd>
+					<Domn>
+						<Cd>PMNT</Cd>
+						<Fmly>
+							<Cd>RCDT</Cd>
+							<SubFmlyCd>VCOM</SubFmlyCd>
+						</Fmly>
+					</Domn>
+				</BkTxCd>
+				<NtryDtls>
+					<TxDtls>
+						<Amt Ccy="CHF">3.00</Amt>
+						<CdtDbtInd>CRDT</CdtDbtInd>
+						<RltdPties>
+							<Dbtr>
+								<Nm>Ada Lovelace</Nm>
+							</Dbtr>
+						</RltdPties>
+						<RmtInf>
+							<Strd>
+								<CdtrRefInf>
+									<Ref>110000000000070100000112264</Ref>
+								</CdtrRefInf>
+							</Strd>
+						</RmtInf>
+					</TxDtls>
+				</NtryDtls>
+			</Ntry>
+		</Ntfctn>
+	</BkToCstmrDbtCdtNtfctn>
+</Document>
