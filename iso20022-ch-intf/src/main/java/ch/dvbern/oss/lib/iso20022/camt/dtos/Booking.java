@@ -30,6 +30,9 @@ import javax.annotation.Nullable;
 public class Booking {
 
 	@Nonnull
+	private final Account account;
+
+	@Nonnull
 	private final LocalDateTime bookingDate;
 
 	@Nonnull
@@ -44,9 +47,11 @@ public class Booking {
 	private final List<IsrTransaction> transactions = new ArrayList<>();
 
 	public Booking(
+		@Nonnull Account account,
 		@Nonnull LocalDateTime bookingDate,
 		@Nonnull LocalDateTime valueDate,
 		@Nullable String isrCustomerNumber) {
+		this.account = account;
 		this.bookingDate = bookingDate;
 		this.valueDate = valueDate;
 		this.isrCustomerNumber = isrCustomerNumber;
@@ -81,6 +86,11 @@ public class Booking {
 	@Override
 	public int hashCode() {
 		return Objects.hash(bookingDate, valueDate, isrCustomerNumber, transactions);
+	}
+
+	@Nonnull
+	public Account getAccount() {
+		return account;
 	}
 
 	@Nonnull

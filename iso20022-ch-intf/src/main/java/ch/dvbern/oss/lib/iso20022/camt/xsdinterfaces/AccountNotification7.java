@@ -13,26 +13,28 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.apache.commons.io.IOUtils;
+@SuppressWarnings({ "override", "NullableProblems" })
+public interface AccountNotification7 {
 
-public final class TestUtil {
+	@Nonnull
+	String getId();
 
-	private TestUtil() {
-		// util
-	}
+	@Nullable
+	BigDecimal getElctrncSeqNb();
 
-	public static byte[] readXml(@Nonnull String path) {
-		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			return IOUtils.toByteArray(xmlAsStream);
-		} catch (IOException e) {
-			throw new IllegalStateException("Could not read XML", e);
-		}
-	}
+	@Nonnull
+	CashAccount25 getAcct();
+
+	XMLGregorianCalendar getCreDtTm();
+
+	<T extends ReportEntry4> List<T> getNtry();
 }

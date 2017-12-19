@@ -26,8 +26,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.DateAndDateTimeChoice;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
-import iso.std.iso._20022.tech.xsd.camt_054_001.DateAndDateTimeChoice;
 
 public final class Iso20022Util {
 

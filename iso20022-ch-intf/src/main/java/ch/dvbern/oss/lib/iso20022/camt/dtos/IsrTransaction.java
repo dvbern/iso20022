@@ -24,16 +24,23 @@ import javax.annotation.Nullable;
 public class IsrTransaction {
 
 	@Nonnull
+	private final Booking booking;
+
+	@Nonnull
 	private final String amountCurrency;
+
 	@Nonnull
 	private final BigDecimal amount;
+
 	@Nonnull
 	private final String referenceNumber;
 
 	public IsrTransaction(
+		@Nonnull Booking booking,
 		@Nonnull String amountCurrency,
 		@Nonnull BigDecimal amount,
 		@Nonnull String referenceNumber) {
+		this.booking = booking;
 		this.amountCurrency = amountCurrency;
 		this.amount = amount;
 		this.referenceNumber = referenceNumber;
@@ -68,6 +75,11 @@ public class IsrTransaction {
 	@Override
 	public int hashCode() {
 		return Objects.hash(amountCurrency, amount, referenceNumber);
+	}
+
+	@Nonnull
+	public Booking getBooking() {
+		return booking;
 	}
 
 	@Nonnull

@@ -4,13 +4,17 @@
 		<GrpHdr>
 			<MsgId>MSGID-201707261400</MsgId>
 			<CreDtTm>2017-07-26T14:00:30Z</CreDtTm>
+			<MsgPgntn>
+				<PgNb>1</PgNb>
+				<LastPgInd>true</LastPgInd>
+			</MsgPgntn>
 		</GrpHdr>
 		<Ntfctn>
 			<Id>NtfctnId20170726</Id>
 			<CreDtTm>2017-07-26T14:00:30Z</CreDtTm>
 			<Acct>
 				<Id>
-					<IBAN>CH1600774012312345678</IBAN>
+					<IBAN>CH160077401231234567</IBAN>
 				</Id>
 			</Acct>
 			<Ntry>

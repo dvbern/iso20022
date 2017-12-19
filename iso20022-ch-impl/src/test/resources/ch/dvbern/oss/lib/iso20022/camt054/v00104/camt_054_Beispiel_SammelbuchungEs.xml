@@ -4,13 +4,17 @@
 		<GrpHdr>
 			<MsgId>MSGID-201707271400</MsgId>
 			<CreDtTm>2017-07-27T14:00:40Z</CreDtTm>
+			<MsgPgntn>
+				<PgNb>1</PgNb>
+				<LastPgInd>true</LastPgInd>
+			</MsgPgntn>
 		</GrpHdr>
 		<Ntfctn>
 			<Id>NtfctnId20170727</Id>
 			<CreDtTm>2017-07-27T14:00:40Z</CreDtTm>
 			<Acct>
 				<Id>
-					<IBAN>CH1600774012312345678</IBAN>
+					<IBAN>CH160077401231234567</IBAN>
 				</Id>
 			</Acct>
 			<Ntry>
@@ -21,6 +25,9 @@
 				<BookgDt>
 					<Dt>2017-07-27</Dt>
 				</BookgDt>
+				<ValDt>
+					<Dt>2017-07-27</Dt>
+				</ValDt>
 				<AcctSvcrRef>2017072700000000000</AcctSvcrRef>
 				<BkTxCd>
 					<Domn>

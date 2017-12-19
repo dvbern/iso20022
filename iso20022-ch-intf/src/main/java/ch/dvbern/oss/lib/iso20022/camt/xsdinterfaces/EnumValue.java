@@ -13,18 +13,13 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.camt;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
-
-public abstract class AbstractCamtService {
+@SuppressWarnings({ "override", "NullableProblems" })
+public interface EnumValue {
 
 	@Nonnull
-	public abstract DocumentDTO getDocumentWithBookedEsrPaymentsFromXml(@Nonnull byte[] xmlAsBytes);
-
-	// TODO warum Object?
-	@Nonnull
-	public abstract Object getNotificationFromXml(@Nonnull byte[] xmlAsBytes);
+	String value();
 }

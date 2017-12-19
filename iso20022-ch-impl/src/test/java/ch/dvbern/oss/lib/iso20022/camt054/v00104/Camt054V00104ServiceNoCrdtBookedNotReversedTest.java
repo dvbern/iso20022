@@ -15,33 +15,58 @@
 
 package ch.dvbern.oss.lib.iso20022.camt054.v00104;
 
-//public class Camt054V00104ServiceNoCrdtBookedNotReversedTest extends Camt054V00104ServiceAbstractTest {
-//
-//	private static final String PATH =
-//		"ch/dvbern/oss/lib/iso20022/camt054/v00104/camt_054_Beispiel_NoCrdtBookedNotReversed.xml";
+import java.time.LocalDateTime;
+import java.util.List;
 
-//	private final Camt054V00104Service service = new Camt054V00104Service();
-//	private final DocumentDTO actual = service.getDocumentWithBookedEsrPaymentsFromXml(TestUtil.readXml(PATH));
+import ch.dvbern.oss.lib.iso20022.TestUtil;
+import ch.dvbern.oss.lib.iso20022.camt.CamtService;
+import ch.dvbern.oss.lib.iso20022.camt.CamtServiceBean;
+import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
+import ch.dvbern.oss.lib.iso20022.camt.dtos.Account;
+import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.camt.dtos.MessageIdentifier;
+import org.junit.Test;
 
-//	@Test
-//	public void getDocumentCLevelTest() throws Exception {
-//
-//		cLevelTest();
-//	}
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-//	@Test
-//	public void getDocumentDLevelTest() throws Exception {
-//
-//		// run
-//		final DocumentDTO actDocDTO = service.getDocumentWithBookedEsrPaymentsFromXml(getXmlAsBytes());
-//		List<Account> actBAccStatements = actDocDTO.getbAccountStatementsDTO();
-//
-//		// test
-//		Assert.assertNotNull(actBAccStatements);
-//		Assert.assertEquals(getDocumentDTO().getbAccountStatementsDTO().size(), actBAccStatements.size());
-//
-//		final Account actBAccountStatementDTO = actBAccStatements.get(0);
-//		Assert.assertNotNull(actBAccountStatementDTO);
-//		Assert.assertEquals(0, actBAccountStatementDTO.getBookings().size());
-//	}
-//}
+public class Camt054V00104ServiceNoCrdtBookedNotReversedTest {
+
+	private static final String PATH =
+		"ch/dvbern/oss/lib/iso20022/camt054/v00104/camt_054_Beispiel_NoCrdtBookedNotReversed.xml";
+
+	private final CamtService service = new CamtServiceBean();
+	private final DocumentDTO actual = service.getCreditingRecords(TestUtil.readXml(PATH));
+	private final LocalDateTime creDtTm = LocalDateTime.of(2017, 7, 26, 14, 0, 30);
+
+	@Test
+	public void testDocument() {
+		assertEquals(CamtTypeVersion.CAMT054V00104, actual.getCamtTypeVersion());
+	}
+
+	@Test
+	public void testMessageIdentification() {
+		MessageIdentifier messageIdentifier = actual.getMessageIdentifier();
+
+		assertEquals("MSGID-201707261400", messageIdentifier.getMessageIdentification());
+		assertEquals(creDtTm, messageIdentifier.getCreationDateTime());
+		assertEquals("1", messageIdentifier.getPageNumber());
+		assertTrue(messageIdentifier.isLastPage());
+	}
+
+	@Test
+	public void testAccounts() {
+		List<Account> accounts = actual.getAccounts();
+		assertEquals(1, accounts.size());
+
+		Account account = accounts.get(0);
+		assertEquals("NtfctnId20170726", account.getIdentification());
+		assertEquals(creDtTm, account.getCreationDateTime());
+		assertEquals("CH160077401231234567", account.getAccountIdentificationIBAN());
+	}
+
+	@Test
+	public void testBooking() {
+		assertEquals(0, actual.getAccounts().get(0).getBookings().size());
+	}
+}

@@ -18,6 +18,7 @@ package ch.dvbern.oss.lib.iso20022.camt;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 import javax.xml.XMLConstants;
@@ -29,20 +30,32 @@ import javax.xml.validation.Validator;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import org.xml.sax.SAXException;
 
-public final class CamtValidateUtility {
+public final class CamtUtil {
 
-	private CamtValidateUtility() {
-		// tuil
+	private CamtUtil() {
+		// util
+	}
+
+	@Nonnull
+	public static CamtTypeVersion detectCamtTypeVersion(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException {
+
+		return Arrays.stream(CamtTypeVersion.values())
+			.filter(type -> isMatchingXsdSchema(xmlAsBytes, type.getXsdPath()))
+			.findAny()
+			.orElseThrow(() -> new Iso20022RuntimeException("Cannot process input. XSD validation failed."));
 	}
 
 	public static boolean isMatchingXsdSchema(byte[] xmlAsBytes, @Nonnull String pathToXsd) {
 
 		try (ByteArrayInputStream xmlAsStream = new ByteArrayInputStream(xmlAsBytes);
 			InputStream xsdAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathToXsd)) {
+
 			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = factory.newSchema(new StreamSource(xsdAsStream));
+
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(xmlAsStream));
+
 			return true;
 		} catch (IOException e) {
 			throw new Iso20022RuntimeException("IO Exception while validating xml file with xsd schema", e);

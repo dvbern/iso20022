@@ -15,8 +15,11 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
-public interface StructuredRemittanceInformation {
-	List<String> getAddtlRmtInf();
+@SuppressWarnings({ "override", "NullableProblems" })
+public interface AccountIdentification4Choice {
+
+	@Nullable
+	String getIBAN();
 }

@@ -15,7 +15,39 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
+import javax.annotation.Nonnull;
+
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
+
 public enum CamtTypeVersion {
-	CAMT053V00104,
-	CAMT054V00104
+	CAMT053V00104(
+		"iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd",
+		iso.std.iso._20022.tech.xsd.camt_053_001.Document.class),
+	CAMT054V00104(
+		"iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd",
+		iso.std.iso._20022.tech.xsd.camt_054_001.Document.class);
+
+	@Nonnull
+	private final String xsdPath;
+
+	@Nonnull
+	private final Class<? extends Document> documentClass;
+
+	CamtTypeVersion(
+		@Nonnull String xsdPath,
+		@Nonnull Class<? extends Document> documentClass) {
+		this.xsdPath = xsdPath;
+		this.documentClass = documentClass;
+	}
+
+	@Nonnull
+	public String getXsdPath() {
+		return xsdPath;
+	}
+
+	@Nonnull
+	public <T extends Document> Class<T> getDocumentClass() {
+		//noinspection unchecked
+		return (Class<T>) documentClass;
+	}
 }

@@ -13,19 +13,19 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.camt053.v00104;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.camt.CamtService;
-import iso.std.iso._20022.tech.xsd.camt_053_001.BankToCustomerStatementV04;
+public enum EntryStatus2Code implements EnumValue {
 
-/**
- * Service to read ESR payments to swiss financial institutes (so called 'Zahlungsart 1') from an ISO20022
- * Camt053 XML file, only CREDIT payments with status 'BOOK' that are not reversals are considerd
- */
-public interface Camt053Service extends CamtService {
+	BOOK,
+	PDNG,
+	INFO;
 
 	@Nonnull
-	BankToCustomerStatementV04 getNotificationFromXml(@Nonnull byte[] xmlAsBytes);
+	@Override
+	public String value() {
+		return name();
+	}
 }

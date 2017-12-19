@@ -21,17 +21,17 @@
 		jaxb:extensionBindingPrefixes="inheritance"
 		jaxb:version="2.1">
 
-	<jaxb:bindings schemaLocation="../iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd">
+	<jaxb:bindings schemaLocation="../iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd">
 		<jaxb:bindings node="//xs:complexType[@name='Document']">
 			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document</inheritance:implements>
 		</jaxb:bindings>
-		<jaxb:bindings node="//xs:complexType[@name='BankToCustomerDebitCreditNotificationV04']">
+		<jaxb:bindings node="//xs:complexType[@name='BankToCustomerStatementV04']">
 			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Notification</inheritance:implements>
 		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='AccountIdentification4Choice']">
 			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.AccountIdentification4Choice</inheritance:implements>
 		</jaxb:bindings>
-		<jaxb:bindings node="//xs:complexType[@name='AccountNotification7']">
+		<jaxb:bindings node="//xs:complexType[@name='AccountStatement4']">
 			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.AccountNotification7</inheritance:implements>
 		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='ActiveOrHistoricCurrencyAndAmount']">

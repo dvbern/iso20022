@@ -13,26 +13,17 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022;
-
-import java.io.IOException;
-import java.io.InputStream;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.io.IOUtils;
+public enum CreditDebitCode implements EnumValue {
+	CRDT,
+	DBIT;
 
-public final class TestUtil {
-
-	private TestUtil() {
-		// util
-	}
-
-	public static byte[] readXml(@Nonnull String path) {
-		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			return IOUtils.toByteArray(xmlAsStream);
-		} catch (IOException e) {
-			throw new IllegalStateException("Could not read XML", e);
-		}
+	@Nonnull
+	@Override
+	public String value() {
+		return name();
 	}
 }

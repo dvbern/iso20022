@@ -13,26 +13,20 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022;
-
-import java.io.IOException;
-import java.io.InputStream;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
+import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.apache.commons.io.IOUtils;
+@SuppressWarnings({ "override", "NullableProblems" })
+public interface GroupHeader58 {
 
-public final class TestUtil {
+	@Nonnull
+	String getMsgId();
 
-	private TestUtil() {
-		// util
-	}
+	@Nonnull
+	Pagination getMsgPgntn();
 
-	public static byte[] readXml(@Nonnull String path) {
-		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			return IOUtils.toByteArray(xmlAsStream);
-		} catch (IOException e) {
-			throw new IllegalStateException("Could not read XML", e);
-		}
-	}
+	@Nonnull
+	XMLGregorianCalendar getCreDtTm();
 }

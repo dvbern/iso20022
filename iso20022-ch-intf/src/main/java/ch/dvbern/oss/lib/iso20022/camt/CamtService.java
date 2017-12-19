@@ -18,14 +18,23 @@ package ch.dvbern.oss.lib.iso20022.camt;
 import javax.annotation.Nonnull;
 
 import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 public interface CamtService {
 
 	/**
-	 * Service to read ESR payments to swiss financial institutes (so called 'Zahlungsart 1') from an ISO20022
-	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK' that are not reversals are considerd
+	 * Service to read ESR payments to swiss financial institutes from an ISO20022
+	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK' that are not reversals are considered.
 	 */
 	@Nonnull
-	DocumentDTO getDocumentWithBookedEsrPaymentsFromXml(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;
+	DocumentDTO getCreditingRecords(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;
+
+	/**
+	 * Converts a Camt053 or Camt054 file to an instance of
+	 * {@link iso.std.iso._20022.tech.xsd.camt_053_001.Document},
+	 * {@link iso.std.iso._20022.tech.xsd.camt_054_001.Document} respectively.
+	 */
+	@Nonnull
+	Document getNotificationFromXml(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;
 }

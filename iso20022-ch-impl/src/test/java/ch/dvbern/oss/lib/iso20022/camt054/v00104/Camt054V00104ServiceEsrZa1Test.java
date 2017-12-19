@@ -15,11 +15,14 @@
 
 package ch.dvbern.oss.lib.iso20022.camt054.v00104;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import ch.dvbern.oss.lib.iso20022.TestUtil;
+import ch.dvbern.oss.lib.iso20022.camt.CamtService;
+import ch.dvbern.oss.lib.iso20022.camt.CamtServiceBean;
 import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
 import ch.dvbern.oss.lib.iso20022.camt.dtos.Account;
 import ch.dvbern.oss.lib.iso20022.camt.dtos.Booking;
@@ -32,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests the Camt054V00104Service with the file camt_054_Beispiel_ZA1_ESR_ZE.xml from SIX Interbank Clearing (see
+ * Tests the CamtServiceBean with the file camt_054_Beispiel_ZA1_ESR_ZE.xml from SIX Interbank Clearing (see
  * www.six-interbank-clearing.com/dam/downloads/de/standardization/iso/swiss-recommendations/swiss-usage-guide
  * -examples.zip)
  */
@@ -40,10 +43,10 @@ public class Camt054V00104ServiceEsrZa1Test {
 
 	private static final String PATH = "ch/dvbern/oss/lib/iso20022/camt054/v00104/camt_054_Beispiel_ZA1_ESR_ZE.xml";
 
-	private final Camt054V00104Service service = new Camt054V00104Service();
+	private final CamtService service = new CamtServiceBean();
 
 	private final LocalDateTime creDtTm = LocalDateTime.of(2015, 1, 15, 9, 30, 47);
-	private final DocumentDTO actual = service.getDocumentWithBookedEsrPaymentsFromXml(TestUtil.readXml(PATH));
+	private final DocumentDTO actual = service.getCreditingRecords(TestUtil.readXml(PATH));
 
 	@Test
 	public void testDocument() {
@@ -53,6 +56,7 @@ public class Camt054V00104ServiceEsrZa1Test {
 	@Test
 	public void testMessageIdentification() {
 		MessageIdentifier messageIdentifier = actual.getMessageIdentifier();
+
 		assertEquals("MSGID-C053.01.00.10-110725163809-01", messageIdentifier.getMessageIdentification());
 		assertEquals(creDtTm, messageIdentifier.getCreationDateTime());
 		assertEquals("1", messageIdentifier.getPageNumber());
@@ -62,7 +66,6 @@ public class Camt054V00104ServiceEsrZa1Test {
 	@Test
 	public void testAccounts() {
 		List<Account> accounts = actual.getAccounts();
-
 		assertEquals(1, accounts.size());
 
 		Account account = accounts.get(0);
@@ -73,9 +76,10 @@ public class Camt054V00104ServiceEsrZa1Test {
 
 	@Test
 	public void testBooking() {
-		assertEquals(1, actual.getAccounts().get(0).getBookings().size());
-		Booking booking = actual.getAccounts().get(0).getBookings().get(0);
+		List<Booking> bookings = actual.getAccounts().get(0).getBookings();
+		assertEquals(1, bookings.size());
 
+		Booking booking = bookings.get(0);
 		assertEquals("010391391", booking.getIsrCustomerNumber());
 		assertEquals(LocalDate.of(2015, 1, 7).atStartOfDay(), booking.getBookingDate());
 		assertEquals(LocalDate.of(2015, 1, 7).atStartOfDay(), booking.getValueDate());
@@ -85,6 +89,10 @@ public class Camt054V00104ServiceEsrZa1Test {
 	public void testIsrTransactions() {
 		List<IsrTransaction> transactions = actual.getAccounts().get(0).getBookings().get(0).getTransactions();
 		assertEquals(1, transactions.size());
-		// TODO test details
+
+		IsrTransaction isrTransaction = transactions.get(0);
+		assertEquals(BigDecimal.valueOf(3949.75), isrTransaction.getAmount());
+		assertEquals("CHF", isrTransaction.getAmountCurrency());
+		assertEquals("210000000003139471430009017", isrTransaction.getReferenceNumber());
 	}
 }

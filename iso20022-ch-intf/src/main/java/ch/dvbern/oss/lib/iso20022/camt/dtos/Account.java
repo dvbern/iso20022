@@ -32,10 +32,13 @@ import javax.annotation.Nullable;
 public class Account {
 
 	@Nonnull
-	private final List<Booking> bookings = new ArrayList<>();
+	private final DocumentDTO document;
 
 	@Nonnull
 	private final String identification;
+
+	@Nonnull
+	private final List<Booking> bookings = new ArrayList<>();
 
 	/**
 	 * According to the implementation guidelines the electroinc sequence number should be defined.
@@ -51,10 +54,12 @@ public class Account {
 	private final LocalDateTime creationDateTime;
 
 	public Account(
+		@Nonnull DocumentDTO document,
 		@Nonnull String identification,
 		@Nullable BigDecimal electronicSequenceNumber,
 		@Nonnull String accountIdentificationIBAN,
 		@Nonnull LocalDateTime creationDateTime) {
+		this.document = document;
 		this.identification = identification;
 		this.electronicSequenceNumber = electronicSequenceNumber;
 		this.accountIdentificationIBAN = accountIdentificationIBAN;
@@ -87,6 +92,11 @@ public class Account {
 	@Nonnull
 	public List<Booking> getBookings() {
 		return bookings;
+	}
+
+	@Nonnull
+	public DocumentDTO getDocument() {
+		return document;
 	}
 
 	@Nonnull

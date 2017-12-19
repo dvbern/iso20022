@@ -18,15 +18,16 @@ package ch.dvbern.oss.lib.iso20022.camt;
 import org.junit.Test;
 
 import static ch.dvbern.oss.lib.iso20022.TestUtil.readXml;
-import static ch.dvbern.oss.lib.iso20022.camt053.v00104.Camt053V00104Service.PATH_CAMT_053_001_04_XSD;
-import static ch.dvbern.oss.lib.iso20022.camt054.v00104.Camt054V00104Service.PATH_CAMT_054_001_04_XSD;
+import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT053V00104;
+import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT054V00104;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the validation of an xml with its xsd
  */
-public class CamtValidateUtilityTest {
+public class CamtUtilTest {
 
 	private static final String VALID_CAMT54_XML =
 		"ch/dvbern/oss/lib/iso20022/camt054/v00104/camt_054_Beispiel_ZA1_ESR_ZE.xml";
@@ -37,16 +38,22 @@ public class CamtValidateUtilityTest {
 
 	@Test
 	public void validateXmlWithXsdSuccessTest() {
-		assertTrue(CamtValidateUtility.isMatchingXsdSchema(readXml(VALID_CAMT54_XML), PATH_CAMT_054_001_04_XSD));
-		assertTrue(CamtValidateUtility.isMatchingXsdSchema(readXml(VALID_CAMT53_XML), PATH_CAMT_053_001_04_XSD));
+		assertTrue(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT53_XML), CAMT053V00104.getXsdPath()));
+		assertTrue(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT54_XML), CAMT054V00104.getXsdPath()));
 	}
 
 	@Test
 	public void validateXmlWithXsdFailureTest() {
 		byte[] bytes = readXml(INVALID_XML);
 
-		assertFalse(CamtValidateUtility.isMatchingXsdSchema(bytes, PATH_CAMT_054_001_04_XSD));
-		assertFalse(CamtValidateUtility.isMatchingXsdSchema(readXml(VALID_CAMT54_XML), PATH_CAMT_053_001_04_XSD));
-		assertFalse(CamtValidateUtility.isMatchingXsdSchema(readXml(VALID_CAMT53_XML), PATH_CAMT_054_001_04_XSD));
+		assertFalse(CamtUtil.isMatchingXsdSchema(bytes, CAMT054V00104.getXsdPath()));
+		assertFalse(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT53_XML), CAMT054V00104.getXsdPath()));
+		assertFalse(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT54_XML), CAMT053V00104.getXsdPath()));
+	}
+
+	@Test
+	public void detectDetectCamtTypeVersionTest() {
+		assertEquals(CAMT053V00104, CamtUtil.detectCamtTypeVersion(readXml(VALID_CAMT53_XML)));
+		assertEquals(CAMT054V00104, CamtUtil.detectCamtTypeVersion(readXml(VALID_CAMT54_XML)));
 	}
 }

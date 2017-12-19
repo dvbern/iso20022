@@ -13,26 +13,28 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022;
+package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.apache.commons.io.IOUtils;
+@SuppressWarnings({ "override", "NullableProblems" })
+public interface Document {
 
-public final class TestUtil {
-
-	private TestUtil() {
-		// util
+	@Nullable
+	default Notification getNotification() {
+		return Optional.ofNullable(getBkToCstmrDbtCdtNtfctn())
+			.orElseGet(this::getBkToCstmrStmt);
 	}
 
-	public static byte[] readXml(@Nonnull String path) {
-		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			return IOUtils.toByteArray(xmlAsStream);
-		} catch (IOException e) {
-			throw new IllegalStateException("Could not read XML", e);
-		}
+	@Nullable
+	default Notification getBkToCstmrDbtCdtNtfctn() {
+		return null;
+	}
+
+	@Nullable
+	default Notification getBkToCstmrStmt() {
+		return null;
 	}
 }
