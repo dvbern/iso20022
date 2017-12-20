@@ -24,8 +24,8 @@ import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 public interface CamtService {
 
 	/**
-	 * Service to read ESR payments to swiss financial institutes from an ISO20022
-	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK' that are not reversals are considered.
+	 * Service to read ESR payments to swiss financial institutes from an ISO20022.
+	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK', that are not reversals, are considered.
 	 */
 	@Nonnull
 	DocumentDTO getCreditingRecords(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;

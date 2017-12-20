@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * So called 'Entry' C-Level
- * One booking can contain several transactions
+ * So called 'Entry' C-Level.
+ * One booking can contain several transactions.
  */
 public class Booking {
 
@@ -38,7 +38,7 @@ public class Booking {
 	@Nonnull
 	private final LocalDateTime valueDate;
 	/**
-	 * ISR participant number in the format 010001628 (Postfinance) or BISR/BESR-identification (Banks)
+	 * ISR participant number in the format 010001628 (Postfinance) or BISR/BESR-identification (Banks).
 	 */
 	@Nullable
 	private final String isrCustomerNumber;

@@ -64,7 +64,7 @@ public class CamtServiceBean implements CamtService {
 	private static final Logger LOG = LoggerFactory.getLogger(CamtServiceBean.class);
 
 	/**
-	 * Returns the Notification part of the xml input as Java object
+	 * Returns the Notification part of the xml input as Java object.
 	 *
 	 * @param xmlAsBytes xml content
 	 * @return object of type BankToCustomerDebitCreditNotificationV04
@@ -78,7 +78,7 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	/**
-	 * Reads an xml file and returns data about booked credit notes with reference number (not reversals)
+	 * Reads an xml file and returns data about booked credit notes with reference number (no reversals).
 	 *
 	 * @param xmlAsBytes xml content
 	 * @return object of type DocumentDTO containing data about booked ESR notifications

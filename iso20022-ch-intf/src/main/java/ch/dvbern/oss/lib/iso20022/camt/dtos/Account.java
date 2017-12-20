@@ -42,7 +42,7 @@ public class Account {
 
 	/**
 	 * According to the implementation guidelines the electroinc sequence number should be defined.
-	 * However, there are sample files, where it NULL. Thus we allow NULL as well.
+	 * However, there are sample files, where it is NULL. Thus, we allow NULL as well.
 	 */
 	@Nullable
 	private final BigDecimal electronicSequenceNumber;
