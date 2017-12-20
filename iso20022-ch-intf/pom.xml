@@ -21,11 +21,15 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>2.0.3</version>
+        <version>2.1.0</version>
     </parent>
 
     <artifactId>iso20022-ch-intf</artifactId>
     <packaging>jar</packaging>
+
+    <properties>
+        <xsd.basedir>${project.basedir}/src/main/resources/</xsd.basedir>
+    </properties>
 
     <build>
         <plugins>
@@ -42,7 +46,23 @@
                         <configuration>
                             <xsdOptions>
                                 <xsdOption>
-                                    <xsd>${project.basedir}/src/main/resources/com/six_interbank_clearing/de/pain_001_001_03_ch_02/pain.001.001.03.ch.02.xsd</xsd>
+                                    <xsd>${xsd.basedir}/com/six_interbank_clearing/de/pain_001_001_03_ch_02/pain.001.001.03.ch.02.xsd</xsd>
+                                </xsdOption>
+                                <xsdOption>
+                                    <xsd>${xsd.basedir}iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt053.xjb</bindingFile>
+                                    <extension>true</extension>
+                                    <extensionArgs>
+                                        <extensionArg>-Xinheritance</extensionArg>
+                                    </extensionArgs>
+                                </xsdOption>
+                                <xsdOption>
+                                    <xsd>${xsd.basedir}/iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt054.xjb</bindingFile>
+                                    <extension>true</extension>
+                                    <extensionArgs>
+                                        <extensionArg>-Xinheritance</extensionArg>
+                                    </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>
