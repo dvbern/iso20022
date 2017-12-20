@@ -23,10 +23,7 @@ import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -40,13 +37,12 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemIdentification2Choice;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemMemberIdentification2;
@@ -432,7 +428,8 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		paymentInstructionInformation3CH.setPmtTpInf(objectFactory.createPaymentTypeInformation19CH());
 
-		XMLGregorianCalendar reqdExctnDt = getXmlGregorianCalendar(pain001DTO.getAuszahlungsDatum().atStartOfDay());
+		LocalDateTime localDateTime = pain001DTO.getAuszahlungsDatum().atStartOfDay();
+		XMLGregorianCalendar reqdExctnDt = Iso20022Util.toXmlGregorianCalendar(localDateTime);
 		paymentInstructionInformation3CH.setReqdExctnDt(reqdExctnDt);
 
 		// Debtor name
@@ -502,23 +499,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		groupHeader32CH.getInitgPty().getCtctDtls().setNm(pain001DTO.getSoftwareName()); // 1.8
 		groupHeader32CH.getInitgPty().getCtctDtls().setOthr(CTCTDTLS_OTHR); // 1.8
 
-		groupHeader32CH.setCreDtTm(getXmlGregorianCalendar(pain001DTO.getGenerierungsDatum())); // 1.2
+		groupHeader32CH.setCreDtTm(Iso20022Util.toXmlGregorianCalendar(pain001DTO.getGenerierungsDatum())); // 1.2
+
 		return groupHeader32CH;
-
-	}
-
-	private XMLGregorianCalendar getXmlGregorianCalendar(LocalDateTime datum) {
-		ZoneId zoneId = ZoneId.of("Europe/Paris");
-		ZonedDateTime zdt = datum.atZone(zoneId);
-		GregorianCalendar gc = GregorianCalendar.from(zdt);
-
-		XMLGregorianCalendar aDateTime;
-		try {
-			aDateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-		} catch (DatatypeConfigurationException e) {
-			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file", e);
-		}
-		return aDateTime;
 	}
 
 	private static class PainValidationEventHandler implements ValidationEventHandler {

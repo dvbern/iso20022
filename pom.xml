@@ -28,7 +28,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <cxf-xjc-plugin.version>3.1.0</cxf-xjc-plugin.version>
+        <cxf-xjc-plugin.version>3.2.0</cxf-xjc-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -109,6 +109,7 @@
                     <configuration>
                         <extensions>
                             <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:${cxf-xjc-plugin.version}</extension>
+                            <extension>org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1</extension>
                         </extensions>
                     </configuration>
                 </plugin>
