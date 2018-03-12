@@ -19,13 +19,17 @@
     <parent>
         <groupId>ch.dvbern.oss.maven</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </parent>
 
     <groupId>ch.dvbern.oss.iso20022</groupId>
     <artifactId>iso20022-ch</artifactId>
     <version>2.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>iso20022</name>
+    <description>This library can be used for exporting payment orders (pain001 files) using the iso20022 format for Switzerland</description>
+    <url>http://github.com/dvbern/iso20022</url>
 
     <properties>
         <cxf-xjc-plugin.version>3.2.0</cxf-xjc-plugin.version>
@@ -98,6 +102,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <developers>
+        <developer>
+            <name>DV Bern AG developers</name>
+            <email>hallo@dvbern.ch</email>
+            <organization>DV Bern AG</organization>
+            <organizationUrl>http://www.dvbern.ch</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/dvbern/iso20022.git</connection>
+        <developerConnection>scm:git:ssh://github.com:dvbern/iso20022.git</developerConnection>
+        <url>http://github.com/dvbern/iso20022/tree/master</url>
+    </scm>
 
     <build>
         <pluginManagement>
