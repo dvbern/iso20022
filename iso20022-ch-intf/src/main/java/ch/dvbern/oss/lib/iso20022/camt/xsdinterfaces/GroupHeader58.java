@@ -16,6 +16,7 @@
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 @SuppressWarnings({ "override", "NullableProblems" })
@@ -24,7 +25,7 @@ public interface GroupHeader58 {
 	@Nonnull
 	String getMsgId();
 
-	@Nonnull
+	@Nullable
 	Pagination getMsgPgntn();
 
 	@Nonnull
