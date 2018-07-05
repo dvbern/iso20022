@@ -39,6 +39,12 @@ public class MessageIdentifier {
 
 	public MessageIdentifier(
 		@Nonnull String messageIdentification,
+		@Nonnull LocalDateTime creationDateTime) {
+		this(messageIdentification, creationDateTime, "1", true);
+	}
+
+	public MessageIdentifier(
+		@Nonnull String messageIdentification,
 		@Nonnull LocalDateTime creationDateTime,
 		@Nonnull String pageNumber,
 		boolean isLastPage) {

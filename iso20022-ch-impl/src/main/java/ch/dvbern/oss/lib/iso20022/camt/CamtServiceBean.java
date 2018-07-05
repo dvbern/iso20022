@@ -136,6 +136,10 @@ public class CamtServiceBean implements CamtService {
 	private MessageIdentifier toMessageIdentifier(@Nonnull GroupHeader58 grpHdr) {
 		Pagination pagination = grpHdr.getMsgPgntn();
 
+		if (pagination == null) {
+			return new MessageIdentifier(grpHdr.getMsgId(), Iso20022Util.from(grpHdr.getCreDtTm()));
+		}
+
 		return new MessageIdentifier(
 			grpHdr.getMsgId(),
 			Iso20022Util.from(grpHdr.getCreDtTm()),
