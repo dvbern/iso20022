@@ -33,7 +33,7 @@
 
     <properties>
         <cxf-xjc-plugin.version>3.2.0</cxf-xjc-plugin.version>
-        <version.slf4j>1.8.0-beta2</version.slf4j>
+        <version.slf4j>1.7.22</version.slf4j>
     </properties>
 
     <dependencyManagement>
@@ -131,6 +131,16 @@
                             <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:${cxf-xjc-plugin.version}</extension>
                             <extension>org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1</extension>
                         </extensions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <configuration>
+                        <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                        <bundleAuditAnalyzerEnabled>false</bundleAuditAnalyzerEnabled>
+                        <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                        <suppressionFile>dependency-check-suppressions.xml</suppressionFile>
                     </configuration>
                 </plugin>
             </plugins>
