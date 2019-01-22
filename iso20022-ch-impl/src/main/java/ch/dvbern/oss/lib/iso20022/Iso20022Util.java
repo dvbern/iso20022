@@ -31,6 +31,77 @@ import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 public final class Iso20022Util {
 
+	private static final String[][] SWIFT_REPLACEMENTS = { { "!", "." },
+		{ "\"", "." },
+		{ "#", "." },
+		{ "%", "." },
+		{ "&", "+" },
+		{ "*", "." },
+		{ ";", "." },
+		{ ">", "." },
+		{ "÷", "." },
+		{ "=", "." },
+		{ "@", "." },
+		{ "_", "." },
+		{ "$", "." },
+		{ "£", "." },
+		{ "[", "." },
+		{ "]", "." },
+		{ "{", "." },
+		{ "}", "." },
+		{ "\\", "." },
+		{ "`", "." },
+		{ "´", "." },
+		{ "~", "." },
+		{ "à", "a" },
+		{ "á", "a" },
+		{ "â", "a" },
+		{ "ä", "ae" },
+		{ "ç", "c" },
+		{ "è", "e" },
+		{ "é", "e" },
+		{ "ê", "e" },
+		{ "ë", "e" },
+		{ "ì", "i" },
+		{ "í", "i" },
+		{ "î", "i" },
+		{ "ï", "i" },
+		{ "ñ", "n" },
+		{ "ò", "o" },
+		{ "ó", "o" },
+		{ "ô", "o" },
+		{ "ö", "oe" },
+		{ "ù", "u" },
+		{ "ú", "u" },
+		{ "û", "u" },
+		{ "ü", "ue" },
+		{ "ý", "Y" },
+		{ "ß", "ss" },
+		{ "À", "A" },
+		{ "Á", "A" },
+		{ "Â", "A" },
+		{ "Ä", "AE" },
+		{ "Ç", "C" },
+		{ "È", "E" },
+		{ "É", "E" },
+		{ "Ê", "E" },
+		{ "Ë", "E" },
+		{ "Ì", "I" },
+		{ "Í", "I" },
+		{ "Î", "I" },
+		{ "Ï", "I" },
+		{ "Ò", "O" },
+		{ "Ó", "O" },
+		{ "Ô", "O" },
+		{ "Ö", "OE" },
+		{ "Ù", "U" },
+		{ "Ú", "U" },
+		{ "Û", "U" },
+		{ "Ü", "UE" },
+		{ "Ñ", "N" } };
+
+	private static final String SWIFT_REGEX_EXCLUDE = "[^A-Za-z0-9+\\?/\\-:\\(\\)\\.,' ]";
+
 	private Iso20022Util() {
 		// utility
 	}
@@ -76,5 +147,71 @@ public final class Iso20022Util {
 		}
 
 		return null;
+	}
+
+	/**
+	 * SWIFT-Zeichensatz
+	 * Folgende, dem SWIFT-Zeichensatz entsprechende Zeichen werden analog den EPCGuidelines
+	 * ohne Umwandlung akzeptiert:
+	 * a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+	 * A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+	 * 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	 * . (Punkt)
+	 * , (Komma)
+	 * : (Doppelpunkt)
+	 * ' (Hochkomma)
+	 * + (Plus)
+	 * - (Minus)
+	 * / (Slash)
+	 * ( (runde Klammer auf)
+	 * ) (runde Klammer zu)
+	 * ? (Fragezeichen)
+	 * space (Leerzeichen)
+	 *
+	 * Zeichen mit Umwandlung
+	 * Zusätzlich werden für die Schweiz ausgewählte weitere Zeichen zugelassen (spezifiziert
+	 * im Anhang C). Diese Zeichen können allenfalls für die nachfolgende Weiterverarbeitung
+	 * umgewandelt werden. Werden Zeichen übermittelt, welche im Anhang C nicht
+	 * spezifiziert sind, wird die Meldung abgewiesen.
+	 *
+	 * Zeichensatz für Referenzen
+	 * Für gewisse Referenzen sind nur Zeichen aus dem SWIFT-Zeichensatz zugelassen:
+	 * - Message Identification (A-Level)
+	 * - Payment Information Identification (B-Level)
+	 * - Creditor Scheme Identification (Creditor Identifier, B-Level)
+	 * - Instruction Identification (C-Level)
+	 * - End To End Identification (C-Level)
+	 *
+	 * Diese Referenzen dürfen zudem nicht mit «/» beginnen und dürfen an keiner Stelle
+	 * «//» enthalten.
+	 *
+	 * @param text to replace by SWIFT
+	 * @return text to replaced by SWIFT
+	 * @see "https://www.six-group.com/interbank-clearing/dam/downloads/de/standardization/iso/swiss-recommendations/implementation-guidelines-swiss-dd.pdf"
+	 */
+	public static String replaceSwift(String text) {
+		if (null == text) {
+			return null;
+		}
+
+		String result = text;
+
+		// Zeichen aus dem Anhang
+		for (String[] swiftReplacement : SWIFT_REPLACEMENTS) {
+			result = result.replace(swiftReplacement[0], swiftReplacement[1]);
+		}
+
+		// Alle anderen Zeichen welche nicht aus REGEX sind werden durch . ersetzt.
+		result = result.replaceAll(SWIFT_REGEX_EXCLUDE, ".");
+
+		// dürfen an keiner Stelle «//» enthalten
+		result= result.replace("//", "/");
+
+		// dürfen zudem nicht mit «/» beginnen
+		if(result.startsWith("/")){
+			result = result.substring(1);
+		}
+
+		return result;
 	}
 }

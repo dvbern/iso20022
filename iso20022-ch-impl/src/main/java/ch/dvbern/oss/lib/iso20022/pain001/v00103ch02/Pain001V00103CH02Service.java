@@ -74,6 +74,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
 
+
 	private JAXBContext jaxbContext = null;
 
 	@Override
@@ -285,12 +286,12 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		// data
 		String transaktionStr = String.valueOf(transaktion);
-		cTTI10CH.getPmtId().setInstrId(transaktionStr); // 2.29
+		cTTI10CH.getPmtId().setInstrId(Iso20022Util.replaceSwift(transaktionStr)); // 2.29 // SWIFT
 
 		String zahlungsempfaegerName = auszahlungDTO.getZahlungsempfaegerName();
 		// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
-		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName;
-		endToEndId = normalize(endToEndId);
+		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName; // SWIFT
+		endToEndId = Iso20022Util.replaceSwift(endToEndId);
 		// 2.30 max 35 signs
 		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
 
@@ -371,6 +372,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
 	}
 
+
 	/**
 	 * Example PaymentInformation:
 	 * <pre>
@@ -421,7 +423,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		PaymentInstructionInformation3CH paymentInstructionInformation3CH = objectFactory
 			.createPaymentInstructionInformation3CH();
-		paymentInstructionInformation3CH.setPmtInfId(pain001DTO.getMsgId());
+		paymentInstructionInformation3CH.setPmtInfId(Iso20022Util.replaceSwift(pain001DTO.getMsgId())); // SWIFT
 		paymentInstructionInformation3CH.setPmtMtd(PAYMENT_METHOD_3_CODE);
 
 		paymentInstructionInformation3CH.setBtchBookg(BTCHBOOKG);
@@ -489,7 +491,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		groupHeader32CH.getInitgPty().setCtctDtls(objectFactory.createContactDetails2CH());
 
 		// data
-		groupHeader32CH.setMsgId(pain001DTO.getMsgId()); // 1.1
+		groupHeader32CH.setMsgId(Iso20022Util.replaceSwift(pain001DTO.getMsgId())); // 1.1 // SWIFT
 
 		groupHeader32CH.setNbOfTxs(Integer.toString(transaktion)); // 1.6
 		groupHeader32CH.setCtrlSum(ctrlSum); // 1.7
