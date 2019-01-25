@@ -233,7 +233,6 @@ public class CamtServiceBean implements CamtService {
 		// bookings can only be assigned automatically to bills if the referenceId is present thus we return only these
 		return info.getStrd().stream()
 			.filter(this::hasReferenceNumber)
-			.filter(this::isNotRejected)
 			.findAny();
 	}
 
@@ -242,18 +241,5 @@ public class CamtServiceBean implements CamtService {
 			.map(StructuredRemittanceInformation9::getCdtrRefInf)
 			.map(CreditorReferenceInformation2::getRef)
 			.isPresent();
-	}
-
-	private boolean isNotRejected(@Nonnull StructuredRemittanceInformation9 structuredRemittanceInformation9) {
-		if (structuredRemittanceInformation9.getAddtlRmtInf() == null) {
-			return true;
-		}
-
-		return structuredRemittanceInformation9.getAddtlRmtInf().stream()
-			.noneMatch(this::isRejectCode);
-	}
-
-	private boolean isRejectCode(@Nonnull String value) {
-		return CamtRejectCodes.MASS_REJECT.getCode().equals(value) || CamtRejectCodes.REJECT.getCode().equals(value);
 	}
 }
