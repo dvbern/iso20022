@@ -34,6 +34,7 @@
     <properties>
         <cxf-xjc-plugin.version>3.2.3</cxf-xjc-plugin.version>
         <version.slf4j>1.7.25</version.slf4j>
+        <version.hibernate>6.0.17.Final</version.hibernate>
     </properties>
 
     <dependencyManagement>
@@ -87,6 +88,21 @@
                 <version>16.0.3</version>
                 <!-- enhanced annotations for the Jetbrains IDEs -->
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${version.hibernate}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator-cdi</artifactId>
+                <version>${version.hibernate}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.1-b09</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

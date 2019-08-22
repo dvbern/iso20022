@@ -56,7 +56,7 @@ public class MyCDIEnabledClass {
         payment1.setZahlungsempfaegerHausnummer("1");
         payment1.setZahlungsempfaegerPlz("3000");
         payment1.setZahlungsempfaegerOrt("Bern");
-        payment1.setZahlungText("This is my fist payment");
+        payment1.setZahlungText("This is my first payment");
         payments.add(payment1);
 
         // second paying out
