@@ -15,35 +15,25 @@
 
 package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
-import com.six_interbank_clearing.de.pain_008_001_02_ch_03.Document;
 import org.junit.Before;
 import org.junit.Test;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.Diff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests for the {@link Pain008Service}
  */
 public class Pain008ServiceTest {
 
-	private static final String STORE_PATH = "target/pain008ExampleOutput.xml";
+//	private static final String STORE_PATH = "target/pain008Reference.xml";
 
 	private Pain008V00102CH03Service pain008Service = new Pain008V00102CH03Service();
 
@@ -67,7 +57,6 @@ public class Pain008ServiceTest {
 		request1.setRefNr("000123456789012345678901234");
 		paymentRequests.add(request1);
 
-
 		TransactionInformationDTO request2 = new TransactionInformationDTO();
 		request2.setTransactionId("ID-2");
 		request2.setInstructedAmount(new BigDecimal(1000));
@@ -81,7 +70,6 @@ public class Pain008ServiceTest {
 		request2.setRefNr("100123456789012345678901234");
 		paymentRequests.add(request2);
 
-
 		TransactionInformationDTO requestWithouAddr = new TransactionInformationDTO();
 		requestWithouAddr.setTransactionId("ID-3");
 		requestWithouAddr.setInstructedAmount(new BigDecimal(1000));
@@ -90,7 +78,6 @@ public class Pain008ServiceTest {
 		requestWithouAddr.setDebitorName("no address");
 		requestWithouAddr.setRefNr("100123456789012345678901234");
 		paymentRequests.add(requestWithouAddr);
-
 
 		PaymentInformationDTO paymentInfo = new PaymentInformationDTO();
 		paymentInfo.setPaymentInfoId("Test-ID");
@@ -101,7 +88,6 @@ public class Pain008ServiceTest {
 		paymentInfo.setCreditorName("Pestalozzi GMBH");
 		paymentInfo.setCreditorIBAN("CH9300762011623852957");
 		paymentInfo.setTransactionInfo(paymentRequests);
-
 
 		painDto = new Pain008DTO();
 		painDto.setMsgId("Test-ID");
@@ -114,42 +100,14 @@ public class Pain008ServiceTest {
 	}
 
 	@Test
-	public void getPainFileContentTestAndWriteToFile() throws JAXBException, IOException {
+	public void getPainFileContentTest() {
 
 		final byte[] painFileContent = pain008Service.getPainFileContent(painDto);
 
-		assertNotNull(painFileContent);
-		writeResultsToFile(painFileContent);
+		Diff diff = DiffBuilder.compare(getClass().getResource("pain008Reference.xml"))
+			.withTest(painFileContent)
+			.build();
 
-		ByteArrayInputStream bis = new ByteArrayInputStream(painFileContent);
-		final Document document = getDocumentFromInputStream(bis);
-		assertNotNull(document);
-
-		assertNotNull(document.getCstmrDrctDbtInitn().getGrpHdr());
-		assertEquals("Test-ID", document.getCstmrDrctDbtInitn().getGrpHdr().getMsgId());
-		assertEquals("3", document.getCstmrDrctDbtInitn().getGrpHdr().getNbOfTxs());
-		assertTrue(new BigDecimal(2010).compareTo(document.getCstmrDrctDbtInitn().getGrpHdr().getCtrlSum()) == 0);
-		assertEquals(1, document.getCstmrDrctDbtInitn().getPmtInf().size());
-		assertEquals(3, document.getCstmrDrctDbtInitn().getPmtInf().get(0).getDrctDbtTxInf().size());
+		assertFalse(diff.hasDifferences());
 	}
-
-	private Document getDocumentFromInputStream(ByteArrayInputStream bis) throws JAXBException {
-
-		JAXBContext jaxbContext = JAXBContext.newInstance(Document.class);
-
-		final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-		JAXBElement<Document> documentJAXBElement = jaxbUnmarshaller.unmarshal(new StreamSource(bis), Document.class);
-		return documentJAXBElement.getValue();
-	}
-
-	/**
-	 * Write date to File
-	 */
-	private void writeResultsToFile(byte[] data) throws IOException {
-		FileOutputStream fos = new FileOutputStream(STORE_PATH);
-		fos.write(data);
-		fos.close();
-	}
-
 }
