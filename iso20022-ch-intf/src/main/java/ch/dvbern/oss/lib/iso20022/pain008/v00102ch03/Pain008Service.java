@@ -15,6 +15,8 @@
 
 package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 
+import javax.validation.Valid;
+
 /**
  * Service to generate Payment-File Pain008 according to ISO20022 for a swiss bank
  */
@@ -26,6 +28,6 @@ public interface Pain008Service {
 	/**
 	 * Creates a pain file for LSV+ (CH-TA), based on the given DTO.
 	 */
-	byte[] getPainFileContent(Pain008DTO pain008DTO);
+	byte[] getPainFileContent(@Valid Pain008DTO pain008DTO);
 
 }

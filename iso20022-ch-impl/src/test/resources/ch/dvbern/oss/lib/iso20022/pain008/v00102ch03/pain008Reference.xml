@@ -78,6 +78,12 @@
                 </DbtrAgt>
                 <Dbtr>
                     <Nm>Zahlung 1</Nm>
+                    <PstlAdr>
+                        <StrtNm>Teststrasse</StrtNm>
+                        <PstCd>3000</PstCd>
+                        <TwnNm>Bern</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
                 </Dbtr>
                 <DbtrAcct>
                     <Id>
@@ -112,6 +118,12 @@
                 </DbtrAgt>
                 <Dbtr>
                     <Nm>Zahlung 2</Nm>
+                    <PstlAdr>
+                        <StrtNm>Teststrasse</StrtNm>
+                        <PstCd>4000</PstCd>
+                        <TwnNm>Zurich</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
                 </Dbtr>
                 <DbtrAcct>
                     <Id>

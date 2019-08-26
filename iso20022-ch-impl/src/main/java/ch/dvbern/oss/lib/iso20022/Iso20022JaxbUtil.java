@@ -11,9 +11,10 @@ import javax.xml.namespace.QName;
 
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
-import static org.apache.commons.lang3.StringUtils.SPACE;
+public final class Iso20022JaxbUtil {
 
-public class PainJaxbUtil {
+	private Iso20022JaxbUtil() {
+	}
 
 	public static <T> String getXMLStringFromDocument(
 		T document,

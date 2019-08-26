@@ -15,6 +15,8 @@
 
 package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,11 +31,14 @@ import org.xmlunit.diff.Diff;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Tests for the {@link Pain008Service}
+ * Tests for the {@link Pain008Service}.<br>
+ *
+ * The resulting XML will be saved to STORE_PATH if WRITE_TO_FILE is set to true.
  */
 public class Pain008ServiceTest {
 
-//	private static final String STORE_PATH = "target/pain008Reference.xml";
+	private static final boolean WRITE_TO_FILE = true;
+	private static final String STORE_PATH = "target/pain008Reference.xml";
 
 	private Pain008V00102CH03Service pain008Service = new Pain008V00102CH03Service();
 
@@ -53,7 +58,7 @@ public class Pain008ServiceTest {
 		request1.setDebitorCountry("CH");
 		request1.setDebitorStreetName("Teststrasse");
 		request1.setDebitorPostCode("3000");
-		request1.setDebitorTown("Bern");
+		request1.setDebitorTownName("Bern");
 		request1.setRefNr("000123456789012345678901234");
 		paymentRequests.add(request1);
 
@@ -66,7 +71,7 @@ public class Pain008ServiceTest {
 		request2.setDebitorCountry("CH");
 		request2.setDebitorStreetName("Teststrasse");
 		request2.setDebitorPostCode("4000");
-		request2.setDebitorTown("Zurich");
+		request2.setDebitorTownName("Zurich");
 		request2.setRefNr("100123456789012345678901234");
 		paymentRequests.add(request2);
 
@@ -100,14 +105,26 @@ public class Pain008ServiceTest {
 	}
 
 	@Test
-	public void getPainFileContentTest() {
+	public void getPainFileContentTest() throws Exception {
 
 		final byte[] painFileContent = pain008Service.getPainFileContent(painDto);
+
+		writeResultsToFile(painFileContent);
 
 		Diff diff = DiffBuilder.compare(getClass().getResource("pain008Reference.xml"))
 			.withTest(painFileContent)
 			.build();
 
-		assertFalse(diff.hasDifferences());
+		assertFalse("Unexpected differences found: " + diff.getDifferences(), diff.hasDifferences());
+	}
+
+	private void writeResultsToFile(byte[] data) throws IOException {
+		if (!WRITE_TO_FILE) {
+			return;
+		}
+
+		FileOutputStream fos = new FileOutputStream(STORE_PATH);
+		fos.write(data);
+		fos.close();
 	}
 }

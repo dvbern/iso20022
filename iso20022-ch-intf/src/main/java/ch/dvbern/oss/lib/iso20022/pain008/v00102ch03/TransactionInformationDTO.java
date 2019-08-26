@@ -28,6 +28,7 @@ public class TransactionInformationDTO {
 	@Pattern(regexp = "[0-9]{3,5}")
 	private String debitorIID = null;
 
+	@SuppressWarnings("checkstyle:magicnumber")
 	@NotNull
 	@Size(max = 70)
 	private String debitorName = null;
@@ -36,7 +37,7 @@ public class TransactionInformationDTO {
 
 	private String debitorPostCode = null;
 
-	private String debitorTown = null;
+	private String debitorTownName = null;
 
 	@Size(max = 2, min = 2)
 	private String debitorCountry = null;
@@ -115,12 +116,12 @@ public class TransactionInformationDTO {
 		this.debitorPostCode = debitorPostCode;
 	}
 
-	public String getDebitorTown() {
-		return debitorTown;
+	public String getDebitorTownName() {
+		return debitorTownName;
 	}
 
-	public void setDebitorTown(String debitorTown) {
-		this.debitorTown = debitorTown;
+	public void setDebitorTownName(String debitorTownName) {
+		this.debitorTownName = debitorTownName;
 	}
 
 	public String getDebitorCountry() {

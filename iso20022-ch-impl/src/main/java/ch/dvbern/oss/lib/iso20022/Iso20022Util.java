@@ -31,6 +31,16 @@ import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 public final class Iso20022Util {
 
+	/**
+	 * Code for swiss francs
+	 */
+	public static final String CCY = "CHF";
+
+	/**
+	 * Software versioning
+	 */
+	public static final String CTCTDTLS_OTHR = "V01";
+
 	private static final String[][] SWIFT_REPLACEMENTS = { { "!", "." },
 		{ "\"", "." },
 		{ "#", "." },

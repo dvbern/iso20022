@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.validation.Valid;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
-import ch.dvbern.oss.lib.iso20022.PainJaxbUtil;
+import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.CashAccount16;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.DirectDebitTransactionInformation9;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.Document;
@@ -20,8 +20,8 @@ import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentMethod2Code;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentTypeInformation20;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ServiceLevel8Choice;
 
-import static ch.dvbern.oss.lib.iso20022.PainConstants.CCY;
-import static ch.dvbern.oss.lib.iso20022.PainConstants.CTCTDTLS_OTHR;
+import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CCY;
+import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CTCTDTLS_OTHR;
 
 @Stateless
 @Local(Pain008Service.class)
@@ -37,8 +37,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 	public byte[] getPainFileContent(@Valid Pain008DTO pain008DTO) {
 		final Document document = createPain008Document(pain008DTO);
 
-
-		return PainJaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION)
+		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION)
 			.getBytes(StandardCharsets.UTF_8);
 	}
 
@@ -191,7 +190,9 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		// debitors financial institutions IID
 		transactionInfo.setDbtrAgt(objFactory.createBranchAndFinancialInstitutionIdentification4());
 		transactionInfo.getDbtrAgt().setFinInstnId(objFactory.createFinancialInstitutionIdentification7());
-		transactionInfo.getDbtrAgt().getFinInstnId().setClrSysMmbId(objFactory.createClearingSystemMemberIdentification2());
+		transactionInfo.getDbtrAgt()
+			.getFinInstnId()
+			.setClrSysMmbId(objFactory.createClearingSystemMemberIdentification2());
 		transactionInfo.getDbtrAgt().getFinInstnId().getClrSysMmbId().setMmbId(dto.getDebitorIID());
 
 		// debitor name and IBAN
@@ -200,6 +201,8 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		transactionInfo.setDbtrAcct(objFactory.createCashAccount16());
 		transactionInfo.getDbtrAcct().setId(objFactory.createAccountIdentification4Choice());
 		transactionInfo.getDbtrAcct().getId().setIBAN(dto.getDebitorIBAN());
+
+		setOptionalDebitorAddress(dto, objFactory, transactionInfo);
 
 		// reference number
 		transactionInfo.setRmtInf(objFactory.createRemittanceInformation5());
@@ -213,5 +216,24 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		transactionInfo.getRmtInf().getStrd().getCdtrRefInf().setRef(dto.getRefNr());
 
 		return transactionInfo;
+	}
+
+	private void setOptionalDebitorAddress(
+		TransactionInformationDTO dto,
+		ObjectFactory objFactory,
+		DirectDebitTransactionInformation9 transactionInfo) {
+
+		// optional debtor address
+		if (dto.getDebitorStreetName() != null
+			|| dto.getDebitorPostCode() != null
+			|| dto.getDebitorTownName() != null
+			|| dto.getDebitorCountry() != null) {
+
+			transactionInfo.getDbtr().setPstlAdr(objFactory.createPostalAddress6());
+			transactionInfo.getDbtr().getPstlAdr().setStrtNm(dto.getDebitorStreetName());
+			transactionInfo.getDbtr().getPstlAdr().setPstCd(dto.getDebitorPostCode());
+			transactionInfo.getDbtr().getPstlAdr().setTwnNm(dto.getDebitorTownName());
+			transactionInfo.getDbtr().getPstlAdr().setCtry(dto.getDebitorCountry());
+		}
 	}
 }
