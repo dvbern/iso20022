@@ -1,11 +1,17 @@
 package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.MESSAGE_PART_ID_LENGTH;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.PARTY_NAME_LENGTH;
 
 /**
  * C-Level, Direct debit transaction info (debitor).
@@ -13,12 +19,15 @@ import javax.validation.constraints.Size;
 public class TransactionInformationDTO {
 
 	/**
-	 * {@link UUID#randomUUID()} by default.
+	 * {@link RandomStringUtils#random(int, boolean, boolean)} by default.
 	 */
 	@NotNull
-	private String transactionId = UUID.randomUUID().toString();
+	@Size(min = 1, max = MESSAGE_PART_ID_LENGTH)
+	private String transactionId = RandomStringUtils.random(MESSAGE_PART_ID_LENGTH, true, true);
 
 	@NotNull
+	@DecimalMin("0.01")
+	@DecimalMax("999999999.99")
 	private BigDecimal instructedAmount = null;
 
 	/**
@@ -28,9 +37,8 @@ public class TransactionInformationDTO {
 	@Pattern(regexp = "[0-9]{3,5}")
 	private String debitorIID = null;
 
-	@SuppressWarnings("checkstyle:magicnumber")
 	@NotNull
-	@Size(max = 70)
+	@Size(max = PARTY_NAME_LENGTH)
 	private String debitorName = null;
 
 	private String debitorStreetName = null;
@@ -39,10 +47,11 @@ public class TransactionInformationDTO {
 
 	private String debitorTownName = null;
 
-	@Size(max = 2, min = 2)
+	@Pattern(regexp = "[A-Z]{2}")
 	private String debitorCountry = null;
 
 	@NotNull
+	@Pattern(regexp = "[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}")
 	private String debitorIBAN = null;
 
 	/**

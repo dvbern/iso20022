@@ -11,6 +11,8 @@ import javax.xml.namespace.QName;
 
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
 public final class Iso20022JaxbUtil {
 
 	private Iso20022JaxbUtil() {
@@ -19,7 +21,8 @@ public final class Iso20022JaxbUtil {
 	public static <T> String getXMLStringFromDocument(
 		T document,
 		Class<T> documentClass,
-		String schemaLocation) {
+		String schemaLocation,
+		String schemaName) {
 
 		final StringWriter documentXmlString = new StringWriter();
 		try {
@@ -28,7 +31,7 @@ public final class Iso20022JaxbUtil {
 			final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION , schemaLocation + SPACE + schemaName);
 
 			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new PainValidationEventHandler());

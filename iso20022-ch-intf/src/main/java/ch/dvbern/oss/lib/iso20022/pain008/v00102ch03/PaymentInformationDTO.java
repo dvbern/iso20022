@@ -3,11 +3,16 @@ package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.MESSAGE_PART_ID_LENGTH;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.PARTY_NAME_LENGTH;
 
 /**
  * B-Level, payment info (creditor).
@@ -15,18 +20,21 @@ import javax.validation.constraints.Pattern;
 public class PaymentInformationDTO {
 
 	/**
-	 * {@link UUID#randomUUID()} by default.
+	 * {@link RandomStringUtils#random(int, boolean, boolean)} by default.
 	 */
 	@NotNull
-	private String paymentInfoId = UUID.randomUUID().toString();
+	@Size(min = 1, max = MESSAGE_PART_ID_LENGTH)
+	private String paymentInfoId = RandomStringUtils.random(MESSAGE_PART_ID_LENGTH, true, true);
 
 	@NotNull
 	private LocalDate requestedCollectionDate = null;
 
 	@NotNull
+	@Size(min = 1, max = PARTY_NAME_LENGTH)
 	private String creditorName = null;
 
 	@NotNull
+	@Pattern(regexp = "[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}")
 	private String creditorIBAN = null;
 
 	/**

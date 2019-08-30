@@ -26,7 +26,7 @@ public interface Pain008Service {
 	String SCHEMA_LOCATION = "http://www.six-interbank-clearing.com/de/" + SCHEMA_NAME;
 
 	/**
-	 * Creates a pain file for LSV+ (CH-TA), based on the given DTO.
+	 * Creates an UTF-8 pain file for LSV+ (CH-TA), based on the given DTO.
 	 */
 	byte[] getPainFileContent(@Valid Pain008DTO pain008DTO);
 

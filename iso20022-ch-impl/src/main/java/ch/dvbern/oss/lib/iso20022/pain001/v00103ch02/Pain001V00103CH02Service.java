@@ -49,8 +49,8 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
 import org.jetbrains.annotations.Contract;
 import org.xml.sax.SAXException;
 
-import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CCY;
-import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CTCTDTLS_OTHR;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -72,7 +72,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	public byte[] getPainFileContent(Pain001DTO pain001DTO) {
 		final Document document = createPain001Document(pain001DTO);
 
-		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION).getBytes(StandardCharsets.UTF_8);
+		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME).getBytes(StandardCharsets.UTF_8);
 	}
 
 

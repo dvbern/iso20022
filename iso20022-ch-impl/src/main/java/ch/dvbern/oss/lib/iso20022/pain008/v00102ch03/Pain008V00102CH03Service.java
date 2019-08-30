@@ -20,8 +20,8 @@ import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentMethod2Code;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentTypeInformation20;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ServiceLevel8Choice;
 
-import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CCY;
-import static ch.dvbern.oss.lib.iso20022.Iso20022Util.CTCTDTLS_OTHR;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
 
 @Stateless
 @Local(Pain008Service.class)
@@ -37,7 +37,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 	public byte[] getPainFileContent(@Valid Pain008DTO pain008DTO) {
 		final Document document = createPain008Document(pain008DTO);
 
-		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION)
+		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME)
 			.getBytes(StandardCharsets.UTF_8);
 	}
 
