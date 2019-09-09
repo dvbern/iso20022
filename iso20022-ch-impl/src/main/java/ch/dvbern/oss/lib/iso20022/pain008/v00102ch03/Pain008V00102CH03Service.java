@@ -174,8 +174,6 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		TransactionInformationDTO dto,
 		ObjectFactory objFactory) {
 
-		// TODO add optional address
-
 		DirectDebitTransactionInformation9 transactionInfo =
 			objFactory.createDirectDebitTransactionInformation9();
 

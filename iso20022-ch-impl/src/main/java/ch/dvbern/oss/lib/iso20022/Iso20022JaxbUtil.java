@@ -13,11 +13,17 @@ import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+/**
+ * Jaxb related utility functionality.
+ */
 public final class Iso20022JaxbUtil {
 
 	private Iso20022JaxbUtil() {
 	}
 
+	/**
+	 * Converts a given document to an XML string.
+	 */
 	public static <T> String getXMLStringFromDocument(
 		T document,
 		Class<T> documentClass,
