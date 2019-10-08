@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
@@ -40,12 +39,23 @@ public class Pain008ServiceTest {
 	private static final boolean WRITE_TO_FILE = true;
 	private static final String STORE_PATH = "target/pain008Reference.xml";
 
-	private Pain008V00102CH03Service pain008Service = new Pain008V00102CH03Service();
+	private final Pain008V00102CH03Service pain008Service = new Pain008V00102CH03Service();
 
-	private Pain008DTO painDto;
+	@Test
+	public void getPainFileContentTest() throws Exception {
 
-	@Before
-	public void init() {
+		final byte[] painFileContent = pain008Service.getPainFileContent(createDummyDto());
+
+		writeResultsToFile(painFileContent);
+
+		Diff diff = DiffBuilder.compare(getClass().getResource("pain008Reference.xml"))
+			.withTest(painFileContent)
+			.build();
+
+		assertFalse("Unexpected differences found: " + diff.getDifferences(), diff.hasDifferences());
+	}
+
+	private Pain008DTO createDummyDto() {
 
 		List<TransactionInformationDTO> paymentRequests = new ArrayList<>();
 
@@ -94,7 +104,7 @@ public class Pain008ServiceTest {
 		paymentInfo.setCreditorIBAN("CH9300762011623852957");
 		paymentInfo.setTransactionInfo(paymentRequests);
 
-		painDto = new Pain008DTO();
+		Pain008DTO painDto = new Pain008DTO();
 		painDto.setMsgId("Test-ID");
 		painDto.setCreationDateTime(LocalDateTime.of(2017, 6, 30, 15, 0));
 		painDto.setSoftwareName("DVBern Payment Tool");
@@ -102,20 +112,8 @@ public class Pain008ServiceTest {
 		painDto.setInitiatingPartyName("Test LSV Biller");
 
 		painDto.getPaymentInfo().add(paymentInfo);
-	}
 
-	@Test
-	public void getPainFileContentTest() throws Exception {
-
-		final byte[] painFileContent = pain008Service.getPainFileContent(painDto);
-
-		writeResultsToFile(painFileContent);
-
-		Diff diff = DiffBuilder.compare(getClass().getResource("pain008Reference.xml"))
-			.withTest(painFileContent)
-			.build();
-
-		assertFalse("Unexpected differences found: " + diff.getDifferences(), diff.hasDifferences());
+		return painDto;
 	}
 
 	private void writeResultsToFile(byte[] data) throws IOException {
