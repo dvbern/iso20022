@@ -13,17 +13,21 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
+package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
+
+import javax.validation.Valid;
 
 /**
- * Service to generate Payment-File Pain001 according to ISO20022 for a swiss bank
+ * Service to generate Payment-File Pain008 according to ISO20022 for a swiss bank
  */
-public interface Pain001Service {
+public interface Pain008Service {
 
-	String SCHEMA_NAME = "pain.001.001.03.ch.02.xsd";
-	String SCHEMA_LOCATION_LOCAL = "ch.dvbern.oss.lib.iso20022.pain001.v00103ch02/" + SCHEMA_NAME;
+	String SCHEMA_NAME = "pain.008.001.02.ch.03.xsd";
 	String SCHEMA_LOCATION = "http://www.six-interbank-clearing.com/de/" + SCHEMA_NAME;
 
-	byte[] getPainFileContent(Pain001DTO pain001DTO);
+	/**
+	 * Creates an UTF-8 pain file for LSV+ (CH-TA), based on the given DTO.
+	 */
+	byte[] getPainFileContent(@Valid Pain008DTO pain008DTO);
 
 }
