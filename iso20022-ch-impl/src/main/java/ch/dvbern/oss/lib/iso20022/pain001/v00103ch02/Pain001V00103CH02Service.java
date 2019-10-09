@@ -15,7 +15,6 @@
 
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -32,17 +31,12 @@ import javax.annotation.Nullable;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
+import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemIdentification2Choice;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemMemberIdentification2;
@@ -55,6 +49,8 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
 import org.jetbrains.annotations.Contract;
 import org.xml.sax.SAXException;
 
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
+import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -65,8 +61,6 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 @Local(Pain001Service.class)
 public class Pain001V00103CH02Service implements Pain001Service {
 
-	private static final String CCY = "CHF"; // Code for swiss francs
-	private static final String CTCTDTLS_OTHR = "V01"; // versioning
 	private static final PaymentMethod3Code PAYMENT_METHOD_3_CODE = PaymentMethod3Code.TRA;
 	private static final Boolean BTCHBOOKG = true;
 	private static final String CLRSYS_CD = "CHBCC"; // Code swiss bank
@@ -74,46 +68,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
 
-
-	private JAXBContext jaxbContext = null;
-
 	@Override
 	public byte[] getPainFileContent(Pain001DTO pain001DTO) {
 		final Document document = createPain001Document(pain001DTO);
 
-		return getXMLStringFromDocument(document).getBytes(StandardCharsets.UTF_8);
+		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME).getBytes(StandardCharsets.UTF_8);
 	}
 
-	private String getXMLStringFromDocument(final Document document) {
-		final StringWriter documentXmlString = new StringWriter();
-		try {
-			if (jaxbContext == null) {
-				jaxbContext = JAXBContext.newInstance(Document.class);
-			}
-
-			final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			// output pretty printed
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, SCHEMA_LOCATION + SPACE + SCHEMA_NAME);
-
-			// don't use lambda, otherwise there may errors with Java-Version
-			jaxbMarshaller.setEventHandler(new PainValidationEventHandler());
-
-			// without @XmlRootElement annotation
-			jaxbMarshaller.marshal(getElementToMarshall(document), documentXmlString);
-
-		} catch (final Exception e) {
-
-			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file", e);
-		}
-		return documentXmlString.toString();
-	}
-
-	private JAXBElement<Document> getElementToMarshall(Document elemToMarshall) {
-		QName name = new QName(SCHEMA_LOCATION, elemToMarshall.getClass().getSimpleName());
-
-		return new JAXBElement<>(name, Document.class, elemToMarshall);
-	}
 
 	/**
 	 * Validation and Schema not used at the moment
@@ -504,14 +465,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		groupHeader32CH.setCreDtTm(Iso20022Util.toXmlGregorianCalendar(pain001DTO.getGenerierungsDatum())); // 1.2
 
 		return groupHeader32CH;
-	}
-
-	private static class PainValidationEventHandler implements ValidationEventHandler {
-		@Override
-		public boolean handleEvent(ValidationEvent event) {
-			throw new Iso20022RuntimeException("Unexpected error while generating pain001 file: "
-				+ event.getMessage(), event.getLinkedException());
-		}
 	}
 
 }
