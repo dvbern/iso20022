@@ -17,7 +17,7 @@ package ch.dvbern.oss.lib.iso20022.camt;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 

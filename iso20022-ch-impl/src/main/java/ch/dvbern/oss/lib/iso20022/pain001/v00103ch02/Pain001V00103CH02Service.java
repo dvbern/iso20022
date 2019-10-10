@@ -37,6 +37,8 @@ import javax.xml.validation.SchemaFactory;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
+import ch.dvbern.oss.lib.iso20022.dtos.AuszahlungDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.Pain001DTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemIdentification2Choice;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemMemberIdentification2;
