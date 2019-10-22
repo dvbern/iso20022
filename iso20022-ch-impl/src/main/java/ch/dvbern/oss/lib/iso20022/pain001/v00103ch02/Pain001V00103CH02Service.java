@@ -35,8 +35,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
+import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.dtos.AuszahlungDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.Pain001DTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
@@ -74,9 +74,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	public byte[] getPainFileContent(Pain001DTO pain001DTO) {
 		final Document document = createPain001Document(pain001DTO);
 
-		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME).getBytes(StandardCharsets.UTF_8);
+		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME)
+			.getBytes(StandardCharsets.UTF_8);
 	}
-
 
 	/**
 	 * Validation and Schema not used at the moment
@@ -334,7 +334,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		return NON_ASCII.matcher(Normalizer.normalize(text, Form.NFD)).replaceAll(EMPTY);
 	}
-
 
 	/**
 	 * Example PaymentInformation:

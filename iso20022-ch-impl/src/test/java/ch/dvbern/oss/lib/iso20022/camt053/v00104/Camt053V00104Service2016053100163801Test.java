@@ -122,7 +122,7 @@ public class Camt053V00104Service2016053100163801Test {
 	public void testTransactionDetails() {
 		List<IsrTransaction> transactions = actual.getAccounts().get(0).getBookings().get(0).getTransactions();
 		long transactionDetailsCount = transactions.stream()
-			.filter(isrTransaction -> isrTransaction.getTransactionDetails()!= null)
+			.filter(isrTransaction -> isrTransaction.getTransactionDetails() != null)
 			.count();
 
 		assertEquals(4, transactionDetailsCount);

@@ -101,7 +101,6 @@ public class Pain001ServiceTest {
 		zahlungsauftrag.setAuszahlungen(auszahlungen);
 	}
 
-
 	@Test
 	public void getPainFileContentTestAndWriteToFile() throws JAXBException, IOException {
 

@@ -187,8 +187,10 @@ public final class Iso20022Util {
 	 *
 	 * @param text to replace by SWIFT
 	 * @return text to replaced by SWIFT
-	 * @see "https://www.six-group.com/interbank-clearing/dam/downloads/de/standardization/iso/swiss-recommendations/implementation-guidelines-swiss-dd.pdf"
+	 * @see "https://www.six-group.com/interbank-clearing/dam/downloads/de/standardization/iso/swiss-recommendations
+	 * /implementation-guidelines-swiss-dd.pdf"
 	 */
+	@Nullable
 	public static String replaceSwift(String text) {
 		if (null == text) {
 			return null;
@@ -205,10 +207,10 @@ public final class Iso20022Util {
 		result = result.replaceAll(SWIFT_REGEX_EXCLUDE, ".");
 
 		// dürfen an keiner Stelle «//» enthalten
-		result= result.replace("//", "/");
+		result = result.replace("//", "/");
 
 		// dürfen zudem nicht mit «/» beginnen
-		if(result.startsWith("/")){
+		if (result.startsWith("/")) {
 			result = result.substring(1);
 		}
 

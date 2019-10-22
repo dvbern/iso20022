@@ -32,12 +32,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
-import ch.dvbern.oss.lib.iso20022.dtos.Account;
-import ch.dvbern.oss.lib.iso20022.dtos.Booking;
-import ch.dvbern.oss.lib.iso20022.dtos.DocumentDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.IsrTransaction;
-import ch.dvbern.oss.lib.iso20022.dtos.MessageIdentifier;
-import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.AccountNotification7;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CreditDebitCode;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CreditorReferenceInformation2;
@@ -52,6 +46,12 @@ import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.RemittanceInformation7;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.ReportEntry4;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.StructuredRemittanceInformation9;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.TransactionParties3;
+import ch.dvbern.oss.lib.iso20022.dtos.Account;
+import ch.dvbern.oss.lib.iso20022.dtos.Booking;
+import ch.dvbern.oss.lib.iso20022.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.IsrTransaction;
+import ch.dvbern.oss.lib.iso20022.dtos.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,8 +178,8 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	private boolean isCreditingEntry(@Nonnull ReportEntry4 entry) {
-		return entry.getCdtDbtInd() != null && Objects.equals(CreditDebitCode.CRDT.value(),
-			entry.getCdtDbtInd().value());
+		return entry.getCdtDbtInd() != null
+			&& Objects.equals(CreditDebitCode.CRDT.value(), entry.getCdtDbtInd().value());
 	}
 
 	private boolean isBookedEntry(@Nonnull ReportEntry4 entry) {
@@ -225,28 +225,28 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nullable
-	private TransactionInformationDTO toTransactionDetails(@Nullable TransactionParties3 transactionParties)
-	{
+	private TransactionInformationDTO toTransactionDetails(@Nullable TransactionParties3 transactionParties) {
 		if (transactionParties == null) {
 			return null;
 		}
 
 		TransactionInformationDTO transactionInformationDTO = new TransactionInformationDTO();
 
-		if(transactionParties.getDbtr() != null) {
+		if (transactionParties.getDbtr() != null) {
 			transactionInformationDTO.setDebitorName(transactionParties.getDbtr().getNm());
 			toDbtrPostalDetails(transactionParties.getDbtr().getPstlAdr(), transactionInformationDTO);
 		}
 
-		if(transactionParties.getDbtrAcct() != null) {
+		if (transactionParties.getDbtrAcct() != null) {
 			transactionInformationDTO.setDebitorIBAN(transactionParties.getDbtrAcct().getId().getIBAN());
 		}
 
 		return transactionInformationDTO;
 	}
 
-	private void toDbtrPostalDetails(@Nullable PostalAddress6 postalAddress, @Nonnull TransactionInformationDTO transactionInformationDTO)
-	{
+	private void toDbtrPostalDetails(
+		@Nullable PostalAddress6 postalAddress,
+		@Nonnull TransactionInformationDTO transactionInformationDTO) {
 		if (postalAddress == null) {
 			return;
 		}
