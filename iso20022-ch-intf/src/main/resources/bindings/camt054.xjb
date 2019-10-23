@@ -73,5 +73,17 @@
 		<jaxb:bindings node="//xs:complexType[@name='StructuredRemittanceInformation9']">
 			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.StructuredRemittanceInformation9</inheritance:implements>
 		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CashAccount24']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CashAccount24</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='PartyIdentification43']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.PartyIdentification43</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='PostalAddress6']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.PostalAddress6</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='TransactionParties3']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.TransactionParties3</inheritance:implements>
+		</jaxb:bindings>
 	</jaxb:bindings>
 </jaxb:bindings>

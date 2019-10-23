@@ -23,13 +23,16 @@ import ch.dvbern.oss.lib.iso20022.TestUtil;
 import ch.dvbern.oss.lib.iso20022.camt.CamtService;
 import ch.dvbern.oss.lib.iso20022.camt.CamtServiceBean;
 import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.Account;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.Booking;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.Account;
+import ch.dvbern.oss.lib.iso20022.dtos.Booking;
+import ch.dvbern.oss.lib.iso20022.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.IsrTransaction;
+import ch.dvbern.oss.lib.iso20022.dtos.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -113,5 +116,26 @@ public class Camt053V00104Service2016053100163801Test {
 		assertTrue(bookings.get(2).getTransactions().isEmpty());
 		assertTrue(bookings.get(3).getTransactions().isEmpty());
 		assertTrue(bookings.get(4).getTransactions().isEmpty());
+	}
+
+	@Test
+	public void testTransactionDetails() {
+		List<IsrTransaction> transactions = actual.getAccounts().get(0).getBookings().get(0).getTransactions();
+		long transactionDetailsCount = transactions.stream()
+			.filter(isrTransaction -> isrTransaction.getTransactionDetails() != null)
+			.count();
+
+		assertEquals(4, transactionDetailsCount);
+
+		TransactionInformationDTO transactionInformationDTO = transactions.get(5).getTransactionDetails();
+
+		assertNotNull(transactionInformationDTO);
+		assertEquals("Bernasconi Maria", transactionInformationDTO.getDebitorName());
+		assertEquals("12", transactionInformationDTO.getDebitorBuildingNumber());
+		assertEquals("Place de la Gare", transactionInformationDTO.getDebitorStreetName());
+		assertEquals("2502", transactionInformationDTO.getDebitorPostCode());
+		assertEquals("Biel/Bienne", transactionInformationDTO.getDebitorTownName());
+		assertEquals("CH", transactionInformationDTO.getDebitorCountry());
+		assertEquals("CH4444444444444444444", transactionInformationDTO.getDebitorIBAN());
 	}
 }

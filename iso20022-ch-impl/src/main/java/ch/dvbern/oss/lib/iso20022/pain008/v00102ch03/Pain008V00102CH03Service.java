@@ -7,8 +7,11 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.validation.Valid;
 
-import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
+import ch.dvbern.oss.lib.iso20022.Iso20022Util;
+import ch.dvbern.oss.lib.iso20022.dtos.Pain008DTO;
+import ch.dvbern.oss.lib.iso20022.dtos.PaymentInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.CashAccount16;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.DirectDebitTransactionInformation9;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.Document;
