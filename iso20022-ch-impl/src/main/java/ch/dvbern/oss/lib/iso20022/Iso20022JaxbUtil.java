@@ -37,7 +37,7 @@ public final class Iso20022JaxbUtil {
 			final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION , schemaLocation + SPACE + schemaName);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation + SPACE + schemaName);
 
 			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new JaxbValidationEventHandler());
