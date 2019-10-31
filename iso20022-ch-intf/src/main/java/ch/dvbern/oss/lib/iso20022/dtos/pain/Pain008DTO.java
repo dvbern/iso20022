@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.dtos;
+package ch.dvbern.oss.lib.iso20022.dtos.pain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

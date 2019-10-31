@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.dtos;
+package ch.dvbern.oss.lib.iso20022.dtos.pain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.MESSAGE_PART_ID_LENGTH;

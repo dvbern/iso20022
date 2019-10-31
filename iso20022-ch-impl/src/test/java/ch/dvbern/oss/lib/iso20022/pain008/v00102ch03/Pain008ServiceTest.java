@@ -23,9 +23,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.dvbern.oss.lib.iso20022.dtos.Pain008DTO;
-import ch.dvbern.oss.lib.iso20022.dtos.PaymentInformationDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain008DTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.PaymentInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;

@@ -46,12 +46,12 @@ import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.RemittanceInformation7;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.ReportEntry4;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.StructuredRemittanceInformation9;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.TransactionParties3;
-import ch.dvbern.oss.lib.iso20022.dtos.Account;
-import ch.dvbern.oss.lib.iso20022.dtos.Booking;
-import ch.dvbern.oss.lib.iso20022.dtos.DocumentDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.IsrTransaction;
-import ch.dvbern.oss.lib.iso20022.dtos.MessageIdentifier;
-import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.Account;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.Booking;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.IsrTransaction;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -233,7 +233,9 @@ public class CamtServiceBean implements CamtService {
 		TransactionInformationDTO transactionInformationDTO = new TransactionInformationDTO();
 
 		if (transactionParties.getDbtr() != null) {
-			transactionInformationDTO.setDebitorName(transactionParties.getDbtr().getNm());
+			if(!transactionParties.getDbtr().getNm().equalsIgnoreCase(INVALID_NAME)) {
+				transactionInformationDTO.setDebitorName(transactionParties.getDbtr().getNm());
+			}
 			toDbtrPostalDetails(transactionParties.getDbtr().getPstlAdr(), transactionInformationDTO);
 		}
 

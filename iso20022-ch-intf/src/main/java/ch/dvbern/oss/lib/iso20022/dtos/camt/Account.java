@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.dtos;
+package ch.dvbern.oss.lib.iso20022.dtos.camt;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
