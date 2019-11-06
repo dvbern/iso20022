@@ -256,7 +256,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName; // SWIFT
 		endToEndId = Iso20022Util.replaceSwift(endToEndId);
 		// 2.30 max 35 signs
-		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
+		if(endToEndId != null) {
+			cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
+		}
 
 		// value
 		cTTI10CH.getAmt().getInstdAmt().setCcy(CCY);// 2.43

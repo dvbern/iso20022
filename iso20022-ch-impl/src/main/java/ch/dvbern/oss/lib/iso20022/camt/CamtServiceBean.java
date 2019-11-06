@@ -233,7 +233,8 @@ public class CamtServiceBean implements CamtService {
 		TransactionInformationDTO transactionInformationDTO = new TransactionInformationDTO();
 
 		if (transactionParties.getDbtr() != null) {
-			if(!transactionParties.getDbtr().getNm().equalsIgnoreCase(INVALID_NAME)) {
+			if(transactionParties.getDbtr().getNm() != null &&
+				!transactionParties.getDbtr().getNm().equalsIgnoreCase(INVALID_NAME)) {
 				transactionInformationDTO.setDebitorName(transactionParties.getDbtr().getNm());
 			}
 			toDbtrPostalDetails(transactionParties.getDbtr().getPstlAdr(), transactionInformationDTO);
