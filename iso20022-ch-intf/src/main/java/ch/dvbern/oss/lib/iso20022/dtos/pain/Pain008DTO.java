@@ -24,6 +24,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class Pain008DTO {
 
@@ -31,12 +32,14 @@ public class Pain008DTO {
 	 * {@link UUID#randomUUID()} by default.
 	 */
 	@NotNull
+	@Nonnull
 	private String msgId = UUID.randomUUID().toString();
 
 	/**
 	 * {@link LocalDateTime#now()} by default.
 	 */
 	@NotNull
+	@Nonnull
 	private LocalDateTime creationDateTime = LocalDateTime.now();
 
 	private String initiatingPartyName = null;
@@ -45,13 +48,18 @@ public class Pain008DTO {
 	 * LSV+ ID of the initiating party.
 	 */
 	@NotNull
-	private String initiatingPartyId = null;
+	@Size(min = 1)
+	@Nonnull
+	private String initiatingPartyId = "";
 
 	private String softwareName = null;
 
 	@Valid
+	@NotNull
+	@Nonnull
 	private List<PaymentInformationDTO> paymentInfo = new ArrayList<>();
 
+	@Nonnull
 	public String getMsgId() {
 		return msgId;
 	}
@@ -60,11 +68,12 @@ public class Pain008DTO {
 		this.msgId = msgId;
 	}
 
+	@Nonnull
 	public LocalDateTime getCreationDateTime() {
 		return creationDateTime;
 	}
 
-	public void setCreationDateTime(LocalDateTime creationDateTime) {
+	public void setCreationDateTime(@Nonnull LocalDateTime creationDateTime) {
 		this.creationDateTime = creationDateTime;
 	}
 
@@ -76,11 +85,12 @@ public class Pain008DTO {
 		this.initiatingPartyName = initiatingPartyName;
 	}
 
+	@Nonnull
 	public String getInitiatingPartyId() {
 		return initiatingPartyId;
 	}
 
-	public void setInitiatingPartyId(String initiatingPartyId) {
+	public void setInitiatingPartyId(@Nonnull String initiatingPartyId) {
 		this.initiatingPartyId = initiatingPartyId;
 	}
 
@@ -92,11 +102,12 @@ public class Pain008DTO {
 		this.softwareName = softwareName;
 	}
 
+	@Nonnull
 	public List<PaymentInformationDTO> getPaymentInfo() {
 		return paymentInfo;
 	}
 
-	public void setPaymentInfo(List<PaymentInformationDTO> paymentInfo) {
+	public void setPaymentInfo(@Nonnull List<PaymentInformationDTO> paymentInfo) {
 		this.paymentInfo = paymentInfo;
 	}
 }

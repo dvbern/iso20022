@@ -17,10 +17,15 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface StructuredRemittanceInformation9 {
 
+	@Nonnull
 	List<String> getAddtlRmtInf();
 
+	@Nullable
 	CreditorReferenceInformation2 getCdtrRefInf();
 }

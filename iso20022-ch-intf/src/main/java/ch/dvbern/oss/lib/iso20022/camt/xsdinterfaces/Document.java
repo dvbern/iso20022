@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings({ "override", "NullableProblems" })
+@SuppressWarnings("override")
 public interface Document {
 
 	@Nullable

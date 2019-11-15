@@ -18,7 +18,7 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings({ "override", "NullableProblems" })
+@SuppressWarnings("override")
 public interface  TransactionParties3 {
 
 	@Nullable

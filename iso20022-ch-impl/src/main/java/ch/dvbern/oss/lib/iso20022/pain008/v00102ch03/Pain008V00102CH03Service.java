@@ -201,6 +201,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		transactionInfo.getDbtr().setNm(dto.getDebitorName());
 		transactionInfo.setDbtrAcct(objFactory.createCashAccount16());
 		transactionInfo.getDbtrAcct().setId(objFactory.createAccountIdentification4Choice());
+		//noinspection ConstantConditions
 		transactionInfo.getDbtrAcct().getId().setIBAN(dto.getDebitorIBAN());
 
 		setOptionalDebitorAddress(dto, objFactory, transactionInfo);
@@ -219,6 +220,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		return transactionInfo;
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	private void setOptionalDebitorAddress(
 		TransactionInformationDTO dto,
 		ObjectFactory objFactory,

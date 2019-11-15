@@ -31,7 +31,7 @@ public final class TestUtil {
 
 	public static byte[] readXml(@Nonnull String path) {
 		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			if(xmlAsStream != null) {
+			if (xmlAsStream != null) {
 				return IOUtils.toByteArray(xmlAsStream);
 			}
 			return ArrayUtils.EMPTY_BYTE_ARRAY;

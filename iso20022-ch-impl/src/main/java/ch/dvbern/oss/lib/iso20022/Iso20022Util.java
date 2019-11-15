@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,6 +30,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.DateAndDateTimeChoice;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import org.jetbrains.annotations.Contract;
 
 public final class Iso20022Util {
 
@@ -100,7 +103,8 @@ public final class Iso20022Util {
 		{ "Ü", "UE" },
 		{ "Ñ", "N" } };
 
-	private static final String SWIFT_REGEX_EXCLUDE = "[^A-Za-z0-9+\\?/\\-:\\(\\)\\.,' ]";
+	private static final Pattern SWIFT_EXCLUDE_PATTERN = Pattern.compile("[^A-Za-z0-9+?/\\-:().,' ]");
+	private static final Pattern DOUBLE_QUOTE_PATTERN = Pattern.compile("//", Pattern.LITERAL);
 
 	private Iso20022Util() {
 		// utility
@@ -191,6 +195,7 @@ public final class Iso20022Util {
 	 * /implementation-guidelines-swiss-dd.pdf"
 	 */
 	@Nullable
+	@Contract("!null->!null; null->null;")
 	public static String replaceSwift(String text) {
 		if (null == text) {
 			return null;
@@ -204,10 +209,10 @@ public final class Iso20022Util {
 		}
 
 		// Alle anderen Zeichen welche nicht aus REGEX sind werden durch . ersetzt.
-		result = result.replaceAll(SWIFT_REGEX_EXCLUDE, ".");
+		result = SWIFT_EXCLUDE_PATTERN.matcher(result).replaceAll(".");
 
 		// dürfen an keiner Stelle «//» enthalten
-		result = result.replace("//", "/");
+		result = DOUBLE_QUOTE_PATTERN.matcher(result).replaceAll(Matcher.quoteReplacement("/"));
 
 		// dürfen zudem nicht mit «/» beginnen
 		if (result.startsWith("/")) {
