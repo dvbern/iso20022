@@ -17,8 +17,11 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface EntryDetails3 {
 
+	@Nonnull
 	<T extends EntryTransaction4> List<T> getTxDtls();
 }

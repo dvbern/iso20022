@@ -30,8 +30,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import ch.dvbern.oss.lib.iso20022.dtos.AuszahlungDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.Pain001DTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.AuszahlungDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.Document;
 import org.junit.Assert;
 import org.junit.Before;

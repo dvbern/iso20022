@@ -9,9 +9,9 @@ import javax.validation.Valid;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
-import ch.dvbern.oss.lib.iso20022.dtos.Pain008DTO;
-import ch.dvbern.oss.lib.iso20022.dtos.PaymentInformationDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.TransactionInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain008DTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.PaymentInformationDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.CashAccount16;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.DirectDebitTransactionInformation9;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.Document;
@@ -201,6 +201,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		transactionInfo.getDbtr().setNm(dto.getDebitorName());
 		transactionInfo.setDbtrAcct(objFactory.createCashAccount16());
 		transactionInfo.getDbtrAcct().setId(objFactory.createAccountIdentification4Choice());
+		//noinspection ConstantConditions
 		transactionInfo.getDbtrAcct().getId().setIBAN(dto.getDebitorIBAN());
 
 		setOptionalDebitorAddress(dto, objFactory, transactionInfo);
@@ -219,6 +220,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		return transactionInfo;
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	private void setOptionalDebitorAddress(
 		TransactionInformationDTO dto,
 		ObjectFactory objFactory,

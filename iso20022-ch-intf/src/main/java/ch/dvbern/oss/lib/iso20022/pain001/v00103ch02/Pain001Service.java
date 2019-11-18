@@ -15,7 +15,7 @@
 
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
-import ch.dvbern.oss.lib.iso20022.dtos.Pain001DTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 
 /**
  * Service to generate Payment-File Pain001 according to ISO20022 for a swiss bank

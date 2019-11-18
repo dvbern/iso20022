@@ -2,6 +2,7 @@ package ch.dvbern.oss.lib.iso20022;
 
 import java.io.StringWriter;
 
+import javax.annotation.Nonnull;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
@@ -24,11 +25,12 @@ public final class Iso20022JaxbUtil {
 	/**
 	 * Converts a given document to an XML string.
 	 */
+	@Nonnull
 	public static <T> String getXMLStringFromDocument(
-		T document,
-		Class<T> documentClass,
-		String schemaLocation,
-		String schemaName) {
+		@Nonnull T document,
+		@Nonnull Class<T> documentClass,
+		@Nonnull String schemaLocation,
+		@Nonnull String schemaName) {
 
 		final StringWriter documentXmlString = new StringWriter();
 		try {
@@ -52,10 +54,11 @@ public final class Iso20022JaxbUtil {
 		return documentXmlString.toString();
 	}
 
+	@Nonnull
 	private static <T> JAXBElement<T> getElementToMarshall(
-		T elemToMarshall,
-		Class<T> documentClass,
-		String schemaLocation) {
+		@Nonnull T elemToMarshall,
+		@Nonnull Class<T> documentClass,
+		@Nonnull String schemaLocation) {
 		QName name = new QName(schemaLocation, documentClass.getSimpleName());
 
 		return new JAXBElement<>(name, documentClass, elemToMarshall);
@@ -63,7 +66,7 @@ public final class Iso20022JaxbUtil {
 
 	private static class JaxbValidationEventHandler implements ValidationEventHandler {
 		@Override
-		public boolean handleEvent(ValidationEvent event) {
+		public boolean handleEvent(@Nonnull ValidationEvent event) {
 			throw new Iso20022RuntimeException("Unexpected error while generating xml file: "
 				+ event.getMessage(), event.getLinkedException());
 		}
