@@ -24,7 +24,7 @@
 
     <groupId>ch.dvbern.oss.iso20022</groupId>
     <artifactId>iso20022-ch</artifactId>
-    <version>2.4.2-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>iso20022</name>
