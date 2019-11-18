@@ -196,7 +196,7 @@ public final class Iso20022Util {
 	 */
 	@Nullable
 	@Contract("!null->!null; null->null;")
-	public static String replaceSwift(String text) {
+	public static String replaceSwift(@Nullable String text) {
 		if (null == text) {
 			return null;
 		}

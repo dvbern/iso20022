@@ -16,7 +16,6 @@
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
 import java.math.BigDecimal;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
@@ -24,16 +23,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.xml.XMLConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
@@ -49,10 +45,10 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
 import org.jetbrains.annotations.Contract;
-import org.xml.sax.SAXException;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -71,25 +67,11 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final int MAX_SIGNS = 35;
 
 	@Override
-	public byte[] getPainFileContent(Pain001DTO pain001DTO) {
+	public byte[] getPainFileContent(@Nonnull Pain001DTO pain001DTO) {
 		final Document document = createPain001Document(pain001DTO);
 
 		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME)
 			.getBytes(StandardCharsets.UTF_8);
-	}
-
-	/**
-	 * Validation and Schema not used at the moment
-	 */
-	protected Schema getSchema() throws SAXException {
-		final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-		final URL resourceURL = Document.class.getClassLoader().getResource(SCHEMA_LOCATION_LOCAL);
-		if (resourceURL == null) {
-			throw new Iso20022RuntimeException("Schema not found: " + SCHEMA_LOCATION_LOCAL);
-		}
-
-		return schemaFactory.newSchema(resourceURL);
 	}
 
 	/**
@@ -113,7 +95,8 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * }
 	 * </pre>
 	 */
-	private Document createPain001Document(Pain001DTO pain001DTO) {
+	@Nonnull
+	private Document createPain001Document(@Nonnull Pain001DTO pain001DTO) {
 
 		String debtorName = pain001DTO.getSchuldnerName();
 		String debtorBic = pain001DTO.getSchuldnerBIC();
@@ -152,7 +135,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		int transaktion = 0;
 		BigDecimal ctrlSum = BigDecimal.ZERO;
 		for (AuszahlungDTO auszahlungDTO : pain001DTO.getAuszahlungen()) {
-			Objects.requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+			requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
 			transaktion++;
 
 			ctrlSum = ctrlSum.add(auszahlungDTO.getBetragTotalZahlung());
@@ -161,7 +144,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 				objectFactory,
 				transaktion,
 				auszahlungDTO,
-				pain001DTO.getAuszahlungsDatum());
+				requireNonNull(pain001DTO.getAuszahlungsDatum()));
 
 			document.getCstmrCdtTrfInitn().getPmtInf().get(0).getCdtTrfTxInf().add(info);
 		}
@@ -214,15 +197,16 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * }
 	 * </pre>
 	 */
+	@Nonnull
 	private CreditTransferTransactionInformation10CH createCreditTransferTransactionInformation10CH(
-		ObjectFactory objectFactory,
+		@Nonnull ObjectFactory objectFactory,
 		int transaktion,
-		AuszahlungDTO auszahlungDTO,
-		LocalDate date) {
+		@Nonnull AuszahlungDTO auszahlungDTO,
+		@Nonnull LocalDate date) {
 
-		Objects.requireNonNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
-		Objects.requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
-		Objects.requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
+		requireNonNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
+		requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+		requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
 
 		CreditTransferTransactionInformation10CH cTTI10CH = objectFactory
 			.createCreditTransferTransactionInformation10CH();
@@ -251,7 +235,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String transaktionStr = String.valueOf(transaktion);
 		cTTI10CH.getPmtId().setInstrId(Iso20022Util.replaceSwift(transaktionStr)); // 2.29 // SWIFT
 
-		String zahlungsempfaegerName = auszahlungDTO.getZahlungsempfaegerName();
+		String zahlungsempfaegerName = requireNonNull(auszahlungDTO.getZahlungsempfaegerName());
 		// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
 		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName; // SWIFT
 		endToEndId = Iso20022Util.replaceSwift(endToEndId);
@@ -290,9 +274,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	}
 
 	private void setPstlAdr(
-		ObjectFactory objectFactory,
-		AuszahlungDTO auszahlungDTO,
-		CreditTransferTransactionInformation10CH cTTI10CH) {
+		@Nonnull ObjectFactory objectFactory,
+		@Nonnull AuszahlungDTO auszahlungDTO,
+		@Nonnull CreditTransferTransactionInformation10CH cTTI10CH) {
 
 		if (!hasAddressData(auszahlungDTO)) {
 			return;
@@ -317,7 +301,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	}
 
 	@SuppressWarnings("checkstyle:BooleanExpressionComplexity")
-	private boolean hasAddressData(AuszahlungDTO auszahlungDTO) {
+	private boolean hasAddressData(@Nonnull AuszahlungDTO auszahlungDTO) {
 		return auszahlungDTO.getZahlungsempfaegerStrasse() != null
 			|| auszahlungDTO.getZahlungsempfaegerHausnummer() != null
 			|| auszahlungDTO.getZahlungsempfaegerPlz() != null
@@ -374,14 +358,14 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * }
 	 * </pre>
 	 */
-
+	@Nonnull
 	private PaymentInstructionInformation3CH createPaymentInstructionInformation3CH(
-		Pain001DTO pain001DTO,
-		ObjectFactory objectFactory,
-		String debtorName,
-		String debtorIban,
-		String debtorBic,
-		String debtorIbanGebuehren) {
+		@Nonnull Pain001DTO pain001DTO,
+		@Nonnull ObjectFactory objectFactory,
+		@Nonnull String debtorName,
+		@Nonnull String debtorIban,
+		@Nonnull String debtorBic,
+		@Nonnull String debtorIbanGebuehren) {
 
 		PaymentInstructionInformation3CH paymentInstructionInformation3CH = objectFactory
 			.createPaymentInstructionInformation3CH();
@@ -392,7 +376,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		paymentInstructionInformation3CH.setPmtTpInf(objectFactory.createPaymentTypeInformation19CH());
 
-		LocalDateTime localDateTime = pain001DTO.getAuszahlungsDatum().atStartOfDay();
+		LocalDateTime localDateTime = requireNonNull(pain001DTO.getAuszahlungsDatum()).atStartOfDay();
 		XMLGregorianCalendar reqdExctnDt = Iso20022Util.toXmlGregorianCalendar(localDateTime);
 		paymentInstructionInformation3CH.setReqdExctnDt(reqdExctnDt);
 
@@ -439,12 +423,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	 * }
 	 * </pre>
 	 */
+	@Nonnull
 	private GroupHeader32CH createGroupHeader(
-		Pain001DTO pain001DTO,
-		ObjectFactory objectFactory,
+		@Nonnull Pain001DTO pain001DTO,
+		@Nonnull ObjectFactory objectFactory,
 		int transaktion,
-		BigDecimal ctrlSum,
-		String debtorName) {
+		@Nonnull BigDecimal ctrlSum,
+		@Nonnull String debtorName) {
 		// GroupHeader
 		// structure
 		GroupHeader32CH groupHeader32CH = objectFactory.createGroupHeader32CH();
@@ -460,10 +445,11 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		groupHeader32CH.getInitgPty().setNm(debtorName); // 1.8
 
-		groupHeader32CH.getInitgPty().getCtctDtls().setNm(pain001DTO.getSoftwareName()); // 1.8
+		groupHeader32CH.getInitgPty().getCtctDtls().setNm(requireNonNull(pain001DTO.getSoftwareName())); // 1.8
 		groupHeader32CH.getInitgPty().getCtctDtls().setOthr(CTCTDTLS_OTHR); // 1.8
 
-		groupHeader32CH.setCreDtTm(Iso20022Util.toXmlGregorianCalendar(pain001DTO.getGenerierungsDatum())); // 1.2
+		LocalDateTime creationTime = requireNonNull(pain001DTO.getGenerierungsDatum());
+		groupHeader32CH.setCreDtTm(Iso20022Util.toXmlGregorianCalendar(creationTime)); // 1.2
 
 		return groupHeader32CH;
 	}
