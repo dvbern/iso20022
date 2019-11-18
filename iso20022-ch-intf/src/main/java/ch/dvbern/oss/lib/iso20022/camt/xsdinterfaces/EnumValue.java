@@ -17,7 +17,7 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import javax.annotation.Nonnull;
 
-@SuppressWarnings({ "override", "NullableProblems" })
+@SuppressWarnings("NullableProblems")
 public interface EnumValue {
 
 	@Nonnull

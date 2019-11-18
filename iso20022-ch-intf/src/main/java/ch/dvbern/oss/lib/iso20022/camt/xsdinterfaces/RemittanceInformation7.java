@@ -17,8 +17,11 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface RemittanceInformation7 {
 
+	@Nonnull
 	<T extends StructuredRemittanceInformation9> List<T> getStrd();
 }

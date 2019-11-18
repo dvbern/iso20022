@@ -15,12 +15,18 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface EntryTransaction4 {
 
+	@Nullable
 	RemittanceInformation7 getRmtInf();
 
+	@Nonnull
 	ActiveOrHistoricCurrencyAndAmount getAmt();
 
+	@Nullable
 	TransactionParties3 getRltdPties();
 }

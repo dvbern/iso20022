@@ -16,10 +16,11 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 
+@SuppressWarnings("NullableProblems")
 public interface CashAccount24 {
 
-	@NotNull
+	@Nonnull
 	AccountIdentification4Choice getId();
 }

@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.dtos;
+package ch.dvbern.oss.lib.iso20022.dtos.shared;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -37,37 +39,47 @@ public class TransactionInformationDTO {
 	/**
 	 * {@link RandomStringUtils#random(int, boolean, boolean)} by default.
 	 */
+	@Nonnull
 	@NotNull
 	@Size(min = 1, max = MESSAGE_PART_ID_LENGTH)
 	private String transactionId = RandomStringUtils.random(MESSAGE_PART_ID_LENGTH, true, true);
 
+	@Nonnull
 	@NotNull
 	@DecimalMin("0.01")
 	@DecimalMax("999999999.99")
-	private BigDecimal instructedAmount = null;
+	private BigDecimal instructedAmount = BigDecimal.ZERO;
 
 	/**
 	 * Identification of debitors financial institution
 	 */
+	@Nonnull
 	@NotNull
 	@Pattern(regexp = "[0-9]{3,5}")
-	private String debitorIID = null;
+	private String debitorIID = "";
 
+	@Nonnull
 	@NotNull
 	@Size(max = PARTY_NAME_LENGTH)
-	private String debitorName = null;
+	private String debitorName = "";
 
+	@Nullable
 	private String debitorBuildingNumber = null;
 
+	@Nullable
 	private String debitorStreetName = null;
 
+	@Nullable
 	private String debitorPostCode = null;
 
+	@Nullable
 	private String debitorTownName = null;
 
+	@Nullable
 	@Pattern(regexp = "[A-Z]{2}")
 	private String debitorCountry = null;
 
+	@Nullable
 	@NotNull
 	@Pattern(regexp = "[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}")
 	private String debitorIBAN = null;
@@ -75,95 +87,107 @@ public class TransactionInformationDTO {
 	/**
 	 * ESR reference number.
 	 */
+	@Nonnull
 	@NotNull
 	@Pattern(regexp = "[0-9]{27}")
-	private String refNr = null;
+	private String refNr = "";
 
-	public BigDecimal getInstructedAmount() {
-		return instructedAmount;
-	}
-
-	public void setInstructedAmount(BigDecimal instructedAmount) {
-		this.instructedAmount = instructedAmount;
-	}
-
-	public String getDebitorIID() {
-		return debitorIID;
-	}
-
-	public void setDebitorIID(String debitorIID) {
-		this.debitorIID = debitorIID;
-	}
-
-	public String getDebitorName() {
-		return debitorName;
-	}
-
-	public void setDebitorName(String debitorName) {
-		this.debitorName = debitorName;
-	}
-
-	public String getDebitorIBAN() {
-		return debitorIBAN;
-	}
-
-	public void setDebitorIBAN(String debitorIBAN) {
-		this.debitorIBAN = debitorIBAN;
-	}
-
-	public String getRefNr() {
-		return refNr;
-	}
-
-	public void setRefNr(String refNr) {
-		this.refNr = refNr;
-	}
-
+	@Nonnull
 	public String getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(@Nonnull String transactionId) {
 		this.transactionId = transactionId;
 	}
 
-	public String getDebitorStreetName() {
-		return debitorStreetName;
+	@Nonnull
+	public BigDecimal getInstructedAmount() {
+		return instructedAmount;
 	}
 
-	public void setDebitorStreetName(String debitorStreetName) {
-		this.debitorStreetName = debitorStreetName;
+	public void setInstructedAmount(@Nonnull BigDecimal instructedAmount) {
+		this.instructedAmount = instructedAmount;
 	}
 
-	public String getDebitorPostCode() {
-		return debitorPostCode;
+	@Nonnull
+	public String getDebitorIID() {
+		return debitorIID;
 	}
 
-	public void setDebitorPostCode(String debitorPostCode) {
-		this.debitorPostCode = debitorPostCode;
+	public void setDebitorIID(@Nonnull String debitorIID) {
+		this.debitorIID = debitorIID;
 	}
 
-	public String getDebitorTownName() {
-		return debitorTownName;
+	@Nonnull
+	public String getDebitorName() {
+		return debitorName;
 	}
 
-	public void setDebitorTownName(String debitorTownName) {
-		this.debitorTownName = debitorTownName;
+	public void setDebitorName(@Nonnull String debitorName) {
+		this.debitorName = debitorName;
 	}
 
-	public String getDebitorCountry() {
-		return debitorCountry;
-	}
-
-	public void setDebitorCountry(String debitorCountry) {
-		this.debitorCountry = debitorCountry;
-	}
-
+	@Nullable
 	public String getDebitorBuildingNumber() {
 		return debitorBuildingNumber;
 	}
 
-	public void setDebitorBuildingNumber(String debitorBuildingNumber) {
+	public void setDebitorBuildingNumber(@Nullable String debitorBuildingNumber) {
 		this.debitorBuildingNumber = debitorBuildingNumber;
+	}
+
+	@Nullable
+	public String getDebitorStreetName() {
+		return debitorStreetName;
+	}
+
+	public void setDebitorStreetName(@Nullable String debitorStreetName) {
+		this.debitorStreetName = debitorStreetName;
+	}
+
+	@Nullable
+	public String getDebitorPostCode() {
+		return debitorPostCode;
+	}
+
+	public void setDebitorPostCode(@Nullable String debitorPostCode) {
+		this.debitorPostCode = debitorPostCode;
+	}
+
+	@Nullable
+	public String getDebitorTownName() {
+		return debitorTownName;
+	}
+
+	public void setDebitorTownName(@Nullable String debitorTownName) {
+		this.debitorTownName = debitorTownName;
+	}
+
+	@Nullable
+	public String getDebitorCountry() {
+		return debitorCountry;
+	}
+
+	public void setDebitorCountry(@Nullable String debitorCountry) {
+		this.debitorCountry = debitorCountry;
+	}
+
+	@Nullable
+	public String getDebitorIBAN() {
+		return debitorIBAN;
+	}
+
+	public void setDebitorIBAN(@Nullable String debitorIBAN) {
+		this.debitorIBAN = debitorIBAN;
+	}
+
+	@Nonnull
+	public String getRefNr() {
+		return refNr;
+	}
+
+	public void setRefNr(@Nonnull String refNr) {
+		this.refNr = refNr;
 	}
 }

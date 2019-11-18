@@ -16,13 +16,12 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@SuppressWarnings({ "override", "NullableProblems" })
+@SuppressWarnings("override")
 public interface PartyIdentification43 {
 
-	@Nonnull
+	@Nullable
 	String getNm();
 
 	@Nullable

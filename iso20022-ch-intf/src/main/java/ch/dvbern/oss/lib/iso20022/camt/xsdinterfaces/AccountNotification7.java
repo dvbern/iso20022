@@ -34,7 +34,9 @@ public interface AccountNotification7 {
 	@Nonnull
 	CashAccount25 getAcct();
 
+	@Nonnull
 	XMLGregorianCalendar getCreDtTm();
 
+	@Nonnull
 	<T extends ReportEntry4> List<T> getNtry();
 }
