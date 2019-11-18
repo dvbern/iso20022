@@ -21,7 +21,7 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>iso20022-ch-impl</artifactId>
