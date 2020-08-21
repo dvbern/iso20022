@@ -13,14 +13,13 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ limitations under the License.
   -->
-
-<Document xsi:schemaLocation="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd" xmlns="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Document xsi:schemaLocation="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd pain.001.001.03.ch.02.xsd" xmlns="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <CstmrCdtTrfInitn>
         <GrpHdr>
-            <MsgId>2017-3</MsgId>
-            <CreDtTm>2017-03-08T11:55:23.658+01:00</CreDtTm>
-            <NbOfTxs>2</NbOfTxs>
-            <CtrlSum>1010</CtrlSum>
+            <MsgId>Test-ID</MsgId>
+            <CreDtTm>2017-08-04T10:15:00.000+02:00</CreDtTm>
+            <NbOfTxs>3</NbOfTxs>
+            <CtrlSum>3010</CtrlSum>
             <InitgPty>
                 <Nm>Pestalozzi GMBH</Nm>
                 <CtctDtls>
@@ -30,17 +29,17 @@
             </InitgPty>
         </GrpHdr>
         <PmtInf>
-            <PmtInfId>2017-3</PmtInfId>
+            <PmtInfId>Test-ID</PmtInfId>
             <PmtMtd>TRA</PmtMtd>
             <BtchBookg>true</BtchBookg>
             <PmtTpInf/>
-            <ReqdExctnDt>2017-03-08+01:00</ReqdExctnDt>
+            <ReqdExctnDt>2017-06-30+02:00</ReqdExctnDt>
             <Dbtr>
                 <Nm>Pestalozzi GMBH</Nm>
             </Dbtr>
             <DbtrAcct>
                 <Id>
-                    <IBAN>CH3309000000300008233</IBAN>
+                    <IBAN>CH9300762011623852957</IBAN>
                 </Id>
             </DbtrAcct>
             <DbtrAgt>
@@ -50,13 +49,13 @@
             </DbtrAgt>
             <ChrgsAcct>
                 <Id>
-                    <IBAN>CH3309000000300008233</IBAN>
+                    <IBAN>CH9300762011623852957</IBAN>
                 </Id>
             </ChrgsAcct>
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>1</InstrId>
-                    <EndToEndId>1/3/Auszahlung 1</EndToEndId>
+                    <EndToEndId>1/6/Auszahlung 1</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">10</InstdAmt>
@@ -83,7 +82,7 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH3309000000300008231</IBAN>
+                        <IBAN>CH9300762011623852957</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
@@ -93,7 +92,7 @@
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>2</InstrId>
-                    <EndToEndId>2/3/Auszahlung 2</EndToEndId>
+                    <EndToEndId>2/6/Auszahlung 2</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">1000</InstdAmt>
@@ -120,11 +119,41 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH3309000000300008232</IBAN>
+                        <IBAN>CH9300762011623852957</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
-                    <Ustrd>Auszahlung 2</Ustrd>
+                    <Ustrd>Auszahlung 2, Monat Jun.2017</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <InstrId>3</InstrId>
+                    <EndToEndId>3/6/Auszahlung Without address</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="CHF">2000</InstdAmt>
+                </Amt>
+                <CdtrAgt>
+                    <FinInstnId>
+                        <ClrSysMmbId>
+                            <ClrSysId>
+                                <Cd>CHBCC</Cd>
+                            </ClrSysId>
+                            <MmbId>POFICHBEXXX</MmbId>
+                        </ClrSysMmbId>
+                    </FinInstnId>
+                </CdtrAgt>
+                <Cdtr>
+                    <Nm>Auszahlung Without address</Nm>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>Auszahlung Without address, Monat Jun.2017</Ustrd>
                 </RmtInf>
             </CdtTrfTxInf>
         </PmtInf>
