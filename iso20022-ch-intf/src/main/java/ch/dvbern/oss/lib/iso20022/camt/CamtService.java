@@ -17,12 +17,13 @@ package ch.dvbern.oss.lib.iso20022.camt;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 public interface CamtService {
 
+	String INVALID_NAME = "NOTPROVIDED";
 	/**
 	 * Service to read ESR payments to swiss financial institutes from an ISO20022.
 	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK', that are not reversals, are considered.

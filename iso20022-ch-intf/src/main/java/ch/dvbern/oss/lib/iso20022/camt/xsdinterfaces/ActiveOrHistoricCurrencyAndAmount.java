@@ -17,10 +17,14 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nonnull;
+
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface ActiveOrHistoricCurrencyAndAmount {
 
+	@Nonnull
 	String getCcy();
 
+	@Nonnull
 	BigDecimal getValue();
 }

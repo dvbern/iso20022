@@ -21,6 +21,7 @@ import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 public final class TestUtil {
 
@@ -30,7 +31,10 @@ public final class TestUtil {
 
 	public static byte[] readXml(@Nonnull String path) {
 		try (InputStream xmlAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path)) {
-			return IOUtils.toByteArray(xmlAsStream);
+			if (xmlAsStream != null) {
+				return IOUtils.toByteArray(xmlAsStream);
+			}
+			return ArrayUtils.EMPTY_BYTE_ARRAY;
 		} catch (IOException e) {
 			throw new IllegalStateException("Could not read XML", e);
 		}

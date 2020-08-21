@@ -22,9 +22,9 @@ import ch.dvbern.oss.lib.iso20022.TestUtil;
 import ch.dvbern.oss.lib.iso20022.camt.CamtService;
 import ch.dvbern.oss.lib.iso20022.camt.CamtServiceBean;
 import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.Account;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.Account;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

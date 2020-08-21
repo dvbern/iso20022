@@ -24,14 +24,16 @@ import ch.dvbern.oss.lib.iso20022.TestUtil;
 import ch.dvbern.oss.lib.iso20022.camt.CamtService;
 import ch.dvbern.oss.lib.iso20022.camt.CamtServiceBean;
 import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.Account;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.Booking;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.DocumentDTO;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.IsrTransaction;
-import ch.dvbern.oss.lib.iso20022.camt.dtos.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.Account;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.Booking;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.IsrTransaction;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
+import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -94,5 +96,18 @@ public class Camt054V00104ServiceEsrZa1Test {
 		assertEquals(BigDecimal.valueOf(3949.75), isrTransaction.getAmount());
 		assertEquals("CHF", isrTransaction.getAmountCurrency());
 		assertEquals("210000000003139471430009017", isrTransaction.getReferenceNumber());
+	}
+
+	@Test
+	public void testTransactionDetails() {
+		List<IsrTransaction> transactions = actual.getAccounts().get(0).getBookings().get(0).getTransactions();
+		TransactionInformationDTO transactionInformationDTO = transactions.get(0).getTransactionDetails();
+
+		assertNotNull(transactionInformationDTO);
+		assertEquals("Pia Rutschmann", transactionInformationDTO.getDebitorName());
+		assertEquals("28", transactionInformationDTO.getDebitorBuildingNumber());
+		assertEquals("Marktgasse", transactionInformationDTO.getDebitorStreetName());
+		assertEquals("9400", transactionInformationDTO.getDebitorPostCode());
+		assertEquals("Rorschach", transactionInformationDTO.getDebitorTownName());
 	}
 }

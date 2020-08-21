@@ -15,8 +15,11 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
-@SuppressWarnings({ "override", "NullableProblems" })
+import javax.annotation.Nullable;
+
+@SuppressWarnings("override")
 public interface CreditorReferenceInformation2 {
 
+	@Nullable
 	String getRef();
 }
