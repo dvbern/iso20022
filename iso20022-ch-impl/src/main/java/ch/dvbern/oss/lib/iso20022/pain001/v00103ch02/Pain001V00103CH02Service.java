@@ -157,7 +157,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String debtorName = pain001DTO.getSchuldnerName();
 		String debtorBic = pain001DTO.getSchuldnerBIC();
 		String debtorIban = pain001DTO.getSchuldnerIBAN();
-		String debtorIbanGebuehren = pain001DTO.getSchuldnerIBANGebuehren();
 
 		if (debtorName == null) {
 			throw new Iso20022RuntimeException("Empty deptor name: debtor_name is required");
@@ -167,9 +166,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		}
 		if (debtorIban == null) {
 			throw new Iso20022RuntimeException("Empty IBAN: debtor_iban is required");
-		}
-		if (debtorIbanGebuehren == null) {
-			debtorIbanGebuehren = debtorIban;
 		}
 
 		ObjectFactory objectFactory = new ObjectFactory();
@@ -181,8 +177,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			objectFactory,
 			debtorName,
 			debtorIban,
-			debtorBic,
-			debtorIbanGebuehren);
+			debtorBic);
 
 		document.getCstmrCdtTrfInitn().getPmtInf().add(paymentInstructionInformation3CH);
 
@@ -420,8 +415,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		ObjectFactory objectFactory,
 		String debtorName,
 		String debtorIban,
-		String debtorBic,
-		String debtorIbanGebuehren) {
+		String debtorBic) {
 
 		PaymentInstructionInformation3CH paymentInstructionInformation3CH = objectFactory
 			.createPaymentInstructionInformation3CH();
@@ -451,11 +445,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		paymentInstructionInformation3CH.getDbtrAgt().setFinInstnId(objectFactory
 			.createFinancialInstitutionIdentification7CHBicOrClrId());
 		paymentInstructionInformation3CH.getDbtrAgt().getFinInstnId().setBIC(debtorBic);
-
-		// Debtor charge Iban
-		paymentInstructionInformation3CH.setChrgsAcct(objectFactory.createCashAccount16CHIdAndCurrency());
-		paymentInstructionInformation3CH.getChrgsAcct().setId(objectFactory.createAccountIdentification4ChoiceCH());
-		paymentInstructionInformation3CH.getChrgsAcct().getId().setIBAN(debtorIbanGebuehren);
 
 		return paymentInstructionInformation3CH;
 	}

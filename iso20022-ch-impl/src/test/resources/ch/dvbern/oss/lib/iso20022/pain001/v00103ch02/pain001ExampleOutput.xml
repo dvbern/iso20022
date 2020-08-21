@@ -47,11 +47,6 @@
                     <BIC>POFICHBEXXX</BIC>
                 </FinInstnId>
             </DbtrAgt>
-            <ChrgsAcct>
-                <Id>
-                    <IBAN>CH9300762011623852957</IBAN>
-                </Id>
-            </ChrgsAcct>
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>1</InstrId>
