@@ -18,8 +18,8 @@
         <GrpHdr>
             <MsgId>Test-ID</MsgId>
             <CreDtTm>2017-08-04T10:15:00.000+02:00</CreDtTm>
-            <NbOfTxs>3</NbOfTxs>
-            <CtrlSum>3010</CtrlSum>
+            <NbOfTxs>4</NbOfTxs>
+            <CtrlSum>4010</CtrlSum>
             <InitgPty>
                 <Nm>Pestalozzi GMBH</Nm>
                 <CtctDtls>
@@ -129,7 +129,44 @@
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>3</InstrId>
-                    <EndToEndId>3/6/Auszahlung Without address</EndToEndId>
+                    <EndToEndId>3/6/Auszahlung 3 mit viiiiiel zu la</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="CHF">1000</InstdAmt>
+                </Amt>
+                <CdtrAgt>
+                    <FinInstnId>
+                        <ClrSysMmbId>
+                            <ClrSysId>
+                                <Cd>CHBCC</Cd>
+                            </ClrSysId>
+                            <MmbId>POFICHBEXXX</MmbId>
+                        </ClrSysMmbId>
+                    </FinInstnId>
+                </CdtrAgt>
+                <Cdtr>
+                    <Nm>Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass e...</Nm>
+                    <PstlAdr>
+                        <StrtNm>Teststrasse</StrtNm>
+                        <BldgNb>2</BldgNb>
+                        <PstCd>4000</PstCd>
+                        <TwnNm>Zurich</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld, Monat Jun.2017</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <InstrId>4</InstrId>
+                    <EndToEndId>4/6/Auszahlung Without address</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">2000</InstdAmt>

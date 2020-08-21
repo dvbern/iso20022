@@ -52,6 +52,7 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.GroupHeader32CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.xml.sax.SAXException;
 
@@ -73,6 +74,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final Pattern FIND_SPACES = Pattern.compile(SPACE);
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
+	private static final int MAX_70_TEXT = 70;
 
 
 	private JAXBContext jaxbContext = null;
@@ -311,7 +313,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getCdtrAcct().getId().setIBAN(iban); // 2.80
 
 		cTTI10CH.setCdtr(objectFactory.createPartyIdentification32CHName());
-		cTTI10CH.getCdtr().setNm(normalize(zahlungsempfaegerName)); // 2.79
+		cTTI10CH.getCdtr().setNm(normalize(StringUtils.abbreviate(zahlungsempfaegerName, MAX_70_TEXT))); // 2.79
 		setPstlAdr(objectFactory, auszahlungDTO, cTTI10CH);
 
 		cTTI10CH.setRmtInf(objectFactory.createRemittanceInformation5CH());
@@ -436,7 +438,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		// Debtor name
 		paymentInstructionInformation3CH.setDbtr(objectFactory.createPartyIdentification32CH());
-		paymentInstructionInformation3CH.getDbtr().setNm(debtorName);
+		paymentInstructionInformation3CH.getDbtr().setNm(StringUtils.abbreviate(debtorName, MAX_70_TEXT));
 
 		// Debtor Iban
 		paymentInstructionInformation3CH.setDbtrAcct(objectFactory.createCashAccount16CHIdTpCcy());

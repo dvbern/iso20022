@@ -80,6 +80,19 @@ public class Pain001ServiceTest {
 		auszahlung2.setZahlungsempfaegerOrt("Zürich");
 		auszahlungen.add(auszahlung2);
 
+		// Auszahlung mit zu langem Kontoinhaber-Namen
+		AuszahlungDTO auszahlung3 = new AuszahlungDTO();
+		auszahlung3.setBetragTotalZahlung(new BigDecimal(1000));
+		auszahlung3.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
+		auszahlung3.setZahlungsempfaegerIBAN("CH9300762011623852957");
+		auszahlung3.setZahlungsempfaegerLand("CH");
+		auszahlung3.setZahlungsempfaegerName("Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld");
+		auszahlung3.setZahlungsempfaegerStrasse("Teststrasse");
+		auszahlung3.setZahlungsempfaegerHausnummer("2");
+		auszahlung3.setZahlungsempfaegerPlz("4000");
+		auszahlung3.setZahlungsempfaegerOrt("Zürich");
+		auszahlungen.add(auszahlung3);
+
 		AuszahlungDTO auszahlungWithout = new AuszahlungDTO();
 		auszahlungWithout.setBetragTotalZahlung(new BigDecimal(2000));
 		auszahlungWithout.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
