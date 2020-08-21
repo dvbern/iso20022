@@ -75,6 +75,11 @@
                         <Ctry>CH</Ctry>
                     </PstlAdr>
                 </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
                 <RmtInf>
                     <Ustrd>Auszahlung 1</Ustrd>
                 </RmtInf>
@@ -107,6 +112,11 @@
                         <Ctry>CH</Ctry>
                     </PstlAdr>
                 </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
                 <RmtInf>
                     <Ustrd>Auszahlung 2, Monat Jun.2017</Ustrd>
                 </RmtInf>
@@ -139,6 +149,11 @@
                         <Ctry>CH</Ctry>
                     </PstlAdr>
                 </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
                 <RmtInf>
                     <Ustrd>Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld, Monat Jun.2017</Ustrd>
                 </RmtInf>
@@ -164,6 +179,11 @@
                 <Cdtr>
                     <Nm>Auszahlung Without address</Nm>
                 </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>CH9300762011623852957</IBAN>
+                    </Id>
+                </CdtrAcct>
                 <RmtInf>
                     <Ustrd>Auszahlung Without address, Monat Jun.2017</Ustrd>
                 </RmtInf>

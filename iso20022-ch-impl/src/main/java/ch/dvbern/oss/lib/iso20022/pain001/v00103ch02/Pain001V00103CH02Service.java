@@ -71,6 +71,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final PaymentMethod3Code PAYMENT_METHOD_3_CODE = PaymentMethod3Code.TRA;
 	private static final Boolean BTCHBOOKG = true;
 	private static final String CLRSYS_CD = "CHBCC"; // Code swiss bank
+	private static final Pattern FIND_SPACES = Pattern.compile(SPACE);
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
 	private static final int MAX_70_TEXT = 70;
@@ -300,8 +301,11 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String zempfBCN = auszahlungDTO.getZahlungsempfaegerBankClearingNumber();
 		cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().setMmbId(zempfBCN);
 
-		// CdtrAcct: Entfernt, da es bei einigen Banken Probleme macht (Optionales Feld)
-		// Hinweis aus Validierung: Das Element <ChrgsAcct> wird in der Regel nicht verwendet.
+		//IBAN
+		cTTI10CH.setCdtrAcct(objectFactory.createCashAccount16CHId());
+		cTTI10CH.getCdtrAcct().setId(objectFactory.createAccountIdentification4ChoiceCH()); // 2.80
+		String iban = FIND_SPACES.matcher(auszahlungDTO.getZahlungsempfaegerIBAN()).replaceAll(EMPTY);
+		cTTI10CH.getCdtrAcct().getId().setIBAN(iban); // 2.80
 
 		cTTI10CH.setCdtr(objectFactory.createPartyIdentification32CHName());
 		cTTI10CH.getCdtr().setNm(normalize(StringUtils.abbreviate(zahlungsempfaegerName, MAX_70_TEXT))); // 2.79
