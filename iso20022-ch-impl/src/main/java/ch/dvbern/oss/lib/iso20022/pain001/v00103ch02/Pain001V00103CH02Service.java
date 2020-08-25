@@ -392,6 +392,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			.createFinancialInstitutionIdentification7CHBicOrClrId());
 		paymentInstructionInformation3CH.getDbtrAgt().getFinInstnId().setBIC(debtorBic);
 
+		// Debtor charge Iban: Wird nur verwendet, wenn es tatsaechlich eine separate SchuldnerIBAN hat
+		String debtorIbanGebuehren = pain001DTO.getSchuldnerIBANGebuehren();
+		if (StringUtils.isNotEmpty(debtorIbanGebuehren)) {
+			paymentInstructionInformation3CH.setChrgsAcct(objectFactory.createCashAccount16CHIdAndCurrency());
+			paymentInstructionInformation3CH.getChrgsAcct().setId(objectFactory.createAccountIdentification4ChoiceCH());
+			paymentInstructionInformation3CH.getChrgsAcct().getId().setIBAN(debtorIbanGebuehren);
+		}
 		return paymentInstructionInformation3CH;
 	}
 
