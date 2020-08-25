@@ -44,6 +44,7 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.GroupHeader32CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
@@ -65,6 +66,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 	private static final Pattern FIND_SPACES = Pattern.compile(SPACE);
 	private static final Pattern NON_ASCII = Pattern.compile("[^\\p{ASCII}]");
 	private static final int MAX_SIGNS = 35;
+	private static final int MAX_70_TEXT = 70;
 
 	@Override
 	public byte[] getPainFileContent(@Nonnull Pain001DTO pain001DTO) {
@@ -101,7 +103,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String debtorName = pain001DTO.getSchuldnerName();
 		String debtorBic = pain001DTO.getSchuldnerBIC();
 		String debtorIban = pain001DTO.getSchuldnerIBAN();
-		String debtorIbanGebuehren = pain001DTO.getSchuldnerIBANGebuehren();
 
 		if (debtorName == null) {
 			throw new Iso20022RuntimeException("Empty deptor name: debtor_name is required");
@@ -111,9 +112,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		}
 		if (debtorIban == null) {
 			throw new Iso20022RuntimeException("Empty IBAN: debtor_iban is required");
-		}
-		if (debtorIbanGebuehren == null) {
-			debtorIbanGebuehren = debtorIban;
 		}
 
 		ObjectFactory objectFactory = new ObjectFactory();
@@ -125,8 +123,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			objectFactory,
 			debtorName,
 			debtorIban,
-			debtorBic,
-			debtorIbanGebuehren);
+			debtorBic);
 
 		document.getCstmrCdtTrfInitn().getPmtInf().add(paymentInstructionInformation3CH);
 
@@ -258,7 +255,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getCdtrAcct().getId().setIBAN(iban); // 2.80
 
 		cTTI10CH.setCdtr(objectFactory.createPartyIdentification32CHName());
-		cTTI10CH.getCdtr().setNm(normalize(zahlungsempfaegerName)); // 2.79
+		cTTI10CH.getCdtr().setNm(normalize(StringUtils.abbreviate(zahlungsempfaegerName, MAX_70_TEXT))); // 2.79
 		setPstlAdr(objectFactory, auszahlungDTO, cTTI10CH);
 
 		cTTI10CH.setRmtInf(objectFactory.createRemittanceInformation5CH());
@@ -364,8 +361,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		@Nonnull ObjectFactory objectFactory,
 		@Nonnull String debtorName,
 		@Nonnull String debtorIban,
-		@Nonnull String debtorBic,
-		@Nonnull String debtorIbanGebuehren) {
+		@Nonnull String debtorBic) {
 
 		PaymentInstructionInformation3CH paymentInstructionInformation3CH = objectFactory
 			.createPaymentInstructionInformation3CH();
@@ -382,7 +378,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		// Debtor name
 		paymentInstructionInformation3CH.setDbtr(objectFactory.createPartyIdentification32CH());
-		paymentInstructionInformation3CH.getDbtr().setNm(debtorName);
+		paymentInstructionInformation3CH.getDbtr().setNm(StringUtils.abbreviate(debtorName, MAX_70_TEXT));
 
 		// Debtor Iban
 		paymentInstructionInformation3CH.setDbtrAcct(objectFactory.createCashAccount16CHIdTpCcy());
@@ -396,11 +392,13 @@ public class Pain001V00103CH02Service implements Pain001Service {
 			.createFinancialInstitutionIdentification7CHBicOrClrId());
 		paymentInstructionInformation3CH.getDbtrAgt().getFinInstnId().setBIC(debtorBic);
 
-		// Debtor charge Iban
-		paymentInstructionInformation3CH.setChrgsAcct(objectFactory.createCashAccount16CHIdAndCurrency());
-		paymentInstructionInformation3CH.getChrgsAcct().setId(objectFactory.createAccountIdentification4ChoiceCH());
-		paymentInstructionInformation3CH.getChrgsAcct().getId().setIBAN(debtorIbanGebuehren);
-
+		// Debtor charge Iban: Wird nur verwendet, wenn es tatsaechlich eine separate SchuldnerIBAN hat
+		String debtorIbanGebuehren = pain001DTO.getSchuldnerIBANGebuehren();
+		if (StringUtils.isNotEmpty(debtorIbanGebuehren)) {
+			paymentInstructionInformation3CH.setChrgsAcct(objectFactory.createCashAccount16CHIdAndCurrency());
+			paymentInstructionInformation3CH.getChrgsAcct().setId(objectFactory.createAccountIdentification4ChoiceCH());
+			paymentInstructionInformation3CH.getChrgsAcct().getId().setIBAN(debtorIbanGebuehren);
+		}
 		return paymentInstructionInformation3CH;
 	}
 
