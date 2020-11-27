@@ -138,10 +138,7 @@ public class Pain001ServiceTest {
 		Assert.assertNotNull(document.getCstmrCdtTrfInitn().getPmtInf());
 		Assert.assertEquals(1, document.getCstmrCdtTrfInitn().getPmtInf().size());
 
-		LocalDate actualAuszahlungsDatum = document.getCstmrCdtTrfInitn().getPmtInf().get(0).getReqdExctnDt()
-			.toGregorianCalendar()
-			.toZonedDateTime()
-			.toLocalDate();
+		LocalDate actualAuszahlungsDatum = document.getCstmrCdtTrfInitn().getPmtInf().get(0).getReqdExctnDt();
 		Assert.assertEquals(zahlungsauftrag.getAuszahlungsDatum(), actualAuszahlungsDatum);
 	}
 

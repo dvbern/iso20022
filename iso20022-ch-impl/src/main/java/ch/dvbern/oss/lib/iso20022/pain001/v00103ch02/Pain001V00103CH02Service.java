@@ -29,7 +29,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
@@ -372,9 +371,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		paymentInstructionInformation3CH.setPmtTpInf(objectFactory.createPaymentTypeInformation19CH());
 
-		LocalDateTime localDateTime = requireNonNull(pain001DTO.getAuszahlungsDatum()).atStartOfDay();
-		XMLGregorianCalendar reqdExctnDt = Iso20022Util.toXmlGregorianCalendar(localDateTime);
-		paymentInstructionInformation3CH.setReqdExctnDt(reqdExctnDt);
+		paymentInstructionInformation3CH.setReqdExctnDt(pain001DTO.getAuszahlungsDatum());
 
 		// Debtor name
 		paymentInstructionInformation3CH.setDbtr(objectFactory.createPartyIdentification32CH());
