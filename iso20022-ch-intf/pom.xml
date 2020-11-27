@@ -21,7 +21,7 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
     </parent>
 
     <artifactId>iso20022-ch-intf</artifactId>
@@ -47,6 +47,11 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>${xsd.basedir}/com/six_interbank_clearing/de/pain_001_001_03_ch_02/pain.001.001.03.ch.02.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/pain001.xjb</bindingFile>
+                                    <extension>true</extension>
+                                    <extensionArgs>
+                                        <extensionArg>-Xinheritance</extensionArg>
+                                    </extensionArgs>
                                 </xsdOption>
                                 <xsdOption>
                                     <xsd>${xsd.basedir}/com/six_interbank_clearing/de/pain_008_001_02_ch_03/pain.008.001.02.ch.03.xsd</xsd>

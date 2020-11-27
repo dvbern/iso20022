@@ -33,7 +33,7 @@
             <PmtMtd>TRA</PmtMtd>
             <BtchBookg>true</BtchBookg>
             <PmtTpInf/>
-            <ReqdExctnDt>2017-06-30+02:00</ReqdExctnDt>
+            <ReqdExctnDt>2017-06-30</ReqdExctnDt>
             <Dbtr>
                 <Nm>Pestalozzi GMBH</Nm>
             </Dbtr>
