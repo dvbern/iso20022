@@ -30,11 +30,11 @@ import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.IsrTransaction;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the CamtServiceBean with the file camt_054_Beispiel_ZA1_ESR_ZE.xml from SIX Interbank Clearing (see

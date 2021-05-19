@@ -11,8 +11,9 @@
 
 package ch.dvbern.oss.lib.iso20022;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests fuer die Klasse Pain001Service
@@ -28,31 +29,31 @@ public class Iso20022UtilTest {
 			"a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, A, B, C, D, E, F, G, H, I, "
 				+ "J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9.,:'+-/()?";
 		String replaceSwift = Iso20022Util.replaceSwift(withoutReplacement);
-		Assert.assertEquals(withoutReplacement, replaceSwift);
+		assertEquals(withoutReplacement, replaceSwift);
 
 		//String with speceial characters replacement -> .
 		String withReplacement = "asdfA SDF++* \"13 2456?=)(_:;; M@|#@#|@||@#¼¼½¬|||]¢}";
 		String expectedAfterReplacement = "asdfA SDF++. .13 2456?.)(.:.. M.....................";
 		replaceSwift = Iso20022Util.replaceSwift(withReplacement);
-		Assert.assertEquals(expectedAfterReplacement, replaceSwift);
+		assertEquals(expectedAfterReplacement, replaceSwift);
 
 		//String with speceial characters from Switzerland replacement -> .
 		String withReplacementCH = "!;>÷=àäöü&";
 		String expectedAfterReplacementCH = ".....aaeoeue+";
 		replaceSwift = Iso20022Util.replaceSwift(withReplacementCH);
-		Assert.assertEquals(expectedAfterReplacementCH, replaceSwift);
+		assertEquals(expectedAfterReplacementCH, replaceSwift);
 
 		//Test with real example
 		String withReplacementCH2 = "51/1/Chindä & Co. Luzärn";
 		String expectedAfterReplacementCH2 = "51/1/Chindae + Co. Luzaern";
 		replaceSwift = Iso20022Util.replaceSwift(withReplacementCH2);
-		Assert.assertEquals(expectedAfterReplacementCH2, replaceSwift);
+		assertEquals(expectedAfterReplacementCH2, replaceSwift);
 
 		//Test with Slash
 		String withReplacementDoubleSlash = "/Nicht mit / beginnen und  an keiner Stelle // enthalten.";
 		String expectedAfterReplacementDoubleSlash = "Nicht mit / beginnen und  an keiner Stelle / enthalten.";
 		replaceSwift = Iso20022Util.replaceSwift(withReplacementDoubleSlash);
-		Assert.assertEquals(expectedAfterReplacementDoubleSlash, replaceSwift);
+		assertEquals(expectedAfterReplacementDoubleSlash, replaceSwift);
 
 	}
 

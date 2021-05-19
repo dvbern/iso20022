@@ -33,9 +33,11 @@ import javax.xml.transform.stream.StreamSource;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.AuszahlungDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.Document;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests fuer die Klasse Pain001Service
@@ -50,10 +52,10 @@ public class Pain001ServiceTest {
 
 	private Pain001DTO zahlungsauftrag = null;
 
-	@Before
+	@BeforeEach
 	public void init() {
 		pain001Service = new Pain001V00103CH02Service();
-		Assert.assertNotNull(pain001Service);
+		assertNotNull(pain001Service);
 
 		List<AuszahlungDTO> auszahlungen = new ArrayList<>();
 
@@ -88,7 +90,9 @@ public class Pain001ServiceTest {
 		auszahlung3.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
 		auszahlung3.setZahlungsempfaegerIBAN("CH9300762011623852957");
 		auszahlung3.setZahlungsempfaegerLand("CH");
-		auszahlung3.setZahlungsempfaegerName("Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld");
+		auszahlung3.setZahlungsempfaegerName(
+			"Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins "
+				+ "Feld");
 		auszahlung3.setZahlungsempfaegerStrasse("Teststrasse");
 		auszahlung3.setZahlungsempfaegerHausnummer("2");
 		auszahlung3.setZahlungsempfaegerPlz("4000");
@@ -119,27 +123,27 @@ public class Pain001ServiceTest {
 
 		final byte[] painFileContent = pain001Service.getPainFileContent(zahlungsauftrag);
 
-		Assert.assertNotNull(painFileContent);
+		assertNotNull(painFileContent);
 		writeResultsToFile(painFileContent);
 
 		ByteArrayInputStream bis = new ByteArrayInputStream(painFileContent);
 		final Document document = getDocumentFromInputStream(bis);
-		Assert.assertNotNull(document);
+		assertNotNull(document);
 
-		Assert.assertNotNull(document.getCstmrCdtTrfInitn().getGrpHdr());
-		Assert.assertEquals("Test-ID", document.getCstmrCdtTrfInitn().getGrpHdr().getMsgId());
+		assertNotNull(document.getCstmrCdtTrfInitn().getGrpHdr());
+		assertEquals("Test-ID", document.getCstmrCdtTrfInitn().getGrpHdr().getMsgId());
 
 		LocalDateTime actualGenerierungsDatum = document.getCstmrCdtTrfInitn().getGrpHdr().getCreDtTm()
 			.toGregorianCalendar()
 			.toZonedDateTime()
 			.toLocalDateTime();
-		Assert.assertEquals(zahlungsauftrag.getGenerierungsDatum(), actualGenerierungsDatum);
+		assertEquals(zahlungsauftrag.getGenerierungsDatum(), actualGenerierungsDatum);
 
-		Assert.assertNotNull(document.getCstmrCdtTrfInitn().getPmtInf());
-		Assert.assertEquals(1, document.getCstmrCdtTrfInitn().getPmtInf().size());
+		assertNotNull(document.getCstmrCdtTrfInitn().getPmtInf());
+		assertEquals(1, document.getCstmrCdtTrfInitn().getPmtInf().size());
 
 		LocalDate actualAuszahlungsDatum = document.getCstmrCdtTrfInitn().getPmtInf().get(0).getReqdExctnDt();
-		Assert.assertEquals(zahlungsauftrag.getAuszahlungsDatum(), actualAuszahlungsDatum);
+		assertEquals(zahlungsauftrag.getAuszahlungsDatum(), actualAuszahlungsDatum);
 	}
 
 	private Document getDocumentFromInputStream(ByteArrayInputStream bis) throws JAXBException {

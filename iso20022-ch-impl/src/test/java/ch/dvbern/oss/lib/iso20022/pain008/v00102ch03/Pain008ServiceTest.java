@@ -26,11 +26,11 @@ import java.util.List;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain008DTO;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.PaymentInformationDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Tests for the {@link Pain008Service}.<br>
@@ -55,7 +55,7 @@ public class Pain008ServiceTest {
 			.withTest(painFileContent)
 			.build();
 
-		assertFalse("Unexpected differences found: " + diff.getDifferences(), diff.hasDifferences());
+		assertFalse(diff.hasDifferences(), "Unexpected differences found: " + diff.getDifferences());
 	}
 
 	private Pain008DTO createDummyDto() {

@@ -24,6 +24,12 @@ public final class Iso20022JaxbUtil {
 
 	/**
 	 * Converts a given document to an XML string.
+	 * @param document some document object
+	 * @param documentClass class of the document
+	 * @param schemaLocation path (URL) of the XSD
+	 * @param schemaName name of the XSD
+	 * @param <T> type of the document
+	 * @return XML string representing the document
 	 */
 	@Nonnull
 	public static <T> String getXMLStringFromDocument(

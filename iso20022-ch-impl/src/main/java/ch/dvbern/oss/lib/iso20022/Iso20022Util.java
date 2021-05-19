@@ -111,7 +111,8 @@ public final class Iso20022Util {
 	}
 
 	/**
-	 * Uses the time zone Europe/Paris for the conversion
+	 * @param localDateTime any date time
+	 * @return calendar converted date time at zone Europe/Paris
 	 */
 	@Nonnull
 	public static XMLGregorianCalendar toXmlGregorianCalendar(@Nonnull LocalDateTime localDateTime) {

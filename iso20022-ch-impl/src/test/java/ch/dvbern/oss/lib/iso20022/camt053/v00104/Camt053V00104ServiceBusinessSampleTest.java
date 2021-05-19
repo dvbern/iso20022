@@ -25,10 +25,10 @@ import ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.Account;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Camt053V00104Service with the file Business Sample camt.053.001.04.xml

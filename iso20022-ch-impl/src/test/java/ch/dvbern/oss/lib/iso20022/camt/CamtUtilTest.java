@@ -15,14 +15,14 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static ch.dvbern.oss.lib.iso20022.TestUtil.readXml;
 import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT053V00104;
 import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT054V00104;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the validation of an xml with its xsd
