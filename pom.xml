@@ -19,25 +19,33 @@
     <parent>
         <groupId>ch.dvbern.oss.maven</groupId>
         <artifactId>parent</artifactId>
-        <version>2.0.0</version>
+        <version>3.0.5</version>
     </parent>
 
     <groupId>ch.dvbern.oss.iso20022</groupId>
     <artifactId>iso20022-ch</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
     <packaging>pom</packaging>
 
     <name>iso20022</name>
     <description>This library can be used for exporting payment orders (pain001 files) using the iso20022 format for Switzerland</description>
-    <url>http://github.com/dvbern/iso20022</url>
+    <url>https://github.com/dvbern/iso20022</url>
 
     <properties>
+        <spotbugs-maven-plugin.version>4.2.3</spotbugs-maven-plugin.version>
         <cxf-xjc-plugin.version>3.3.0</cxf-xjc-plugin.version>
-        <version.slf4j>1.7.28</version.slf4j>
+        <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.7.2</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
@@ -52,44 +60,39 @@
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
-                <version>3.1.10</version>
+                <version>${spotbugs-maven-plugin.version}</version>
                 <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${version.slf4j}</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>${version.slf4j}</version>
+                <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.8.1</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.13.1</version>
+                <version>2.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
-                <version>2.2.1</version>
+                <version>2.8.2</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>16.0.3</version>
+                <version>21.0.1</version>
                 <!-- enhanced annotations for the Jetbrains IDEs -->
                 <scope>provided</scope>
             </dependency>
@@ -106,14 +109,14 @@
             <name>DV Bern AG developers</name>
             <email>hallo@dvbern.ch</email>
             <organization>DV Bern AG</organization>
-            <organizationUrl>http://www.dvbern.ch</organizationUrl>
+            <organizationUrl>https://www.dvbern.ch</organizationUrl>
         </developer>
     </developers>
 
     <scm>
         <connection>scm:git:git://github.com/dvbern/iso20022.git</connection>
         <developerConnection>scm:git:ssh://github.com:dvbern/iso20022.git</developerConnection>
-        <url>http://github.com/dvbern/iso20022</url>
+        <url>https://github.com/dvbern/iso20022</url>
     </scm>
 
     <build>

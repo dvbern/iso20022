@@ -28,11 +28,11 @@ import ch.dvbern.oss.lib.iso20022.dtos.camt.Booking;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.IsrTransaction;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the CamtServiceBean with the file camt.054-ES_P_CH0309000000250090342_38000000_0_2016052723011813.xml

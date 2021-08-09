@@ -29,12 +29,12 @@ import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.IsrTransaction;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.MessageIdentifier;
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Camt053V00104Service with the file camt.053_P_CH0309000000250090342_380000000_0_2016053100163801.xml
