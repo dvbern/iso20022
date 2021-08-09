@@ -17,16 +17,21 @@ package ch.dvbern.oss.lib.iso20022.camt;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
+import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 public interface CamtService {
 
 	String INVALID_NAME = "NOTPROVIDED";
+
 	/**
 	 * Service to read ESR payments to swiss financial institutes from an ISO20022.
 	 * Camt054 or Camt053 XML file, only CREDIT payments with status 'BOOK', that are not reversals, are considered.
+	 *
+	 * @param xmlAsBytes a Camt053 or Camt054 XML in byte array form.
+	 * @return a Document containing payments
+	 * @throws Iso20022RuntimeException when parsing fails (e.g. invalid input document)
 	 */
 	@Nonnull
 	DocumentDTO getCreditingRecords(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;
@@ -35,6 +40,10 @@ public interface CamtService {
 	 * Converts a Camt053 or Camt054 file to an instance of
 	 * {@link iso.std.iso._20022.tech.xsd.camt_053_001.Document},
 	 * {@link iso.std.iso._20022.tech.xsd.camt_054_001.Document} respectively.
+	 *
+	 * @param xmlAsBytes a Camt053 or Camt054 XML in byte array form.
+	 * @return a Java representation of the parsed XML
+	 * @throws Iso20022RuntimeException when parsing fails (e.g. invalid input document)
 	 */
 	@Nonnull
 	Document getNotificationFromXml(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException;

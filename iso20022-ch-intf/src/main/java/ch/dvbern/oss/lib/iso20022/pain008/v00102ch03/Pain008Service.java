@@ -29,6 +29,9 @@ public interface Pain008Service {
 
 	/**
 	 * Creates an UTF-8 pain file for LSV+ (CH-TA), based on the given DTO.
+	 *
+	 * @param pain008DTO the payment information in Java format
+	 * @return the payment information in XML format
 	 */
 	byte[] getPainFileContent(@Valid Pain008DTO pain008DTO);
 
