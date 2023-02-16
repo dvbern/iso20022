@@ -23,8 +23,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -62,8 +61,7 @@ import static java.util.Objects.requireNonNull;
  * This Service reads an xml document complying to camt054 version 00104 standard and returns parts or the whole
  * document
  */
-@Stateless
-@Local(CamtService.class)
+@ApplicationScoped
 public class CamtServiceBean implements CamtService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CamtServiceBean.class);

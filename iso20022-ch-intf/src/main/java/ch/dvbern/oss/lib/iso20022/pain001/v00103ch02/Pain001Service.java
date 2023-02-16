@@ -15,6 +15,8 @@
 
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
+import javax.validation.Valid;
+
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 
 /**
@@ -26,6 +28,6 @@ public interface Pain001Service {
 	String SCHEMA_LOCATION_LOCAL = "ch.dvbern.oss.lib.iso20022.pain001.v00103ch02/" + SCHEMA_NAME;
 	String SCHEMA_LOCATION = "http://www.six-interbank-clearing.com/de/" + SCHEMA_NAME;
 
-	byte[] getPainFileContent(Pain001DTO pain001DTO);
+	byte[] getPainFileContent(@Valid Pain001DTO pain001DTO);
 
 }
