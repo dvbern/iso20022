@@ -19,7 +19,7 @@
     <parent>
         <groupId>ch.dvbern.oss.maven</groupId>
         <artifactId>parent</artifactId>
-        <version>3.0.5</version>
+        <version>5.0.0</version>
     </parent>
 
     <groupId>ch.dvbern.oss.iso20022</groupId>
@@ -32,9 +32,9 @@
     <url>https://github.com/dvbern/iso20022</url>
 
     <properties>
-        <spotbugs-maven-plugin.version>4.2.3</spotbugs-maven-plugin.version>
         <cxf-xjc-plugin.version>3.3.0</cxf-xjc-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
     </properties>
 
     <dependencyManagement>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
-                <version>${spotbugs-maven-plugin.version}</version>
+                <version>${spotbugs-annotations.version}</version>
                 <optional>true</optional>
             </dependency>
             <dependency>
