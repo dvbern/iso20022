@@ -15,11 +15,21 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
-import org.junit.jupiter.api.Test;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import static ch.dvbern.oss.lib.iso20022.TestUtil.getXmlFilesFromResources;
 import static ch.dvbern.oss.lib.iso20022.TestUtil.readXml;
 import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT053V00104;
 import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT054V00104;
+import static ch.dvbern.oss.lib.iso20022.camt.CamtTypeVersion.CAMT054V00108;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,12 +44,36 @@ public class CamtUtilTest {
 	private static final String VALID_CAMT53_XML =
 		"ch/dvbern/oss/lib/iso20022/camt053/v00104/camt.053_P_CH0309000000250090342_380000000_0_2016053100163801.xml";
 	private static final String INVALID_XML =
-		"ch/dvbern/oss/lib/iso20022/camt054/v00104/camt_054_Beispiel_NotificationMissing.xml";
+		"ch/dvbern/oss/lib/iso20022/camt054/v00104/invalid/camt_054_Beispiel_NotificationMissing.xml";
 
-	@Test
-	public void validateXmlWithXsdSuccessTest() {
-		assertTrue(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT53_XML), CAMT053V00104.getXsdPath()));
-		assertTrue(CamtUtil.isMatchingXsdSchema(readXml(VALID_CAMT54_XML), CAMT054V00104.getXsdPath()));
+	static Stream<Path> camt53_104Files() throws IOException, URISyntaxException {
+		return getXmlFilesFromResources("ch/dvbern/oss/lib/iso20022/camt053/v00104/");
+	}
+
+	static Stream<Path> camt54_104Files() throws IOException, URISyntaxException {
+		return getXmlFilesFromResources("ch/dvbern/oss/lib/iso20022/camt054/v00104/");
+	}
+
+	static Stream<Path> camt54_108Files() throws IOException, URISyntaxException {
+		return getXmlFilesFromResources("ch/dvbern/oss/lib/iso20022/camt054.v00108/");
+	}
+
+	@ParameterizedTest
+	@MethodSource("camt53_104Files")
+	public void validate_camt53_104Files(Path path) throws IOException {
+		assertTrue(CamtUtil.isMatchingXsdSchema(Files.readAllBytes(path), CAMT053V00104.getXsdPath()));
+	}
+
+	@ParameterizedTest
+	@MethodSource("camt54_104Files")
+	public void validate_camt54_104Files(Path path) throws IOException {
+		assertTrue(CamtUtil.isMatchingXsdSchema(Files.readAllBytes(path), CAMT054V00104.getXsdPath()));
+	}
+
+	@ParameterizedTest
+	@MethodSource("camt54_108Files")
+	public void validate_camt54_108Files(Path path) throws IOException {
+		assertTrue(CamtUtil.isMatchingXsdSchema(Files.readAllBytes(path), CAMT054V00108.getXsdPath()));
 	}
 
 	@Test

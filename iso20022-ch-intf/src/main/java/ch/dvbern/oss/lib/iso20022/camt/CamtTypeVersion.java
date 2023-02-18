@@ -1,15 +1,16 @@
 /*
- * Copyright 2017 DV Bern AG
+ * Copyright (C) 2023 DV Bern AG, Switzerland
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
@@ -17,25 +18,31 @@ package ch.dvbern.oss.lib.iso20022.camt;
 
 import javax.annotation.Nonnull;
 
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CamtDocument;
 
 public enum CamtTypeVersion {
+	CAMT053V00108(
+		"iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.08.xsd",
+		iso.std.iso._20022.tech.xsd.camt_053_001_08.Document.class),
 	CAMT053V00104(
 		"iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd",
-		iso.std.iso._20022.tech.xsd.camt_053_001.Document.class),
+		iso.std.iso._20022.tech.xsd.camt_053_001_04.Document.class),
+	CAMT054V00108(
+		"iso/std/iso/20022/tech/xsd/camt_054_001/camt.054.001.08.xsd",
+		iso.std.iso._20022.tech.xsd.camt_054_001_08.Document.class),
 	CAMT054V00104(
-		"iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd",
-		iso.std.iso._20022.tech.xsd.camt_054_001.Document.class);
+		"iso/std/iso/20022/tech/xsd/camt_054_001/camt.054.001.04.xsd",
+		iso.std.iso._20022.tech.xsd.camt_054_001_04.Document.class);
 
 	@Nonnull
 	private final String xsdPath;
 
 	@Nonnull
-	private final Class<? extends Document> documentClass;
+	private final Class<? extends CamtDocument> documentClass;
 
 	CamtTypeVersion(
 		@Nonnull String xsdPath,
-		@Nonnull Class<? extends Document> documentClass) {
+		@Nonnull Class<? extends CamtDocument> documentClass) {
 		this.xsdPath = xsdPath;
 		this.documentClass = documentClass;
 	}
@@ -46,7 +53,7 @@ public enum CamtTypeVersion {
 	}
 
 	@Nonnull
-	public <T extends Document> Class<T> getDocumentClass() {
+	public <T extends CamtDocument> Class<T> getDocumentClass() {
 		//noinspection unchecked
 		return (Class<T>) documentClass;
 	}

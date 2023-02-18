@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright 2023 DV Bern AG
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ limitations under the License.
+  -->
+
+<jaxb:bindings
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+		xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+		jaxb:extensionBindingPrefixes="inheritance"
+		jaxb:version="2.1">
+
+	<jaxb:bindings schemaLocation="../com/six_interbank_clearing/de/camt_054_001_08_ch_02/camt.054.001.08.ch.02.xsd">
+		<jaxb:bindings node="//xs:complexType[@name='Document']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CamtDocument</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='BankToCustomerDebitCreditNotificationV08']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.Notification</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='AccountIdentification4Choice']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account.AccountIdentification</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='AccountNotification17']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.StatementOrNotification</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ActiveOrHistoricCurrencyAndAmount']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.Amount</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CashAccount39']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account.Account</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:simpleType[@name='CreditDebitCode']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.SharedCreditDebitCode</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='EntryStatus1Choice']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.EntryStatus</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CreditorReferenceInformation2']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.CreditorReferenceInformation</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='DateAndDateTime2Choice']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.DateAndDateTimeChoice</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='EntryDetails9']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.EntryDetails</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='EntryTransaction10']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.TransactionDetails</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='TransactionReferences6']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.References</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='TransactionParties6']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.RelatedParties</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ActiveOrHistoricCurrencyAndAmount']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.Amount</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='GroupHeader81']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.GroupHeader</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='Pagination1']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.MessagePagination</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='RemittanceInformation16']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.RemittanceInformation</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ReportEntry10']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.Entry</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='StructuredRemittanceInformation16']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.StructuredRemittanceInformation</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CashAccount38']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.DeptorAccount</inheritance:implements>
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.CreditorAccount</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='Party40Choice']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PartyOrDeptor</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='PartyIdentification135']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.Party</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='PostalAddress24']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PostalAddress</inheritance:implements>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='Contact4']">
+			<inheritance:implements>ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.ContactDetails</inheritance:implements>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

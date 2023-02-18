@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 DV Bern AG, Switzerland
+ * Copyright (C) 2023 DV Bern AG, Switzerland
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class Account {
 	private final List<Booking> bookings = new ArrayList<>();
 
 	/**
-	 * According to the implementation guidelines the electroinc sequence number should be defined.
+	 * According to the implementation guidelines the electronic sequence number should be defined.
 	 * However, there are sample files, where it is NULL. Thus, we allow NULL as well.
 	 */
 	@Nullable

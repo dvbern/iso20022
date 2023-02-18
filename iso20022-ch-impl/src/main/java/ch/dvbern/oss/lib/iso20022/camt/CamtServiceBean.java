@@ -18,7 +18,6 @@ package ch.dvbern.oss.lib.iso20022.camt;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -31,20 +30,19 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.AccountNotification7;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CreditDebitCode;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CreditorReferenceInformation2;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Document;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.EntryStatus2Code;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.EntryTransaction4;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.GroupHeader58;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Notification;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.Pagination;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.PostalAddress6;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.RemittanceInformation7;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.ReportEntry4;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.StructuredRemittanceInformation9;
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.TransactionParties3;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CamtDocument;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.Notification;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.GroupHeader;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.MessagePagination;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.StatementOrNotification;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.Entry;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.TransactionDetails;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PartyOrDeptor;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PostalAddress;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.RelatedParties;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.CreditorReferenceInformation;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.RemittanceInformation;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.remittenceinformation.StructuredRemittanceInformation;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.Account;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.Booking;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
@@ -74,7 +72,7 @@ public class CamtServiceBean implements CamtService {
 	 */
 	@Nonnull
 	@Override
-	public Document getNotificationFromXml(@Nonnull byte[] xmlAsBytes) {
+	public CamtDocument getNotificationFromXml(@Nonnull byte[] xmlAsBytes) {
 		CamtTypeVersion camtTypeVersion = CamtUtil.detectCamtTypeVersion(xmlAsBytes);
 
 		return unmarshallNotificationFromXml(xmlAsBytes, camtTypeVersion);
@@ -91,21 +89,22 @@ public class CamtServiceBean implements CamtService {
 	public DocumentDTO getCreditingRecords(@Nonnull byte[] xmlAsBytes) throws Iso20022RuntimeException {
 		CamtTypeVersion camtTypeVersion = CamtUtil.detectCamtTypeVersion(xmlAsBytes);
 
-		Document document = unmarshallNotificationFromXml(xmlAsBytes, camtTypeVersion);
+		CamtDocument document = unmarshallNotificationFromXml(xmlAsBytes, camtTypeVersion);
 		Notification notification = document.getNotification();
 
 		return toDocument(requireNonNull(notification), camtTypeVersion);
 	}
 
 	@Nonnull
-	private Document unmarshallNotificationFromXml(byte[] xmlAsBytes, @Nonnull CamtTypeVersion camtTypeVersion) {
+	private CamtDocument unmarshallNotificationFromXml(byte[] xmlAsBytes, @Nonnull CamtTypeVersion camtTypeVersion) {
 
 		try (ByteArrayInputStream xmlAsStream = new ByteArrayInputStream(xmlAsBytes)) {
 			JAXBContext jaxbContext = JAXBContext.newInstance(camtTypeVersion.getDocumentClass());
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
 			StreamSource streamSource = new StreamSource(xmlAsStream);
-			JAXBElement<Document> doc = jaxbUnmarshaller.unmarshal(streamSource, camtTypeVersion.getDocumentClass());
+			JAXBElement<CamtDocument> doc =
+				jaxbUnmarshaller.unmarshal(streamSource, camtTypeVersion.getDocumentClass());
 
 			return doc.getValue();
 		} catch (JAXBException e) {
@@ -120,7 +119,7 @@ public class CamtServiceBean implements CamtService {
 		MessageIdentifier messageIdentifier = toMessageIdentifier(notification.getGrpHdr());
 		DocumentDTO documentDTO = new DocumentDTO(camtTypeVersion, messageIdentifier);
 
-		List<AccountNotification7> accountNotification = notification.getAccountNotification();
+		List<StatementOrNotification> accountNotification = notification.getAccountNotification();
 
 		if (accountNotification.size() > 1) {
 			// According to the swiss implementation guideline there should be only one notification per document
@@ -136,8 +135,8 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nonnull
-	private MessageIdentifier toMessageIdentifier(@Nonnull GroupHeader58 grpHdr) {
-		Pagination pagination = grpHdr.getMsgPgntn();
+	private MessageIdentifier toMessageIdentifier(@Nonnull GroupHeader grpHdr) {
+		MessagePagination pagination = grpHdr.getMsgPgntn();
 
 		if (pagination == null) {
 			return new MessageIdentifier(grpHdr.getMsgId(), Iso20022Util.from(grpHdr.getCreDtTm()));
@@ -152,7 +151,7 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nonnull
-	private Account toAccount(@Nonnull AccountNotification7 notification, @Nonnull DocumentDTO document) {
+	private Account toAccount(@Nonnull StatementOrNotification notification, @Nonnull DocumentDTO document) {
 		Account account = new Account(
 			document,
 			notification.getId(),
@@ -164,7 +163,7 @@ public class CamtServiceBean implements CamtService {
 		// 'Statement Entry' (C-Level) (0..n)
 		notification.getNtry().stream()
 			.filter(e -> {
-				if (isCreditingEntry(e) && isBookedEntry(e) && !isReversal(e)) {
+				if (e.isCreditingEntry() && e.isBookedEntry() && !e.isReversal()) {
 					return true;
 				}
 				LOG.debug("Skipped Statement Entry with Credit Debit Indicator {}, Status {}, Reversal Indicator {}",
@@ -177,21 +176,8 @@ public class CamtServiceBean implements CamtService {
 		return account;
 	}
 
-	private boolean isCreditingEntry(@Nonnull ReportEntry4 entry) {
-		return entry.getCdtDbtInd() != null
-			&& Objects.equals(CreditDebitCode.CRDT.value(), entry.getCdtDbtInd().value());
-	}
-
-	private boolean isBookedEntry(@Nonnull ReportEntry4 entry) {
-		return entry.getSts() != null && Objects.equals(EntryStatus2Code.BOOK.value(), entry.getSts().value());
-	}
-
-	private boolean isReversal(@Nonnull ReportEntry4 entry) {
-		return entry.isRvslInd() != null && entry.isRvslInd();
-	}
-
 	@Nonnull
-	private Booking toBooking(@Nonnull ReportEntry4 reportEntry4, @Nonnull Account account) {
+	private Booking toBooking(@Nonnull Entry reportEntry4, @Nonnull Account account) {
 		Booking booking = new Booking(
 			account,
 			requireNonNull(Iso20022Util.from(reportEntry4.getBookgDt())),
@@ -209,10 +195,10 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nonnull
-	private IsrTransaction toTransaction(@Nonnull EntryTransaction4 entryTransaction4, @Nonnull Booking booking) {
+	private IsrTransaction toTransaction(@Nonnull TransactionDetails entryTransaction4, @Nonnull Booking booking) {
 		String referenceNumber = findIsrRemittanceInfo(requireNonNull(entryTransaction4.getRmtInf()))
-			.map(StructuredRemittanceInformation9::getCdtrRefInf)
-			.map(CreditorReferenceInformation2::getRef)
+			.map(StructuredRemittanceInformation::getCdtrRefInf)
+			.map(CreditorReferenceInformation::getRef)
 			.orElseThrow(() -> new IllegalStateException("This should have been checked earlier"));
 
 		return new IsrTransaction(
@@ -225,20 +211,22 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nullable
-	private TransactionInformationDTO toTransactionDetails(@Nullable TransactionParties3 transactionParties) {
+	private TransactionInformationDTO toTransactionDetails(@Nullable RelatedParties transactionParties) {
 		if (transactionParties == null) {
 			return null;
 		}
 
 		TransactionInformationDTO transactionInformationDTO = new TransactionInformationDTO();
 
-		if (transactionParties.getDbtr() != null) {
-			if (transactionParties.getDbtr().getNm() != null &&
-				!transactionParties.getDbtr().getNm().equalsIgnoreCase(INVALID_NAME)) {
-				transactionInformationDTO.setDebitorName(transactionParties.getDbtr().getNm());
-			}
-			toDbtrPostalDetails(transactionParties.getDbtr().getPstlAdr(), transactionInformationDTO);
-		}
+		Optional.ofNullable(transactionParties.getDbtr())
+			.map(PartyOrDeptor::getParty)
+			.ifPresent(party -> {
+				String name = party.getName();
+				if (name != null && !name.equalsIgnoreCase(INVALID_NAME)) {
+					transactionInformationDTO.setDebitorName(name);
+				}
+				toDbtrPostalDetails(party.getPstlAdr(), transactionInformationDTO);
+			});
 
 		if (transactionParties.getDbtrAcct() != null) {
 			transactionInformationDTO.setDebitorIBAN(transactionParties.getDbtrAcct().getId().getIBAN());
@@ -248,7 +236,7 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	private void toDbtrPostalDetails(
-		@Nullable PostalAddress6 postalAddress,
+		@Nullable PostalAddress postalAddress,
 		@Nonnull TransactionInformationDTO transactionInformationDTO) {
 		if (postalAddress == null) {
 			return;
@@ -261,7 +249,7 @@ public class CamtServiceBean implements CamtService {
 		transactionInformationDTO.setDebitorCountry(postalAddress.getCtry());
 	}
 
-	private boolean isIsrTransaction(@Nonnull EntryTransaction4 transaction) {
+	private boolean isIsrTransaction(@Nonnull TransactionDetails transaction) {
 		if (transaction.getRmtInf() == null) {
 			return false;
 		}
@@ -270,17 +258,17 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	@Nonnull
-	private Optional<StructuredRemittanceInformation9> findIsrRemittanceInfo(@Nonnull RemittanceInformation7 info) {
+	private Optional<StructuredRemittanceInformation> findIsrRemittanceInfo(@Nonnull RemittanceInformation info) {
 		// bookings can only be assigned automatically to bills if the referenceId is present thus we return only these
 		return info.getStrd().stream()
 			.filter(this::hasReferenceNumber)
 			.findAny();
 	}
 
-	private boolean hasReferenceNumber(@Nullable StructuredRemittanceInformation9 structuredRemittanceInformation9) {
+	private boolean hasReferenceNumber(@Nullable StructuredRemittanceInformation structuredRemittanceInformation9) {
 		return Optional.ofNullable(structuredRemittanceInformation9)
-			.map(StructuredRemittanceInformation9::getCdtrRefInf)
-			.map(CreditorReferenceInformation2::getRef)
+			.map(StructuredRemittanceInformation::getCdtrRefInf)
+			.map(CreditorReferenceInformation::getRef)
 			.isPresent();
 	}
 }
