@@ -2,15 +2,15 @@ package ch.dvbern.oss.lib.iso20022;
 
 import java.io.StringWriter;
 
-import javax.annotation.Nonnull;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.namespace.QName;
 
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import jakarta.annotation.Nonnull;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.ValidationEvent;
+import jakarta.xml.bind.ValidationEventHandler;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 

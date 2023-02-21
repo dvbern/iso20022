@@ -18,8 +18,8 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.ent
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface StructuredRemittanceInformation {

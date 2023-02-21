@@ -16,7 +16,7 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SuppressWarnings("NullableProblems")
 public interface SharedCreditDebitCode {
@@ -24,7 +24,8 @@ public interface SharedCreditDebitCode {
 	@Nonnull
 	String value();
 
-	default boolean isCreditingEntry() {
+	@Nonnull
+	default Boolean isCreditingEntry() {
 		return "CRDT".equals(value());
 	}
 }

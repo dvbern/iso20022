@@ -15,7 +15,7 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public enum CamtRejectCodes {
 	NO_REJECT("?REJECT?0"),

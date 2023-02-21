@@ -3,9 +3,6 @@ package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.validation.Valid;
-
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain008DTO;
@@ -21,6 +18,8 @@ import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentInstructionInf
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentMethod2Code;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentTypeInformation20;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ServiceLevel8Choice;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.validation.Valid;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;

@@ -16,9 +16,8 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
-import javax.annotation.Nonnull;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CamtDocument;
+import jakarta.annotation.Nonnull;
 
 public enum CamtTypeVersion {
 	CAMT053V00108(

@@ -18,9 +18,8 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.Notification;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("override")
 public interface CamtDocument {

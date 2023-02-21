@@ -21,10 +21,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.GroupHeader;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.StatementOrNotification;
+import jakarta.annotation.Nonnull;
 
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface Notification {

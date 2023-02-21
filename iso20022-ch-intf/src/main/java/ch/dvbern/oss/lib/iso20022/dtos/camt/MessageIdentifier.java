@@ -19,8 +19,8 @@ package ch.dvbern.oss.lib.iso20022.dtos.camt;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * A-Level: Meldungsebene, «Group Header»

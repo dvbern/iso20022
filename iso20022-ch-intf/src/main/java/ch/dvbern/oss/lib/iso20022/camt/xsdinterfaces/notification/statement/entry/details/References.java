@@ -16,7 +16,7 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface References {
 
