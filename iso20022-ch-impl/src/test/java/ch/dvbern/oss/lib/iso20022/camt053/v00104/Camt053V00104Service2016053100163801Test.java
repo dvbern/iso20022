@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Camt053V00104Service with the file camt.053_P_CH0309000000250090342_380000000_0_2016053100163801.xml
- * from PostFinance (see https://www.postfinance.ch/content/dam/pfch/doc/zv/beispiele_testfiles.zip)
+ * from PostFinance (see <a href="https://www.postfinance.ch/content/dam/pfch/doc/zv/beispiele_testfiles.zip">beispiele_testfiles.zip</a>)
  */
 public class Camt053V00104Service2016053100163801Test {
 

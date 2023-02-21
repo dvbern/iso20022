@@ -32,7 +32,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Camt053V00104Service with the file Business Sample camt.053.001.04.xml
- * from iso20022.org (see https://www.iso20022.org/documents/messages/camt/instances/camt.053.001.04.zip)
+ * from iso20022.org (see
+ * <a href="https://www.iso20022.org/documents/messages/camt/instances/camt.053.001.04.zip">camt.053.001.04.zip</a>)
  */
 public class Camt053V00104ServiceBusinessSampleTest {
 

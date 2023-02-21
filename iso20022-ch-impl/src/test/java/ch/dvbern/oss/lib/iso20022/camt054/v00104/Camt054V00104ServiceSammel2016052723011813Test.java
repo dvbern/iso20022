@@ -36,8 +36,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the CamtServiceBean with the file camt.054-ES_P_CH0309000000250090342_38000000_0_2016052723011813.xml
- * from PostFinance (see https://www.postfinance.ch/content/dam/pfch/doc/zv/beispiele_testfiles.zip)
- *
+ * from PostFinance (see <a href="https://www.postfinance.ch/content/dam/pfch/doc/zv/beispiele_testfiles.zip">beispiele_testfiles.zip</a>)
+ * <p>
  * Sammelbuchungen are ignored as their transaction details have no reference number
  */
 public class Camt054V00104ServiceSammel2016052723011813Test {
