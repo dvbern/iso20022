@@ -34,6 +34,8 @@
     <url>https://github.com/dvbern/iso20022</url>
 
     <properties>
+        <maven-compiler-plugin.source>11</maven-compiler-plugin.source>
+        <maven-compiler-plugin.target>11</maven-compiler-plugin.target>
         <cxf-xjc-plugin.version>4.0.2</cxf-xjc-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
