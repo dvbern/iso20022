@@ -34,7 +34,7 @@
     <url>https://github.com/dvbern/iso20022</url>
 
     <properties>
-        <cxf-xjc-plugin.version>4.0.0</cxf-xjc-plugin.version>
+        <cxf-xjc-plugin.version>4.0.2</cxf-xjc-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
     </properties>
@@ -51,14 +51,14 @@
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-bom</artifactId>
-                <version>9.1.0</version>
+                <version>10.0.0</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>3.0.0</version>
+                <version>4.0.1</version>
                 <optional>true</optional>
             </dependency>
             <dependency>
@@ -70,17 +70,17 @@
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>3.0.1</version>
+                <version>4.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>3.0.2</version>
+                <version>4.0.2</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>net.jcip</groupId>
