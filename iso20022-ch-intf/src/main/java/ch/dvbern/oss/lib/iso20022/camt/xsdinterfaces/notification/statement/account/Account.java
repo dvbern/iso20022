@@ -16,8 +16,8 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Information about the account, its owner and the financial institution.

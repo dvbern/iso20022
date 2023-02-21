@@ -22,14 +22,14 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.DateAndDateTimeChoice;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.Contract;
 
 public final class Iso20022Util {

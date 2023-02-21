@@ -18,7 +18,7 @@ package ch.dvbern.oss.lib.iso20022.dtos.pain;
 
 import java.math.BigDecimal;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class AuszahlungDTO {
 

@@ -16,11 +16,10 @@
 
 package ch.dvbern.oss.lib.iso20022.camt;
 
-import javax.annotation.Nonnull;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.CamtDocument;
 import ch.dvbern.oss.lib.iso20022.dtos.camt.DocumentDTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import jakarta.annotation.Nonnull;
 
 public interface CamtService {
 

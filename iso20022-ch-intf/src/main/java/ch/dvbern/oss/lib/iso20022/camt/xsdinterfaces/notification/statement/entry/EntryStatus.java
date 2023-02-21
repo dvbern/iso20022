@@ -16,7 +16,8 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Schema 2019: Content Model changed
@@ -50,7 +51,8 @@ public interface EntryStatus {
 		return null;
 	}
 
-	default boolean isBooked() {
+	@Nonnull
+	default Boolean isBooked() {
 		return BOOK.equalsIgnoreCase(getCd()) || BOOK.equals(value());
 	}
 }

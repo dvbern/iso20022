@@ -14,7 +14,9 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>ch.dvbern.oss.maven</groupId>
@@ -32,7 +34,7 @@
     <url>https://github.com/dvbern/iso20022</url>
 
     <properties>
-        <cxf-xjc-plugin.version>3.3.2</cxf-xjc-plugin.version>
+        <cxf-xjc-plugin.version>4.0.0</cxf-xjc-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
     </properties>
@@ -47,24 +49,38 @@
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>javax.enterprise</groupId>
-                <artifactId>cdi-api</artifactId>
-                <version>2.0</version>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-bom</artifactId>
+                <version>9.1.0</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>3.0.0</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>2.1.0</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>2.0.2</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>net.jcip</groupId>
@@ -139,7 +155,7 @@
                     <configuration>
                         <extensions>
                             <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:${cxf-xjc-plugin.version}</extension>
-                            <extension>org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1</extension>
+                            <extension>org.patrodyne.jvnet:hisrc-basicjaxb-plugins:2.1.0</extension>
                         </extensions>
                     </configuration>
                 </plugin>

@@ -16,9 +16,10 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * The "Group Header" (A-Level of the message) contains information about the

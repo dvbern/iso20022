@@ -16,10 +16,9 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account.AccountIdentification;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("NullableProblems")
 public interface CreditorAccount {

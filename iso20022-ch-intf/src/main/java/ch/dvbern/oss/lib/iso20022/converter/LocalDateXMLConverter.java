@@ -18,7 +18,7 @@ package ch.dvbern.oss.lib.iso20022.converter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Konvertiert ein LocalDate Java 8 Objekt in einen String fuer XML
