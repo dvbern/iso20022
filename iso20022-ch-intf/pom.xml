@@ -21,7 +21,7 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>4.3.0</version>
+        <version>5.0.0</version>
     </parent>
 
     <artifactId>iso20022-ch-intf</artifactId>
@@ -57,16 +57,36 @@
                                     <xsd>${xsd.basedir}/com/six_interbank_clearing/de/pain_008_001_02_ch_03/pain.008.001.02.ch.03.xsd</xsd>
                                 </xsdOption>
                                 <xsdOption>
-                                    <xsd>${xsd.basedir}iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd</xsd>
-                                    <bindingFile>${xsd.basedir}/bindings/camt053.xjb</bindingFile>
+                                    <xsd>${xsd.basedir}iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.08.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt053.001.08.xjb</bindingFile>
+                                    <packagename>iso.std.iso._20022.tech.xsd.camt_053_001_08</packagename>
                                     <extension>true</extension>
                                     <extensionArgs>
                                         <extensionArg>-Xinheritance</extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                                 <xsdOption>
-                                    <xsd>${xsd.basedir}/iso/std/iso/20022/tech/xsd/camt_054_001_04/camt.054.001.04.xsd</xsd>
-                                    <bindingFile>${xsd.basedir}/bindings/camt054.xjb</bindingFile>
+                                    <xsd>${xsd.basedir}iso/std/iso/20022/tech/xsd/camt_053_001/camt.053.001.04.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt053.001.04.xjb</bindingFile>
+                                    <packagename>iso.std.iso._20022.tech.xsd.camt_053_001_04</packagename>
+                                    <extension>true</extension>
+                                    <extensionArgs>
+                                        <extensionArg>-Xinheritance</extensionArg>
+                                    </extensionArgs>
+                                </xsdOption>
+                                <xsdOption>
+                                    <xsd>${xsd.basedir}/iso/std/iso/20022/tech/xsd/camt_054_001/camt.054.001.08.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt054.001.08.xjb</bindingFile>
+                                    <packagename>iso.std.iso._20022.tech.xsd.camt_054_001_08</packagename>
+                                    <extension>true</extension>
+                                    <extensionArgs>
+                                        <extensionArg>-Xinheritance</extensionArg>
+                                    </extensionArgs>
+                                </xsdOption>
+                                <xsdOption>
+                                    <xsd>${xsd.basedir}/iso/std/iso/20022/tech/xsd/camt_054_001/camt.054.001.04.xsd</xsd>
+                                    <bindingFile>${xsd.basedir}/bindings/camt054.001.04.xjb</bindingFile>
+                                    <packagename>iso.std.iso._20022.tech.xsd.camt_054_001_04</packagename>
                                     <extension>true</extension>
                                     <extensionArgs>
                                         <extensionArg>-Xinheritance</extensionArg>
@@ -82,16 +102,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.jcip</groupId>
             <artifactId>jcip-annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

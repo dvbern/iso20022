@@ -27,8 +27,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
 import ch.dvbern.oss.lib.iso20022.Iso20022Util;
@@ -55,8 +54,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 /**
  * Service implementation to generate Payment-File Pain001 according to ISO20022 for a swiss bank
  */
-@Stateless
-@Local(Pain001Service.class)
+@ApplicationScoped
 public class Pain001V00103CH02Service implements Pain001Service {
 
 	private static final PaymentMethod3Code PAYMENT_METHOD_3_CODE = PaymentMethod3Code.TRA;

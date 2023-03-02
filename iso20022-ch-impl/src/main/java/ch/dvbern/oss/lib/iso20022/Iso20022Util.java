@@ -28,7 +28,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.DateAndDateTimeChoice;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.DateAndDateTimeChoice;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 import org.jetbrains.annotations.Contract;
 
@@ -155,6 +155,7 @@ public final class Iso20022Util {
 	}
 
 	/**
+	 * <pre>
 	 * SWIFT-Zeichensatz
 	 * Folgende, dem SWIFT-Zeichensatz entsprechende Zeichen werden analog den EPCGuidelines
 	 * ohne Umwandlung akzeptiert:
@@ -189,6 +190,7 @@ public final class Iso20022Util {
 	 *
 	 * Diese Referenzen dürfen zudem nicht mit «/» beginnen und dürfen an keiner Stelle
 	 * «//» enthalten.
+	 * </pre>
 	 *
 	 * @param text to replace by SWIFT
 	 * @return text to replaced by SWIFT

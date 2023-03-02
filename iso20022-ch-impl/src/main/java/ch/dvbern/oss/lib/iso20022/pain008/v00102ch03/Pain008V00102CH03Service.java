@@ -3,8 +3,7 @@ package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 
 import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
@@ -26,8 +25,7 @@ import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ServiceLevel8Choice;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
 
-@Stateless
-@Local(Pain008Service.class)
+@ApplicationScoped
 public class Pain008V00102CH03Service implements Pain008Service {
 
 	private static final String SERVICE_LEVEL_PROPRIETARY = "CHTA";
@@ -44,7 +42,7 @@ public class Pain008V00102CH03Service implements Pain008Service {
 			.getBytes(StandardCharsets.UTF_8);
 	}
 
-	private Document createPain008Document(Pain008DTO dto) {
+	private Document createPain008Document(@Valid Pain008DTO dto) {
 		ObjectFactory objFactory = new ObjectFactory();
 		Document document = objFactory.createDocument();
 		document.setCstmrDrctDbtInitn(objFactory.createCustomerDirectDebitInitiationV02());

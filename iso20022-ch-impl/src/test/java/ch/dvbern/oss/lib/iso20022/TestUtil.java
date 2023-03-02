@@ -17,6 +17,13 @@ package ch.dvbern.oss.lib.iso20022;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -38,5 +45,21 @@ public final class TestUtil {
 		} catch (IOException e) {
 			throw new IllegalStateException("Could not read XML", e);
 		}
+	}
+
+	@Nonnull
+	public static Stream<Path> getPathsFromResources(@Nonnull String resourceDir) throws IOException, URISyntaxException {
+		URL url = Thread.currentThread().getContextClassLoader()
+			.getResource(resourceDir);
+
+		return Files.list(Paths.get(Objects.requireNonNull(url).toURI()));
+	}
+
+	@Nonnull
+
+	public static Stream<Path> getXmlFilesFromResources(@Nonnull String resourceDir)
+		throws IOException, URISyntaxException {
+		return getPathsFromResources(resourceDir)
+			.filter(path -> path.getFileName().toString().endsWith("xml"));
 	}
 }
