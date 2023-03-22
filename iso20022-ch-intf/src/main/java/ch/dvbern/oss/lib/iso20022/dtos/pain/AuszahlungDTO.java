@@ -50,6 +50,9 @@ public class AuszahlungDTO {
 	private String zahlungsempfaegerBankClearingNumber = null;
 
 	@Nullable
+	private String zahlungsempfaegerBIC = null;
+
+	@Nullable
 	private String zahlungText = null;
 
 	@Nullable
@@ -131,6 +134,15 @@ public class AuszahlungDTO {
 
 	public void setZahlungsempfaegerBankClearingNumber(@Nullable String zahlungsempfaegerBankClearingNumber) {
 		this.zahlungsempfaegerBankClearingNumber = zahlungsempfaegerBankClearingNumber;
+	}
+
+	@Nullable
+	public String getZahlungsempfaegerBIC() {
+		return zahlungsempfaegerBIC;
+	}
+
+	public void setZahlungsempfaegerBIC(@Nullable String zahlungsempfaegerBIC) {
+		this.zahlungsempfaegerBIC = zahlungsempfaegerBIC;
 	}
 
 	@Nullable

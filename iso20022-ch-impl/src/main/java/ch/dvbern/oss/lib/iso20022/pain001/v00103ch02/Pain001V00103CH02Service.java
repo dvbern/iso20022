@@ -200,7 +200,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		requireNonNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
 		requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
-		requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "BIC is required");
 
 		CreditTransferTransactionInformation10CH cTTI10CH = objectFactory
 			.createCreditTransferTransactionInformation10CH();
@@ -240,10 +239,18 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getAmt().getInstdAmt().setCcy(CCY);// 2.43
 		cTTI10CH.getAmt().getInstdAmt().setValue(auszahlungDTO.getBetragTotalZahlung());// 2.43
 
-		//ClrSysMmbId
-		cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().getClrSysId().setCd(CLRSYS_CD);
-		String zempfBCN = auszahlungDTO.getZahlungsempfaegerBankClearingNumber();
-		cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().setMmbId(zempfBCN);
+
+		if (auszahlungDTO.getZahlungsempfaegerBIC() != null) {
+			// BIC
+			cTTI10CH.getCdtrAgt().getFinInstnId().setBIC(auszahlungDTO.getZahlungsempfaegerBIC());
+		} else {
+			//ClrSysMmbId
+			requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "Clearing number is required");
+
+			cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().getClrSysId().setCd(CLRSYS_CD);
+			String zempfBCN = auszahlungDTO.getZahlungsempfaegerBankClearingNumber();
+			cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().setMmbId(zempfBCN);
+		}
 
 		//IBAN
 		cTTI10CH.setCdtrAcct(objectFactory.createCashAccount16CHId());
