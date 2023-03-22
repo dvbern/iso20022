@@ -198,7 +198,7 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		@Nonnull AuszahlungDTO auszahlungDTO,
 		@Nonnull LocalDate date) {
 
-		requireNonNull(auszahlungDTO.getZahlungsempfaegerIBAN(), "IBAN is required");
+		requireNonNull(auszahlungDTO.getZahlungsempfaengerIBAN(), "IBAN is required");
 		requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
 
 		CreditTransferTransactionInformation10CH cTTI10CH = objectFactory
@@ -228,9 +228,9 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		String transaktionStr = String.valueOf(transaktion);
 		cTTI10CH.getPmtId().setInstrId(Iso20022Util.replaceSwift(transaktionStr)); // 2.29 // SWIFT
 
-		String zahlungsempfaegerName = requireNonNull(auszahlungDTO.getZahlungsempfaegerName());
+		String zahlungsempfaengerName = requireNonNull(auszahlungDTO.getZahlungsempfaengerName());
 		// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
-		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaegerName; // SWIFT
+		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaengerName; // SWIFT
 		endToEndId = Iso20022Util.replaceSwift(endToEndId);
 		// 2.30 max 35 signs
 		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
@@ -240,33 +240,33 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getAmt().getInstdAmt().setValue(auszahlungDTO.getBetragTotalZahlung());// 2.43
 
 
-		if (auszahlungDTO.getZahlungsempfaegerBIC() != null) {
+		if (auszahlungDTO.getZahlungsempfaengerBIC() != null) {
 			// BIC
-			cTTI10CH.getCdtrAgt().getFinInstnId().setBIC(auszahlungDTO.getZahlungsempfaegerBIC());
+			cTTI10CH.getCdtrAgt().getFinInstnId().setBIC(auszahlungDTO.getZahlungsempfaengerBIC());
 		} else {
 			//ClrSysMmbId
-			requireNonNull(auszahlungDTO.getZahlungsempfaegerBankClearingNumber(), "Clearing number is required");
+			requireNonNull(auszahlungDTO.getZahlungsempfaengerBankClearingNumber(), "Clearing number is required");
 
 			cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().getClrSysId().setCd(CLRSYS_CD);
-			String zempfBCN = auszahlungDTO.getZahlungsempfaegerBankClearingNumber();
+			String zempfBCN = auszahlungDTO.getZahlungsempfaengerBankClearingNumber();
 			cTTI10CH.getCdtrAgt().getFinInstnId().getClrSysMmbId().setMmbId(zempfBCN);
 		}
 
 		//IBAN
 		cTTI10CH.setCdtrAcct(objectFactory.createCashAccount16CHId());
 		cTTI10CH.getCdtrAcct().setId(objectFactory.createAccountIdentification4ChoiceCH()); // 2.80
-		String iban = FIND_SPACES.matcher(auszahlungDTO.getZahlungsempfaegerIBAN()).replaceAll(EMPTY);
+		String iban = FIND_SPACES.matcher(auszahlungDTO.getZahlungsempfaengerIBAN()).replaceAll(EMPTY);
 		cTTI10CH.getCdtrAcct().getId().setIBAN(iban); // 2.80
 
 		cTTI10CH.setCdtr(objectFactory.createPartyIdentification32CHName());
-		cTTI10CH.getCdtr().setNm(normalize(StringUtils.abbreviate(zahlungsempfaegerName, MAX_70_TEXT))); // 2.79
+		cTTI10CH.getCdtr().setNm(normalize(StringUtils.abbreviate(zahlungsempfaengerName, MAX_70_TEXT))); // 2.79
 		setPstlAdr(objectFactory, auszahlungDTO, cTTI10CH);
 
 		cTTI10CH.setRmtInf(objectFactory.createRemittanceInformation5CH());
 
 		if (auszahlungDTO.getZahlungText() == null) {
 			String monat = date.format(DateTimeFormatter.ofPattern("MMM.yyyy", Locale.GERMAN));
-			String ustrd = normalize(zahlungsempfaegerName + ", Monat " + monat);
+			String ustrd = normalize(zahlungsempfaengerName + ", Monat " + monat);
 			cTTI10CH.getRmtInf().setUstrd(ustrd);    // 2.99
 		} else {
 			cTTI10CH.getRmtInf().setUstrd(normalize(auszahlungDTO.getZahlungText()));
@@ -284,30 +284,30 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		}
 
 		cTTI10CH.getCdtr().setPstlAdr(objectFactory.createPostalAddress6CH());
-		if (auszahlungDTO.getZahlungsempfaegerStrasse() != null) {
-			cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaegerStrasse())); // 2.79
+		if (auszahlungDTO.getZahlungsempfaengerStrasse() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setStrtNm(normalize(auszahlungDTO.getZahlungsempfaengerStrasse())); // 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaegerHausnummer() != null) {
-			cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaegerHausnummer()); // 2.79
+		if (auszahlungDTO.getZahlungsempfaengerHausnummer() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setBldgNb(auszahlungDTO.getZahlungsempfaengerHausnummer()); // 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaegerPlz() != null) {
-			cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaegerPlz());// 2.79
+		if (auszahlungDTO.getZahlungsempfaengerPlz() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setPstCd(auszahlungDTO.getZahlungsempfaengerPlz());// 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaegerOrt() != null) {
-			cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaegerOrt()));// 2.79
+		if (auszahlungDTO.getZahlungsempfaengerOrt() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setTwnNm(normalize(auszahlungDTO.getZahlungsempfaengerOrt()));// 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaegerLand() != null) {
-			cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaegerLand());// 2.79
+		if (auszahlungDTO.getZahlungsempfaengerLand() != null) {
+			cTTI10CH.getCdtr().getPstlAdr().setCtry(auszahlungDTO.getZahlungsempfaengerLand());// 2.79
 		}
 	}
 
 	@SuppressWarnings("checkstyle:BooleanExpressionComplexity")
 	private boolean hasAddressData(@Nonnull AuszahlungDTO auszahlungDTO) {
-		return auszahlungDTO.getZahlungsempfaegerStrasse() != null
-			|| auszahlungDTO.getZahlungsempfaegerHausnummer() != null
-			|| auszahlungDTO.getZahlungsempfaegerPlz() != null
-			|| auszahlungDTO.getZahlungsempfaegerOrt() != null
-			|| auszahlungDTO.getZahlungsempfaegerLand() != null;
+		return auszahlungDTO.getZahlungsempfaengerStrasse() != null
+			|| auszahlungDTO.getZahlungsempfaengerHausnummer() != null
+			|| auszahlungDTO.getZahlungsempfaengerPlz() != null
+			|| auszahlungDTO.getZahlungsempfaengerOrt() != null
+			|| auszahlungDTO.getZahlungsempfaengerLand() != null;
 	}
 
 	@Contract("!null->!null; null->null;")

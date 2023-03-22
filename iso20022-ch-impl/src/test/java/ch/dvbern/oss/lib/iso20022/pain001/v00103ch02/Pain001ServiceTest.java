@@ -61,49 +61,49 @@ public class Pain001ServiceTest {
 
 		AuszahlungDTO auszahlung1 = new AuszahlungDTO();
 		auszahlung1.setBetragTotalZahlung(BigDecimal.TEN);
-		auszahlung1.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-		auszahlung1.setZahlungsempfaegerIBAN("CH9300762011623852957");
-		auszahlung1.setZahlungsempfaegerLand("CH");
-		auszahlung1.setZahlungsempfaegerName("Auszahlung 1");
-		auszahlung1.setZahlungsempfaegerStrasse("Teststrasse");
-		auszahlung1.setZahlungsempfaegerHausnummer("1");
-		auszahlung1.setZahlungsempfaegerPlz("3000");
-		auszahlung1.setZahlungsempfaegerOrt("Bern");
+		auszahlung1.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+		auszahlung1.setZahlungsempfaengerIBAN("CH9300762011623852957");
+		auszahlung1.setZahlungsempfaengerLand("CH");
+		auszahlung1.setZahlungsempfaengerName("Auszahlung 1");
+		auszahlung1.setZahlungsempfaengerStrasse("Teststrasse");
+		auszahlung1.setZahlungsempfaengerHausnummer("1");
+		auszahlung1.setZahlungsempfaengerPlz("3000");
+		auszahlung1.setZahlungsempfaengerOrt("Bern");
 		auszahlung1.setZahlungText("Auszahlung 1");
 		auszahlungen.add(auszahlung1);
 
 		AuszahlungDTO auszahlung2 = new AuszahlungDTO();
 		auszahlung2.setBetragTotalZahlung(new BigDecimal(1000));
-		auszahlung2.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-		auszahlung2.setZahlungsempfaegerIBAN("CH9300762011623852957");
-		auszahlung2.setZahlungsempfaegerLand("CH");
-		auszahlung2.setZahlungsempfaegerName("Auszahlung 2");
-		auszahlung2.setZahlungsempfaegerStrasse("Teststrasse");
-		auszahlung2.setZahlungsempfaegerHausnummer("2");
-		auszahlung2.setZahlungsempfaegerPlz("4000");
-		auszahlung2.setZahlungsempfaegerOrt("Zürich");
+		auszahlung2.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+		auszahlung2.setZahlungsempfaengerIBAN("CH9300762011623852957");
+		auszahlung2.setZahlungsempfaengerLand("CH");
+		auszahlung2.setZahlungsempfaengerName("Auszahlung 2");
+		auszahlung2.setZahlungsempfaengerStrasse("Teststrasse");
+		auszahlung2.setZahlungsempfaengerHausnummer("2");
+		auszahlung2.setZahlungsempfaengerPlz("4000");
+		auszahlung2.setZahlungsempfaengerOrt("Zürich");
 		auszahlungen.add(auszahlung2);
 
 		// Auszahlung mit zu langem Kontoinhaber-Namen
 		AuszahlungDTO auszahlung3 = new AuszahlungDTO();
 		auszahlung3.setBetragTotalZahlung(new BigDecimal(1000));
-		auszahlung3.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-		auszahlung3.setZahlungsempfaegerIBAN("CH9300762011623852957");
-		auszahlung3.setZahlungsempfaegerLand("CH");
-		auszahlung3.setZahlungsempfaegerName(
+		auszahlung3.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+		auszahlung3.setZahlungsempfaengerIBAN("CH9300762011623852957");
+		auszahlung3.setZahlungsempfaengerLand("CH");
+		auszahlung3.setZahlungsempfaengerName(
 			"Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins "
 				+ "Feld");
-		auszahlung3.setZahlungsempfaegerStrasse("Teststrasse");
-		auszahlung3.setZahlungsempfaegerHausnummer("2");
-		auszahlung3.setZahlungsempfaegerPlz("4000");
-		auszahlung3.setZahlungsempfaegerOrt("Zürich");
+		auszahlung3.setZahlungsempfaengerStrasse("Teststrasse");
+		auszahlung3.setZahlungsempfaengerHausnummer("2");
+		auszahlung3.setZahlungsempfaengerPlz("4000");
+		auszahlung3.setZahlungsempfaengerOrt("Zürich");
 		auszahlungen.add(auszahlung3);
 
 		AuszahlungDTO auszahlungWithout = new AuszahlungDTO();
 		auszahlungWithout.setBetragTotalZahlung(new BigDecimal(2000));
-		auszahlungWithout.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-		auszahlungWithout.setZahlungsempfaegerIBAN("CH9300762011623852957");
-		auszahlungWithout.setZahlungsempfaegerName("Auszahlung Without address");
+		auszahlungWithout.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+		auszahlungWithout.setZahlungsempfaengerIBAN("CH9300762011623852957");
+		auszahlungWithout.setZahlungsempfaengerName("Auszahlung Without address");
 		auszahlungen.add(auszahlungWithout);
 
 		zahlungsauftrag = new Pain001DTO();

@@ -48,28 +48,28 @@ public class MyCDIEnabledClass {
         // first paying out
         AuszahlungDTO payment1 = new AuszahlungDTO();
         payment1.setBetragTotalZahlung(BigDecimal.TEN);
-        payment1.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-        payment1.setZahlungsempfaegerIBAN("CH9300762011623852957");
-        payment1.setZahlungsempfaegerLand("CH");
-        payment1.setZahlungsempfaegerName("Hans Payee");
-        payment1.setZahlungsempfaegerStrasse("Teststreet");
-        payment1.setZahlungsempfaegerHausnummer("1");
-        payment1.setZahlungsempfaegerPlz("3000");
-        payment1.setZahlungsempfaegerOrt("Bern");
+        payment1.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+        payment1.setZahlungsempfaengerIBAN("CH9300762011623852957");
+        payment1.setZahlungsempfaengerLand("CH");
+        payment1.setZahlungsempfaengerName("Hans Payee");
+        payment1.setZahlungsempfaengerStrasse("Teststreet");
+        payment1.setZahlungsempfaengerHausnummer("1");
+        payment1.setZahlungsempfaengerPlz("3000");
+        payment1.setZahlungsempfaengerOrt("Bern");
         payment1.setZahlungText("This is my first payment");
         payments.add(payment1);
 
         // second paying out
         AuszahlungDTO payment2 = new AuszahlungDTO();
         payment2.setBetragTotalZahlung(new BigDecimal(1000));
-        payment2.setZahlungsempfaegerBankClearingNumber("POFICHBEXXX");
-        payment2.setZahlungsempfaegerIBAN("CH9300762011623852957");
-        payment2.setZahlungsempfaegerLand("CH");
-        payment2.setZahlungsempfaegerName("Kurt Payee");
-        payment2.setZahlungsempfaegerStrasse("Teststreet");
-        payment2.setZahlungsempfaegerHausnummer("2");
-        payment2.setZahlungsempfaegerPlz("4000");
-        payment2.setZahlungsempfaegerOrt("Zürich");
+        payment2.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
+        payment2.setZahlungsempfaengerIBAN("CH9300762011623852957");
+        payment2.setZahlungsempfaengerLand("CH");
+        payment2.setZahlungsempfaengerName("Kurt Payee");
+        payment2.setZahlungsempfaengerStrasse("Teststreet");
+        payment2.setZahlungsempfaengerHausnummer("2");
+        payment2.setZahlungsempfaengerPlz("4000");
+        payment2.setZahlungsempfaengerOrt("Zürich");
         payment1.setZahlungText("This is my second payment");
         payments.add(payment2);
         

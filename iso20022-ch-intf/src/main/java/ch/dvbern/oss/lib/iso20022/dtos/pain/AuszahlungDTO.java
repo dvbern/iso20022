@@ -26,31 +26,31 @@ public class AuszahlungDTO {
 	private BigDecimal betragTotalZahlung = null;
 
 	@Nullable
-	private String zahlungsempfaegerName = null;
+	private String zahlungsempfaengerName = null;
 
 	@Nullable
-	private String zahlungsempfaegerStrasse = null;
+	private String zahlungsempfaengerStrasse = null;
 
 	@Nullable
-	private String zahlungsempfaegerHausnummer = null;
+	private String zahlungsempfaengerHausnummer = null;
 
 	@Nullable
-	private String zahlungsempfaegerPlz = null;
+	private String zahlungsempfaengerPlz = null;
 
 	@Nullable
-	private String zahlungsempfaegerOrt = null;
+	private String zahlungsempfaengerOrt = null;
 
 	@Nullable
-	private String zahlungsempfaegerLand = null;
+	private String zahlungsempfaengerLand = null;
 
 	@Nullable
-	private String zahlungsempfaegerIBAN = null;
+	private String zahlungsempfaengerIBAN = null;
 
 	@Nullable
-	private String zahlungsempfaegerBankClearingNumber = null;
+	private String zahlungsempfaengerBankClearingNumber = null;
 
 	@Nullable
-	private String zahlungsempfaegerBIC = null;
+	private String zahlungsempfaengerBIC = null;
 
 	@Nullable
 	private String zahlungText = null;
@@ -65,84 +65,84 @@ public class AuszahlungDTO {
 	}
 
 	@Nullable
-	public String getZahlungsempfaegerName() {
-		return zahlungsempfaegerName;
+	public String getZahlungsempfaengerName() {
+		return zahlungsempfaengerName;
 	}
 
-	public void setZahlungsempfaegerName(@Nullable String zahlungsempfaegerName) {
-		this.zahlungsempfaegerName = zahlungsempfaegerName;
-	}
-
-	@Nullable
-	public String getZahlungsempfaegerStrasse() {
-		return zahlungsempfaegerStrasse;
-	}
-
-	public void setZahlungsempfaegerStrasse(@Nullable String zahlungsempfaegerStrasse) {
-		this.zahlungsempfaegerStrasse = zahlungsempfaegerStrasse;
+	public void setZahlungsempfaengerName(@Nullable String zahlungsempfaengerName) {
+		this.zahlungsempfaengerName = zahlungsempfaengerName;
 	}
 
 	@Nullable
-	public String getZahlungsempfaegerHausnummer() {
-		return zahlungsempfaegerHausnummer;
+	public String getZahlungsempfaengerStrasse() {
+		return zahlungsempfaengerStrasse;
 	}
 
-	public void setZahlungsempfaegerHausnummer(@Nullable String zahlungsempfaegerHausnummer) {
-		this.zahlungsempfaegerHausnummer = zahlungsempfaegerHausnummer;
-	}
-
-	@Nullable
-	public String getZahlungsempfaegerPlz() {
-		return zahlungsempfaegerPlz;
-	}
-
-	public void setZahlungsempfaegerPlz(@Nullable String zahlungsempfaegerPlz) {
-		this.zahlungsempfaegerPlz = zahlungsempfaegerPlz;
+	public void setZahlungsempfaengerStrasse(@Nullable String zahlungsempfaengerStrasse) {
+		this.zahlungsempfaengerStrasse = zahlungsempfaengerStrasse;
 	}
 
 	@Nullable
-	public String getZahlungsempfaegerOrt() {
-		return zahlungsempfaegerOrt;
+	public String getZahlungsempfaengerHausnummer() {
+		return zahlungsempfaengerHausnummer;
 	}
 
-	public void setZahlungsempfaegerOrt(@Nullable String zahlungsempfaegerOrt) {
-		this.zahlungsempfaegerOrt = zahlungsempfaegerOrt;
-	}
-
-	@Nullable
-	public String getZahlungsempfaegerLand() {
-		return zahlungsempfaegerLand;
-	}
-
-	public void setZahlungsempfaegerLand(@Nullable String zahlungsempfaegerLand) {
-		this.zahlungsempfaegerLand = zahlungsempfaegerLand;
+	public void setZahlungsempfaengerHausnummer(@Nullable String zahlungsempfaengerHausnummer) {
+		this.zahlungsempfaengerHausnummer = zahlungsempfaengerHausnummer;
 	}
 
 	@Nullable
-	public String getZahlungsempfaegerIBAN() {
-		return zahlungsempfaegerIBAN;
+	public String getZahlungsempfaengerPlz() {
+		return zahlungsempfaengerPlz;
 	}
 
-	public void setZahlungsempfaegerIBAN(@Nullable String zahlungsempfaegerIBAN) {
-		this.zahlungsempfaegerIBAN = zahlungsempfaegerIBAN;
-	}
-
-	@Nullable
-	public String getZahlungsempfaegerBankClearingNumber() {
-		return zahlungsempfaegerBankClearingNumber;
-	}
-
-	public void setZahlungsempfaegerBankClearingNumber(@Nullable String zahlungsempfaegerBankClearingNumber) {
-		this.zahlungsempfaegerBankClearingNumber = zahlungsempfaegerBankClearingNumber;
+	public void setZahlungsempfaengerPlz(@Nullable String zahlungsempfaengerPlz) {
+		this.zahlungsempfaengerPlz = zahlungsempfaengerPlz;
 	}
 
 	@Nullable
-	public String getZahlungsempfaegerBIC() {
-		return zahlungsempfaegerBIC;
+	public String getZahlungsempfaengerOrt() {
+		return zahlungsempfaengerOrt;
 	}
 
-	public void setZahlungsempfaegerBIC(@Nullable String zahlungsempfaegerBIC) {
-		this.zahlungsempfaegerBIC = zahlungsempfaegerBIC;
+	public void setZahlungsempfaengerOrt(@Nullable String zahlungsempfaengerOrt) {
+		this.zahlungsempfaengerOrt = zahlungsempfaengerOrt;
+	}
+
+	@Nullable
+	public String getZahlungsempfaengerLand() {
+		return zahlungsempfaengerLand;
+	}
+
+	public void setZahlungsempfaengerLand(@Nullable String zahlungsempfaengerLand) {
+		this.zahlungsempfaengerLand = zahlungsempfaengerLand;
+	}
+
+	@Nullable
+	public String getZahlungsempfaengerIBAN() {
+		return zahlungsempfaengerIBAN;
+	}
+
+	public void setZahlungsempfaengerIBAN(@Nullable String zahlungsempfaengerIBAN) {
+		this.zahlungsempfaengerIBAN = zahlungsempfaengerIBAN;
+	}
+
+	@Nullable
+	public String getZahlungsempfaengerBankClearingNumber() {
+		return zahlungsempfaengerBankClearingNumber;
+	}
+
+	public void setZahlungsempfaengerBankClearingNumber(@Nullable String zahlungsempfaengerBankClearingNumber) {
+		this.zahlungsempfaengerBankClearingNumber = zahlungsempfaengerBankClearingNumber;
+	}
+
+	@Nullable
+	public String getZahlungsempfaengerBIC() {
+		return zahlungsempfaengerBIC;
+	}
+
+	public void setZahlungsempfaengerBIC(@Nullable String zahlungsempfaengerBIC) {
+		this.zahlungsempfaengerBIC = zahlungsempfaengerBIC;
 	}
 
 	@Nullable
