@@ -56,6 +56,9 @@ public class AuszahlungDTO {
 	private String zahlungText = null;
 
 	@Nullable
+	private String endToEndId = null;
+
+	@Nullable
 	public BigDecimal getBetragTotalZahlung() {
 		return betragTotalZahlung;
 	}
@@ -152,5 +155,14 @@ public class AuszahlungDTO {
 
 	public void setZahlungText(@Nullable String zahlungText) {
 		this.zahlungText = zahlungText;
+	}
+
+	@Nullable
+	public String getEndToEndId() {
+		return endToEndId;
+	}
+
+	public void setEndToEndId(@Nullable String endToEndId) {
+		this.endToEndId = endToEndId;
 	}
 }
