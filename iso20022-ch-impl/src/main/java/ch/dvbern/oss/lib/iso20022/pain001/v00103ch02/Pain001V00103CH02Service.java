@@ -229,8 +229,14 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		cTTI10CH.getPmtId().setInstrId(Iso20022Util.replaceSwift(transaktionStr)); // 2.29 // SWIFT
 
 		String zahlungsempfaengerName = requireNonNull(auszahlungDTO.getZahlungsempfaengerName());
-		// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
-		String endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaengerName; // SWIFT
+
+		String endToEndId;
+		if (auszahlungDTO.getEndToEndId() == null) {
+			// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
+			endToEndId = transaktionStr + '/' + date.getMonthValue() + '/' + zahlungsempfaengerName; // SWIFT
+		} else {
+			endToEndId = auszahlungDTO.getEndToEndId();
+		}
 		endToEndId = Iso20022Util.replaceSwift(endToEndId);
 		// 2.30 max 35 signs
 		cTTI10CH.getPmtId().setEndToEndId(endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)));
@@ -238,7 +244,6 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		// value
 		cTTI10CH.getAmt().getInstdAmt().setCcy(CCY);// 2.43
 		cTTI10CH.getAmt().getInstdAmt().setValue(auszahlungDTO.getBetragTotalZahlung());// 2.43
-
 
 		if (auszahlungDTO.getZahlungsempfaengerBIC() != null) {
 			// BIC
