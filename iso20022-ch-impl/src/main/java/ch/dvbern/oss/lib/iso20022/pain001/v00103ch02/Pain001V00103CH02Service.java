@@ -29,11 +29,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.enterprise.context.ApplicationScoped;
 
-import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
-import ch.dvbern.oss.lib.iso20022.Iso20022Util;
-import ch.dvbern.oss.lib.iso20022.dtos.pain.AuszahlungDTO;
-import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
-import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Contract;
+
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemIdentification2Choice;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemMemberIdentification2;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.CreditTransferTransactionInformation10CH;
@@ -42,8 +40,12 @@ import com.six_interbank_clearing.de.pain_001_001_03_ch_02.GroupHeader32CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ObjectFactory;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentInstructionInformation3CH;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.PaymentMethod3Code;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Contract;
+
+import ch.dvbern.oss.lib.iso20022.Iso20022JaxbUtil;
+import ch.dvbern.oss.lib.iso20022.Iso20022Util;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.AuszahlungDTO;
+import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
+import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
@@ -451,7 +453,10 @@ public class Pain001V00103CH02Service implements Pain001Service {
 		groupHeader32CH.getInitgPty().setNm(debtorName); // 1.8
 
 		groupHeader32CH.getInitgPty().getCtctDtls().setNm(requireNonNull(pain001DTO.getSoftwareName())); // 1.8
-		groupHeader32CH.getInitgPty().getCtctDtls().setOthr(CTCTDTLS_OTHR); // 1.8
+		String version = pain001DTO.getSoftwareVersion() == null ?
+			CTCTDTLS_OTHR :
+			Iso20022Util.replaceSwift(pain001DTO.getSoftwareVersion());
+		groupHeader32CH.getInitgPty().getCtctDtls().setOthr(version); // 1.8
 
 		LocalDateTime creationTime = requireNonNull(pain001DTO.getGenerierungsDatum());
 		groupHeader32CH.setCreDtTm(Iso20022Util.toXmlGregorianCalendar(creationTime)); // 1.2

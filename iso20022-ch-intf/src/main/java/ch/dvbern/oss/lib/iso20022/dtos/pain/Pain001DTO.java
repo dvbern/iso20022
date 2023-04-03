@@ -34,6 +34,9 @@ public class Pain001DTO {
 	private String softwareName = null;
 
 	@Nullable
+	private String softwareVersion = null;
+
+	@Nullable
 	private String schuldnerName = null;
 
 	@Nullable
@@ -70,6 +73,15 @@ public class Pain001DTO {
 
 	public void setSoftwareName(@Nullable String softwareName) {
 		this.softwareName = softwareName;
+	}
+
+	@Nullable
+	public String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	public void setSoftwareVersion(@Nullable final String softwareVersion) {
+		this.softwareVersion = softwareVersion;
 	}
 
 	@Nullable
