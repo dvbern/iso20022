@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 public class Pain001DTO {
 
 	@Nonnull
-	private String msgId = UUID.randomUUID().toString(); // by default just in case it is not set
+	private String msgId = UUID.randomUUID().toString().replaceAll("-", ""); // by default just in case it is not set
 
 	@Nullable
 	private String softwareName = null;
