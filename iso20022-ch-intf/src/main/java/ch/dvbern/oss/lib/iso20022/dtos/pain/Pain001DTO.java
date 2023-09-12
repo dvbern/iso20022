@@ -57,6 +57,9 @@ public class Pain001DTO {
 	@Nonnull
 	private List<AuszahlungDTO> auszahlungen = new ArrayList<>();
 
+	@Nullable
+	private String pmtInfId;
+
 	@Nonnull
 	public String getMsgId() {
 		return msgId;
@@ -145,5 +148,13 @@ public class Pain001DTO {
 
 	public void setAuszahlungen(@Nonnull List<AuszahlungDTO> auszahlungen) {
 		this.auszahlungen = auszahlungen;
+	}
+
+	public String getPmtInfId() {
+		return pmtInfId;
+	}
+
+	public void setPmtInfId(String pmtInfId) {
+		this.pmtInfId = pmtInfId;
 	}
 }
