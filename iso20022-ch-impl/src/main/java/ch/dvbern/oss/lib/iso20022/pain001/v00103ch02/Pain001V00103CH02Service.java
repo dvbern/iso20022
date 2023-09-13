@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -376,7 +377,11 @@ public class Pain001V00103CH02Service implements Pain001Service {
 
 		PaymentInstructionInformation3CH paymentInstructionInformation3CH = objectFactory
 			.createPaymentInstructionInformation3CH();
-		paymentInstructionInformation3CH.setPmtInfId(Iso20022Util.replaceSwift(pain001DTO.getMsgId())); // SWIFT
+
+		String paymentInfoId = Optional.ofNullable(pain001DTO.getPmtInfId())
+			.orElse(pain001DTO.getMsgId());
+		paymentInstructionInformation3CH.setPmtInfId(Iso20022Util.replaceSwift(paymentInfoId)); // SWIFT
+
 		paymentInstructionInformation3CH.setPmtMtd(PAYMENT_METHOD_3_CODE);
 
 		paymentInstructionInformation3CH.setBtchBookg(BTCHBOOKG);
