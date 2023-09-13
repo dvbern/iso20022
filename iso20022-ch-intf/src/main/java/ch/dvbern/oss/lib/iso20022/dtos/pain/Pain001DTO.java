@@ -16,19 +16,21 @@
 
 package ch.dvbern.oss.lib.iso20022.dtos.pain;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.regex.Pattern;
 
 public class Pain001DTO {
 
+	private static final Pattern DASHES = Pattern.compile("-");
+
 	@Nonnull
-	private String msgId = UUID.randomUUID().toString().replaceAll("-", ""); // by default just in case it is not set
+	private String msgId = defaultMsgId();
 
 	@Nullable
 	private String softwareName = null;
@@ -59,6 +61,11 @@ public class Pain001DTO {
 
 	@Nullable
 	private String pmtInfId;
+
+	@Nonnull
+	private static String defaultMsgId() {
+		return DASHES.matcher(UUID.randomUUID().toString()).replaceAll("");
+	}
 
 	@Nonnull
 	public String getMsgId() {
@@ -150,11 +157,12 @@ public class Pain001DTO {
 		this.auszahlungen = auszahlungen;
 	}
 
+	@Nullable
 	public String getPmtInfId() {
 		return pmtInfId;
 	}
 
-	public void setPmtInfId(String pmtInfId) {
+	public void setPmtInfId(@Nullable String pmtInfId) {
 		this.pmtInfId = pmtInfId;
 	}
 }
