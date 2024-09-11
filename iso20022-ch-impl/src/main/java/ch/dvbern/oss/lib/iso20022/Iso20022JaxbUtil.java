@@ -2,17 +2,15 @@ package ch.dvbern.oss.lib.iso20022;
 
 import java.io.StringWriter;
 
-import javax.annotation.Nonnull;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.namespace.QName;
 
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
-
-import static org.apache.commons.lang3.StringUtils.SPACE;
+import jakarta.annotation.Nonnull;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.ValidationEvent;
+import jakarta.xml.bind.ValidationEventHandler;
 
 /**
  * Jaxb related utility functionality.
@@ -45,7 +43,7 @@ public final class Iso20022JaxbUtil {
 			final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation + SPACE + schemaName);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation + ' ' + schemaName);
 
 			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new JaxbValidationEventHandler());
@@ -70,7 +68,7 @@ public final class Iso20022JaxbUtil {
 		return new JAXBElement<>(name, documentClass, elemToMarshall);
 	}
 
-	private static class JaxbValidationEventHandler implements ValidationEventHandler {
+	private static final class JaxbValidationEventHandler implements ValidationEventHandler {
 		@Override
 		public boolean handleEvent(@Nonnull ValidationEvent event) {
 			throw new Iso20022RuntimeException("Unexpected error while generating xml file: "

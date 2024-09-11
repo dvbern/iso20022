@@ -16,9 +16,8 @@
 
 package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
 
-import javax.validation.Valid;
-
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
+import jakarta.validation.Valid;
 
 /**
  * Service to generate Payment-File Pain001 according to ISO20022 for a swiss bank

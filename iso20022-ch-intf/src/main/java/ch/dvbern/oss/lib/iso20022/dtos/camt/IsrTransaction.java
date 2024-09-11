@@ -19,10 +19,9 @@ package ch.dvbern.oss.lib.iso20022.dtos.camt;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class IsrTransaction {
 

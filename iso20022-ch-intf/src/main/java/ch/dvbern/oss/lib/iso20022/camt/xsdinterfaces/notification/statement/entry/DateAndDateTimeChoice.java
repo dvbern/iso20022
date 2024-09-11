@@ -16,8 +16,9 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry;
 
-import javax.annotation.Nullable;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("override")
 public interface DateAndDateTimeChoice {

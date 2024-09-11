@@ -17,7 +17,7 @@ def masterBranchName = "master"
 def developBranchName = "develop"
 def featureBranchPrefix = "feature"
 
-def nodeLabel = env.BRANCH_NAME.toString().startsWith(masterBranchName) ? 'oss-deploy-maven-central' : ''
+def nodeLabel = env.BRANCH_NAME.toString().startsWith(masterBranchName) ? 'oss-deploy-maven-central linux' : 'linux'
 
 if (params.performRelease) {
 	// see https://issues.jenkins-ci.org/browse/JENKINS-53512

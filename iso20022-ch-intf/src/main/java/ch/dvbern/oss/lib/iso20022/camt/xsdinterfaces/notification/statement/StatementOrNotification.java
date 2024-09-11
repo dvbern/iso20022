@@ -19,12 +19,12 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.Entry;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account.Account;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.Entry;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Only one instance will be provided, one account per "camt" message. Details

@@ -18,7 +18,7 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.ent
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("override")
 public interface Party {

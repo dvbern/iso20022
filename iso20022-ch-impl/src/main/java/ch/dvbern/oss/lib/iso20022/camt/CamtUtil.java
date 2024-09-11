@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -28,6 +27,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+import jakarta.annotation.Nonnull;
 import org.xml.sax.SAXException;
 
 public final class CamtUtil {

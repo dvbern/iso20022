@@ -16,7 +16,7 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Contact data, only the &lt;Nm&gt; sub-element is sent
