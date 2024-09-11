@@ -21,7 +21,7 @@
     <parent>
         <groupId>ch.dvbern.oss.maven</groupId>
         <artifactId>parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.1</version>
     </parent>
 
     <groupId>ch.dvbern.oss.iso20022</groupId>
@@ -37,7 +37,7 @@
         <maven-compiler-plugin.source>11</maven-compiler-plugin.source>
         <maven-compiler-plugin.target>11</maven-compiler-plugin.target>
         <cxf-xjc-plugin.version>4.0.1</cxf-xjc-plugin.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.16</slf4j.version>
         <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
     </properties>
 
@@ -46,7 +46,7 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.10.0</version>
+                <version>5.11.0</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -77,7 +77,7 @@
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>4.0.2</version>
+                <version>4.0.5</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
@@ -110,22 +110,22 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.13.0</version>
+                <version>3.17.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.13.0</version>
+                <version>2.16.1</version>
             </dependency>
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
-                <version>2.9.1</version>
+                <version>2.10.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>24.0.1</version>
+                <version>24.1.0</version>
                 <!-- enhanced annotations for the Jetbrains IDEs -->
                 <scope>provided</scope>
             </dependency>
