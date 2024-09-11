@@ -12,8 +12,6 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.ValidationEvent;
 import jakarta.xml.bind.ValidationEventHandler;
 
-import static org.apache.commons.lang3.StringUtils.SPACE;
-
 /**
  * Jaxb related utility functionality.
  */
@@ -45,7 +43,7 @@ public final class Iso20022JaxbUtil {
 			final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation + SPACE + schemaName);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation + ' ' + schemaName);
 
 			// don't use lambda, otherwise there may errors with Java-Version
 			jaxbMarshaller.setEventHandler(new JaxbValidationEventHandler());
@@ -70,7 +68,7 @@ public final class Iso20022JaxbUtil {
 		return new JAXBElement<>(name, documentClass, elemToMarshall);
 	}
 
-	private static class JaxbValidationEventHandler implements ValidationEventHandler {
+	private static final class JaxbValidationEventHandler implements ValidationEventHandler {
 		@Override
 		public boolean handleEvent(@Nonnull ValidationEvent event) {
 			throw new Iso20022RuntimeException("Unexpected error while generating xml file: "
