@@ -16,24 +16,20 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.Objects;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Schema 2019: Content Model changed
  */
+@SuppressWarnings("override")
 public interface PartyOrDeptor {
 
 	@Nonnull
 	default Party getParty() {
-		Party pty = getPty();
-		if (pty != null) {
-			// since camt.054.001.08.ch.02
-			return pty;
-		}
-
-		// old schema
-		return (Party) this;
+		return Objects.requireNonNullElseGet(getPty(), () -> (Party) this);
 	}
 
 	@Nullable

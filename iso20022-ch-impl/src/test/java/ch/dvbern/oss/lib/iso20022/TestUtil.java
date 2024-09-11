@@ -25,8 +25,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
+import jakarta.annotation.Nonnull;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -56,7 +55,6 @@ public final class TestUtil {
 	}
 
 	@Nonnull
-
 	public static Stream<Path> getXmlFilesFromResources(@Nonnull String resourceDir)
 		throws IOException, URISyntaxException {
 		return getPathsFromResources(resourceDir)

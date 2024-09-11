@@ -26,13 +26,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.enterprise.context.ApplicationScoped;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Contract;
-
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemIdentification2Choice;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.ClearingSystemMemberIdentification2;
 import com.six_interbank_clearing.de.pain_001_001_03_ch_02.CreditTransferTransactionInformation10CH;
@@ -47,6 +40,12 @@ import ch.dvbern.oss.lib.iso20022.Iso20022Util;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.AuszahlungDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 import ch.dvbern.oss.lib.iso20022.exceptions.Iso20022RuntimeException;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.enterprise.context.ApplicationScoped;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Contract;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;

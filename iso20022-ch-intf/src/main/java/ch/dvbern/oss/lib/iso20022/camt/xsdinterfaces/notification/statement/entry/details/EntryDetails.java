@@ -18,7 +18,7 @@ package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.ent
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface EntryDetails {

@@ -16,7 +16,7 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SuppressWarnings({ "override", "NullableProblems" })
 public interface MessagePagination {

@@ -16,9 +16,8 @@
 
 package ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties;
 
-import javax.annotation.Nonnull;
-
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.account.AccountIdentification;
+import jakarta.annotation.Nonnull;
 
 @SuppressWarnings("NullableProblems")
 public interface DeptorAccount {
