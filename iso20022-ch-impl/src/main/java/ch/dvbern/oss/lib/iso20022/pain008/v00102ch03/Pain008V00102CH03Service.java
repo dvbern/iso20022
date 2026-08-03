@@ -10,7 +10,7 @@ import ch.dvbern.oss.lib.iso20022.dtos.pain.PaymentInformationDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.CashAccount16;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.DirectDebitTransactionInformation9;
-import com.six_interbank_clearing.de.pain_008_001_02_ch_03.Document;
+import com.six_interbank_clearing.de.pain_008_001_02_ch_03.DocumentCHPain008;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.GroupHeader39;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ObjectFactory;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PartyIdentification32;
@@ -18,11 +18,12 @@ import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentInstructionInf
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentMethod2Code;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.PaymentTypeInformation20;
 import com.six_interbank_clearing.de.pain_008_001_02_ch_03.ServiceLevel8Choice;
+import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.Valid;
+import jakarta.xml.bind.JAXBElement;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
-import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CTCTDTLS_OTHR;
 
 @ApplicationScoped
 public class Pain008V00102CH03Service implements Pain008Service {
@@ -35,15 +36,17 @@ public class Pain008V00102CH03Service implements Pain008Service {
 
 	@Override
 	public byte[] getPainFileContent(@Valid Pain008DTO pain008DTO) {
-		final Document document = createPain008Document(pain008DTO);
+		ObjectFactory objectFactory = new ObjectFactory();
+		DocumentCHPain008 document = createPain008Document(objectFactory, pain008DTO);
+		JAXBElement<DocumentCHPain008> jaxbElement = objectFactory.createDocument(document);
 
-		return Iso20022JaxbUtil.getXMLStringFromDocument(document, Document.class, SCHEMA_LOCATION, SCHEMA_NAME)
+		return Iso20022JaxbUtil.getXMLString(jaxbElement, ObjectFactory.class)
 			.getBytes(StandardCharsets.UTF_8);
 	}
 
-	private Document createPain008Document(@Valid Pain008DTO dto) {
-		ObjectFactory objFactory = new ObjectFactory();
-		Document document = objFactory.createDocument();
+	@Nonnull
+	private DocumentCHPain008 createPain008Document(@Nonnull ObjectFactory objFactory, @Nonnull Pain008DTO dto) {
+		DocumentCHPain008 document = objFactory.createDocumentCHPain008();
 		document.setCstmrDrctDbtInitn(objFactory.createCustomerDirectDebitInitiationV02());
 
 		int transactionCount = 0;
@@ -98,8 +101,12 @@ public class Pain008V00102CH03Service implements Pain008Service {
 		partyId.getId().getOrgId().setOthr(objFactory.createGenericOrganisationIdentification1());
 		partyId.getId().getOrgId().getOthr().setId(dto.getInitiatingPartyId());
 		partyId.setCtctDtls(objFactory.createContactDetails2());
-		partyId.getCtctDtls().setNm(dto.getSoftwareName());
-		partyId.getCtctDtls().setOthr(CTCTDTLS_OTHR);
+		if (dto.getSoftwareName() != null) {
+			partyId.getCtctDtls().setNm(dto.getSoftwareName());
+		}
+		if (dto.getSoftwareVersion() != null) {
+			partyId.getCtctDtls().setOthr(dto.getSoftwareVersion());
+		}
 
 		header.setInitgPty(partyId);
 

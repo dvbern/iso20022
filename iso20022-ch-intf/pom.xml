@@ -21,11 +21,16 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>7.0.3-SNAPSHOT</version>
+        <version>8.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>iso20022-ch-intf</artifactId>
     <packaging>jar</packaging>
+
+    <name>ISO20022 CH interfaces</name>
+    <description>
+        Interfaces and DTOs for Swiss ISO20022 payment standards (pain.001, pain.008, camt.053, camt.054)
+    </description>
 
     <properties>
         <xsd.basedir>${project.basedir}/src/main/resources/</xsd.basedir>
@@ -46,8 +51,9 @@
                         <configuration>
                             <xsdOptions>
                                 <xsdOption>
-                                    <xsd>${xsd.basedir}/com/six_interbank_clearing/de/pain_001_001_03_ch_02/pain.001.001.03.ch.02.xsd</xsd>
+                                    <xsd>${xsd.basedir}/iso/std/iso/20022/tech/xsd/pain_001_001_09_ch_03/pain.001.001.09.ch.03.xsd</xsd>
                                     <bindingFile>${xsd.basedir}/bindings/pain001.xjb</bindingFile>
+                                    <packagename>iso.std.iso._20022.tech.xsd.pain_001_001</packagename>
                                     <extension>true</extension>
                                     <extensionArgs>
                                         <extensionArg>-Xinheritance</extensionArg>

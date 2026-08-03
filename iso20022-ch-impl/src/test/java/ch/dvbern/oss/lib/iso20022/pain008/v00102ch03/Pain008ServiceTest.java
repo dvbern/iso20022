@@ -15,9 +15,9 @@
 
 package ch.dvbern.oss.lib.iso20022.pain008.v00102ch03;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,35 +27,26 @@ import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain008DTO;
 import ch.dvbern.oss.lib.iso20022.dtos.pain.PaymentInformationDTO;
 import ch.dvbern.oss.lib.iso20022.dtos.shared.TransactionInformationDTO;
 import org.junit.jupiter.api.Test;
-import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.diff.Diff;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static ch.dvbern.oss.lib.iso20022.TestUtil.readXml;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.xmlunit.matchers.CompareMatcher.isSimilarTo;
 
-/**
- * Tests for the {@link Pain008Service}.<br>
- *
- * The resulting XML will be saved to STORE_PATH if WRITE_TO_FILE is set to true.
- */
 public class Pain008ServiceTest {
 
-	private static final boolean WRITE_TO_FILE = true;
-	private static final String STORE_PATH = "target/pain008Reference.xml";
+	private static final String REFERENCE_XML = "ch/dvbern/oss/lib/iso20022/pain008/v00102ch03/pain008Reference.xml";
+	private static final String STORE_PATH = "target/pain008TestOutput.xml";
 
-	private final Pain008V00102CH03Service pain008Service = new Pain008V00102CH03Service();
+	private final Pain008V00102CH03Service service = new Pain008V00102CH03Service();
 
 	@Test
 	public void getPainFileContentTest() throws Exception {
 
-		final byte[] painFileContent = pain008Service.getPainFileContent(createDummyDto());
+			final byte[] painFileContent = service.getPainFileContent(createDummyDto());
 
-		writeResultsToFile(painFileContent);
+		Files.write(Paths.get(STORE_PATH), painFileContent);
 
-		Diff diff = DiffBuilder.compare(getClass().getResource("pain008Reference.xml"))
-			.withTest(painFileContent)
-			.build();
-
-		assertFalse(diff.hasDifferences(), "Unexpected differences found: " + diff.getDifferences());
+		assertThat(painFileContent, isSimilarTo(readXml(REFERENCE_XML)));
 	}
 
 	private Pain008DTO createDummyDto() {
@@ -111,21 +102,12 @@ public class Pain008ServiceTest {
 		painDto.setMsgId("Test-ID");
 		painDto.setCreationDateTime(LocalDateTime.of(2017, 6, 30, 15, 0));
 		painDto.setSoftwareName("DVBern Payment Tool");
+		painDto.setSoftwareVersion("V01");
 		painDto.setInitiatingPartyId("BillerID");
 		painDto.setInitiatingPartyName("Test LSV Biller");
 
 		painDto.getPaymentInfo().add(paymentInfo);
 
 		return painDto;
-	}
-
-	private void writeResultsToFile(byte[] data) throws IOException {
-		if (!WRITE_TO_FILE) {
-			return;
-		}
-
-		FileOutputStream fos = new FileOutputStream(STORE_PATH);
-		fos.write(data);
-		fos.close();
 	}
 }

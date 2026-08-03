@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.dvbern.oss.lib.iso20022.pain001.v00103ch02;
+package ch.dvbern.oss.lib.iso20022.pain001.v00109ch03;
 
 import ch.dvbern.oss.lib.iso20022.dtos.pain.Pain001DTO;
 import jakarta.validation.Valid;
@@ -24,10 +24,5 @@ import jakarta.validation.Valid;
  */
 public interface Pain001Service {
 
-	String SCHEMA_NAME = "pain.001.001.03.ch.02.xsd";
-	String SCHEMA_LOCATION_LOCAL = "ch.dvbern.oss.lib.iso20022.pain001.v00103ch02/" + SCHEMA_NAME;
-	String SCHEMA_LOCATION = "http://www.six-interbank-clearing.com/de/" + SCHEMA_NAME;
-
 	byte[] getPainFileContent(@Valid Pain001DTO pain001DTO);
-
 }

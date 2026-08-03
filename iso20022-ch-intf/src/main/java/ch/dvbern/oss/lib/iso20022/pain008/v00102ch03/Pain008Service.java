@@ -24,9 +24,6 @@ import jakarta.validation.Valid;
  */
 public interface Pain008Service {
 
-	String SCHEMA_NAME = "pain.008.001.02.ch.03.xsd";
-	String SCHEMA_LOCATION = "http://www.six-interbank-clearing.com/de/" + SCHEMA_NAME;
-
 	/**
 	 * Creates an UTF-8 pain file for LSV+ (CH-TA), based on the given DTO.
 	 *

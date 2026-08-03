@@ -36,12 +36,12 @@ import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.PARTY_NAME_LENGTH;
 public class TransactionInformationDTO {
 
 	/**
-	 * {@link RandomStringUtils#random(int, boolean, boolean)} by default.
+	 * {@link RandomStringUtils#secure()}.next(35, true, true) by default.
 	 */
 	@Nonnull
 	@NotNull
 	@Size(min = 1, max = MESSAGE_PART_ID_LENGTH)
-	private String transactionId = RandomStringUtils.random(MESSAGE_PART_ID_LENGTH, true, true);
+	private String transactionId = RandomStringUtils.secure().next(MESSAGE_PART_ID_LENGTH, true, true);
 
 	@Nonnull
 	@NotNull

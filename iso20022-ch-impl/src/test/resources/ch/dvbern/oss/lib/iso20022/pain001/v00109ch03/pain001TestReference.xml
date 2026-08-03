@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--
-  ~ Copyright 2017 DV Bern AG
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ limitations under the License.
-  -->
-<Document xsi:schemaLocation="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd pain.001.001.03.ch.02.xsd" xmlns="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Document xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.001.001.09 pain.001.001.09.ch.03.xsd" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.09" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <CstmrCdtTrfInitn>
         <GrpHdr>
             <MsgId>Test-ID</MsgId>
-            <CreDtTm>2017-08-04T10:15:00.000+02:00</CreDtTm>
+            <CreDtTm>2026-07-23T10:15:00.000+02:00</CreDtTm>
             <NbOfTxs>4</NbOfTxs>
             <CtrlSum>4010</CtrlSum>
             <InitgPty>
                 <Nm>Pestalozzi GMBH</Nm>
                 <CtctDtls>
-                    <Nm>DVBern Payment Tool</Nm>
-                    <Othr>V01</Othr>
+                    <Othr>
+                        <ChanlTp>NAME</ChanlTp>
+                        <Id>DVBern Payment Tool</Id>
+                    </Othr>
+                    <Othr>
+                        <ChanlTp>PRVD</ChanlTp>
+                        <Id>DV Bern AG</Id>
+                    </Othr>
+                    <Othr>
+                        <ChanlTp>VRSN</ChanlTp>
+                        <Id>V01</Id>
+                    </Othr>
+                    <Othr>
+                        <ChanlTp>SPSV</ChanlTp>
+                        <Id>0230</Id>
+                    </Othr>
                 </CtctDtls>
             </InitgPty>
         </GrpHdr>
         <PmtInf>
             <PmtInfId>Test-ID</PmtInfId>
-            <PmtMtd>TRA</PmtMtd>
+            <PmtMtd>TRF</PmtMtd>
             <BtchBookg>true</BtchBookg>
-            <PmtTpInf/>
-            <ReqdExctnDt>2017-06-30</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>2026-08-28</Dt>
+            </ReqdExctnDt>
             <Dbtr>
                 <Nm>Pestalozzi GMBH</Nm>
             </Dbtr>
@@ -44,25 +45,20 @@
             </DbtrAcct>
             <DbtrAgt>
                 <FinInstnId>
-                    <BIC>POFICHBEXXX</BIC>
+                    <BICFI>ZKBKCHZZ80A</BICFI>
                 </FinInstnId>
             </DbtrAgt>
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>1</InstrId>
-                    <EndToEndId>1/6/Auszahlung 1</EndToEndId>
+                    <EndToEndId>1/8/Auszahlung 1</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">10</InstdAmt>
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <ClrSysMmbId>
-                            <ClrSysId>
-                                <Cd>CHBCC</Cd>
-                            </ClrSysId>
-                            <MmbId>POFICHBEXXX</MmbId>
-                        </ClrSysMmbId>
+                        <BICFI>ZKBKCHZZ80A</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -77,7 +73,7 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH9300762011623852957</IBAN>
+                        <IBAN>CH4821966000009613388</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
@@ -87,7 +83,7 @@
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>2</InstrId>
-                    <EndToEndId>2/6/Auszahlung 2</EndToEndId>
+                    <EndToEndId>2/8/Auszahlung 2</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">1000</InstdAmt>
@@ -98,7 +94,7 @@
                             <ClrSysId>
                                 <Cd>CHBCC</Cd>
                             </ClrSysId>
-                            <MmbId>POFICHBEXXX</MmbId>
+                            <MmbId>700</MmbId>
                         </ClrSysMmbId>
                     </FinInstnId>
                 </CdtrAgt>
@@ -114,29 +110,24 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH9300762011623852957</IBAN>
+                        <IBAN>CH4821966000009613388</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
-                    <Ustrd>Auszahlung 2, Monat Jun.2017</Ustrd>
+                    <Ustrd>Auszahlung 2, Monat Aug..2026</Ustrd>
                 </RmtInf>
             </CdtTrfTxInf>
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>3</InstrId>
-                    <EndToEndId>3/6/Auszahlung 3 mit viiiiiel zu la</EndToEndId>
+                    <EndToEndId>3/8/Auszahlung 3 mit viiiiiel zu la</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">1000</InstdAmt>
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <ClrSysMmbId>
-                            <ClrSysId>
-                                <Cd>CHBCC</Cd>
-                            </ClrSysId>
-                            <MmbId>POFICHBEXXX</MmbId>
-                        </ClrSysMmbId>
+                        <BICFI>POFICHBEXXX</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -151,29 +142,24 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH9300762011623852957</IBAN>
+                        <IBAN>CH7280005000088877766</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
-                    <Ustrd>Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld, Monat Jun.2017</Ustrd>
+                    <Ustrd>Auszahlung 3 mit viiiiiel zu langem Namen, der ist sooo lang dass es gar nicht alles rein passt ins Feld, Monat Aug..2026</Ustrd>
                 </RmtInf>
             </CdtTrfTxInf>
             <CdtTrfTxInf>
                 <PmtId>
                     <InstrId>4</InstrId>
-                    <EndToEndId>4/6/Auszahlung Without address</EndToEndId>
+                    <EndToEndId>4/8/Auszahlung Without address</EndToEndId>
                 </PmtId>
                 <Amt>
                     <InstdAmt Ccy="CHF">2000</InstdAmt>
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <ClrSysMmbId>
-                            <ClrSysId>
-                                <Cd>CHBCC</Cd>
-                            </ClrSysId>
-                            <MmbId>POFICHBEXXX</MmbId>
-                        </ClrSysMmbId>
+                        <BICFI>POFICHBEXXX</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -181,11 +167,11 @@
                 </Cdtr>
                 <CdtrAcct>
                     <Id>
-                        <IBAN>CH9300762011623852957</IBAN>
+                        <IBAN>CH7280005000088877766</IBAN>
                     </Id>
                 </CdtrAcct>
                 <RmtInf>
-                    <Ustrd>Auszahlung Without address, Monat Jun.2017</Ustrd>
+                    <Ustrd>Auszahlung Without address, Monat Aug..2026</Ustrd>
                 </RmtInf>
             </CdtTrfTxInf>
         </PmtInf>

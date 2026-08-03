@@ -21,11 +21,16 @@
     <parent>
         <groupId>ch.dvbern.oss.iso20022</groupId>
         <artifactId>iso20022-ch</artifactId>
-        <version>7.0.3-SNAPSHOT</version>
+        <version>8.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>iso20022-ch-impl</artifactId>
     <packaging>jar</packaging>
+
+    <name>ISO20022 CH implementation</name>
+    <description>
+        Implementation for Swiss ISO20022 payment standards (pain.001, pain.008, camt.053, camt.054)
+    </description>
 
     <dependencies>
         <dependency>
@@ -86,6 +91,11 @@
         <dependency>
             <groupId>org.xmlunit</groupId>
             <artifactId>xmlunit-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-matchers</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- endregion -->

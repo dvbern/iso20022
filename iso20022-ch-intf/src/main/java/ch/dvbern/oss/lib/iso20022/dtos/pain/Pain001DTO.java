@@ -34,10 +34,7 @@ public class Pain001DTO {
 	private String msgId = defaultMsgId();
 
 	@Nullable
-	private String softwareName = null;
-
-	@Nullable
-	private String softwareVersion = null;
+	private Pain001SoftwareDTO softwareDetails = null;
 
 	@Nullable
 	private String schuldnerName = null;
@@ -78,21 +75,12 @@ public class Pain001DTO {
 	}
 
 	@Nullable
-	public String getSoftwareName() {
-		return softwareName;
+	public Pain001SoftwareDTO getSoftwareDetails() {
+		return softwareDetails;
 	}
 
-	public void setSoftwareName(@Nullable String softwareName) {
-		this.softwareName = softwareName;
-	}
-
-	@Nullable
-	public String getSoftwareVersion() {
-		return softwareVersion;
-	}
-
-	public void setSoftwareVersion(@Nullable final String softwareVersion) {
-		this.softwareVersion = softwareVersion;
+	public void setSoftwareDetails(@Nullable Pain001SoftwareDTO softwareDetails) {
+		this.softwareDetails = softwareDetails;
 	}
 
 	@Nullable

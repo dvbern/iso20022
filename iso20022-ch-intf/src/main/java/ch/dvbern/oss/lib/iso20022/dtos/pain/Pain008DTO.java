@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -52,7 +53,11 @@ public class Pain008DTO {
 	@Nonnull
 	private String initiatingPartyId = "";
 
+	@Nullable
 	private String softwareName = null;
+
+	@Nullable
+	private String softwareVersion = null;
 
 	@Valid
 	@NotNull
@@ -94,12 +99,22 @@ public class Pain008DTO {
 		this.initiatingPartyId = initiatingPartyId;
 	}
 
+	@Nullable
 	public String getSoftwareName() {
 		return softwareName;
 	}
 
-	public void setSoftwareName(String softwareName) {
+	public void setSoftwareName(@Nullable String softwareName) {
 		this.softwareName = softwareName;
+	}
+
+	@Nullable
+	public String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	public void setSoftwareVersion(@Nullable String softwareVersion) {
+		this.softwareVersion = softwareVersion;
 	}
 
 	@Nonnull
