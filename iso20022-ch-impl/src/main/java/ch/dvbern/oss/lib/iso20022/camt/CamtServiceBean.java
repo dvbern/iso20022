@@ -30,6 +30,7 @@ import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.header.Message
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.StatementOrNotification;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.Entry;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.TransactionDetails;
+import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.DeptorAccount;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PartyOrDeptor;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.PostalAddress;
 import ch.dvbern.oss.lib.iso20022.camt.xsdinterfaces.notification.statement.entry.details.parties.RelatedParties;
@@ -228,8 +229,9 @@ public class CamtServiceBean implements CamtService {
 				toDbtrPostalDetails(party.getPstlAdr(), transactionInformationDTO);
 			});
 
-		if (transactionParties.getDbtrAcct() != null) {
-			transactionInformationDTO.setDebitorIBAN(transactionParties.getDbtrAcct().getId().getIBAN());
+		DeptorAccount dbtrAcct = transactionParties.getDbtrAcct();
+		if (dbtrAcct != null) {
+			transactionInformationDTO.setDebitorIBAN(dbtrAcct.getId().getIBAN());
 		}
 
 		return transactionInformationDTO;
@@ -250,11 +252,12 @@ public class CamtServiceBean implements CamtService {
 	}
 
 	private boolean isIsrTransaction(@Nonnull TransactionDetails transaction) {
-		if (transaction.getRmtInf() == null) {
+		RemittanceInformation rmtInf = transaction.getRmtInf();
+		if (rmtInf == null) {
 			return false;
 		}
 
-		return findIsrRemittanceInfo(transaction.getRmtInf()).isPresent();
+		return findIsrRemittanceInfo(rmtInf).isPresent();
 	}
 
 	@Nonnull

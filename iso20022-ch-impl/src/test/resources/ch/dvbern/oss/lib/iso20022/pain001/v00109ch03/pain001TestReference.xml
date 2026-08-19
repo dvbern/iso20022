@@ -65,7 +65,6 @@
                     <Nm>Auszahlung 1</Nm>
                     <PstlAdr>
                         <StrtNm>Teststrasse</StrtNm>
-                        <BldgNb>1</BldgNb>
                         <PstCd>3000</PstCd>
                         <TwnNm>Bern</TwnNm>
                         <Ctry>CH</Ctry>
@@ -88,16 +87,6 @@
                 <Amt>
                     <InstdAmt Ccy="CHF">1000</InstdAmt>
                 </Amt>
-                <CdtrAgt>
-                    <FinInstnId>
-                        <ClrSysMmbId>
-                            <ClrSysId>
-                                <Cd>CHBCC</Cd>
-                            </ClrSysId>
-                            <MmbId>700</MmbId>
-                        </ClrSysMmbId>
-                    </FinInstnId>
-                </CdtrAgt>
                 <Cdtr>
                     <Nm>Auszahlung 2</Nm>
                     <PstlAdr>
@@ -157,11 +146,6 @@
                 <Amt>
                     <InstdAmt Ccy="CHF">2000</InstdAmt>
                 </Amt>
-                <CdtrAgt>
-                    <FinInstnId>
-                        <BICFI>POFICHBEXXX</BICFI>
-                    </FinInstnId>
-                </CdtrAgt>
                 <Cdtr>
                     <Nm>Auszahlung Without address</Nm>
                 </Cdtr>

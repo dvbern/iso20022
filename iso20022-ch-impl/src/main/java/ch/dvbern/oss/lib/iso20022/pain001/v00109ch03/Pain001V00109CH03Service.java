@@ -38,8 +38,6 @@ import iso.std.iso._20022.tech.xsd.pain_001_001.ActiveOrHistoricCurrencyAndAmoun
 import iso.std.iso._20022.tech.xsd.pain_001_001.AmountType4Choice;
 import iso.std.iso._20022.tech.xsd.pain_001_001.BranchAndFinancialInstitutionIdentification6;
 import iso.std.iso._20022.tech.xsd.pain_001_001.CashAccount38;
-import iso.std.iso._20022.tech.xsd.pain_001_001.ClearingSystemIdentification2Choice;
-import iso.std.iso._20022.tech.xsd.pain_001_001.ClearingSystemMemberIdentification2;
 import iso.std.iso._20022.tech.xsd.pain_001_001.CreditTransferTransaction34;
 import iso.std.iso._20022.tech.xsd.pain_001_001.DateAndDateTime2Choice;
 import iso.std.iso._20022.tech.xsd.pain_001_001.DocumentPain001Ch;
@@ -62,6 +60,7 @@ import org.jetbrains.annotations.Contract;
 
 import static ch.dvbern.oss.lib.iso20022.Iso2022ConstantsUtil.CCY;
 import static java.util.Objects.requireNonNull;
+import static java.util.Objects.requireNonNullElseGet;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -120,10 +119,10 @@ public class Pain001V00109CH03Service implements Pain001Service {
 		int transaktion = 0;
 		BigDecimal ctrlSum = BigDecimal.ZERO;
 		for (AuszahlungDTO auszahlungDTO : pain001DTO.getAuszahlungen()) {
-			requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
+			BigDecimal total = requireNonNull(auszahlungDTO.getBetragTotalZahlung(), "Amount is required");
 			transaktion++;
 
-			ctrlSum = ctrlSum.add(auszahlungDTO.getBetragTotalZahlung());
+			ctrlSum = ctrlSum.add(total);
 
 			CreditTransferTransaction34 info = createCreditTransferTransaction34(
 				objectFactory,
@@ -150,7 +149,7 @@ public class Pain001V00109CH03Service implements Pain001Service {
 		CreditTransferTransaction34 cTT34 = objectFactory.createCreditTransferTransaction34();
 		cTT34.setPmtId(createPaymentIdentification(objectFactory, transaktion, auszahlungDTO, date));
 		cTT34.setAmt(createAmount(objectFactory, auszahlungDTO));
-		cTT34.setCdtrAgt(createCreditorAgentAccount(objectFactory, auszahlungDTO));
+		createCreditorAgentAccount(objectFactory, auszahlungDTO).ifPresent(cTT34::setCdtrAgt);
 		cTT34.setCdtrAcct(createCreditorAccount(objectFactory, auszahlungDTO));
 		cTT34.setCdtr(createCreditor(objectFactory, auszahlungDTO));
 		cTT34.setRmtInf(createPaymentReference(objectFactory, auszahlungDTO, date));
@@ -199,8 +198,9 @@ public class Pain001V00109CH03Service implements Pain001Service {
 		@Nonnull ObjectFactory objectFactory,
 		@Nonnull AuszahlungDTO auszahlungDTO
 	) {
-		String ibanRaw = requireNonNull(auszahlungDTO.getZahlungsempfaengerIBAN(), "IBAN is required");
-		String iban = FIND_SPACES.matcher(ibanRaw).replaceAll(EMPTY);
+		String ibanRaw =
+			StringUtils.trimToNull(FIND_SPACES.matcher(auszahlungDTO.getZahlungsempfaengerIBAN()).replaceAll(EMPTY));
+		String iban = requireNonNull(ibanRaw, "IBAN is required");
 
 		AccountIdentification4Choice accountIdentification4Choice = objectFactory.createAccountIdentification4Choice();
 		accountIdentification4Choice.setIBAN(iban); // 2.80
@@ -212,36 +212,23 @@ public class Pain001V00109CH03Service implements Pain001Service {
 	}
 
 	@Nonnull
-	private BranchAndFinancialInstitutionIdentification6 createCreditorAgentAccount(
+	private Optional<BranchAndFinancialInstitutionIdentification6> createCreditorAgentAccount(
 		@Nonnull ObjectFactory objectFactory,
 		@Nonnull AuszahlungDTO auszahlungDTO
 	) {
-		FinancialInstitutionIdentification18 finInstnId = objectFactory.createFinancialInstitutionIdentification18();
-
-		if (auszahlungDTO.getZahlungsempfaengerBIC() != null) {
-			// BIC
-			finInstnId.setBICFI(auszahlungDTO.getZahlungsempfaengerBIC());
-		} else {
-			ClearingSystemIdentification2Choice clrSysId = objectFactory.createClearingSystemIdentification2Choice();
-			// CH bank clearing number
-			clrSysId.setCd(CLRSYS_CD);
-
-			String mmbId =
-				requireNonNull(auszahlungDTO.getZahlungsempfaengerBankClearingNumber(), "Clearing number is required");
-
-			ClearingSystemMemberIdentification2 clrSysMmbId =
-				objectFactory.createClearingSystemMemberIdentification2();
-			clrSysMmbId.setMmbId(mmbId);
-			clrSysMmbId.setClrSysId(clrSysId);
-
-			finInstnId.setClrSysMmbId(clrSysMmbId);
+		String bic = auszahlungDTO.getZahlungsempfaengerBIC();
+		if (bic == null) {
+			return Optional.empty();
 		}
+
+		FinancialInstitutionIdentification18 finInstnId = objectFactory.createFinancialInstitutionIdentification18();
+		finInstnId.setBICFI(bic);
 
 		BranchAndFinancialInstitutionIdentification6 cdtrAgt =
 			objectFactory.createBranchAndFinancialInstitutionIdentification6();
 		cdtrAgt.setFinInstnId(finInstnId);
 
-		return cdtrAgt;
+		return Optional.of(cdtrAgt);
 	}
 
 	@Nonnull
@@ -283,15 +270,12 @@ public class Pain001V00109CH03Service implements Pain001Service {
 		@Nonnull LocalDate date,
 		@Nonnull String transaktionStr
 	) {
-		String endToEndId;
-		if (auszahlungDTO.getEndToEndId() == null) {
+		String endToEndId = requireNonNullElseGet(
+			auszahlungDTO.getEndToEndId(),
 			// "{id}/{month number}/{normalized without umlauts (öäü)} => "1/2/Brunnen
-			endToEndId =
-				transaktionStr + '/' + date.getMonthValue() + '/' + auszahlungDTO.getZahlungsempfaengerName(); // SWIFT
-		} else {
-			endToEndId = auszahlungDTO.getEndToEndId();
-		}
-		endToEndId = Iso20022Util.replaceSwift(endToEndId);
+			() -> transaktionStr + '/' + date.getMonthValue() + '/' + auszahlungDTO.getZahlungsempfaengerName());
+
+		endToEndId = requireNonNull(Iso20022Util.replaceSwift(endToEndId)); // SWIFT
 
 		return endToEndId.substring(0, Math.min(endToEndId.length(), MAX_SIGNS)); // 2.30 max 35 signs
 	}
@@ -306,19 +290,19 @@ public class Pain001V00109CH03Service implements Pain001Service {
 		}
 
 		PostalAddress24 pstlAdr = objectFactory.createPostalAddress24();
-		if (auszahlungDTO.getZahlungsempfaengerStrasse() != null) {
+		if (StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerStrasse())) {
 			pstlAdr.setStrtNm(normalize(auszahlungDTO.getZahlungsempfaengerStrasse())); // 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaengerHausnummer() != null) {
+		if (StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerHausnummer())) {
 			pstlAdr.setBldgNb(auszahlungDTO.getZahlungsempfaengerHausnummer()); // 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaengerPlz() != null) {
+		if (StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerPlz())) {
 			pstlAdr.setPstCd(auszahlungDTO.getZahlungsempfaengerPlz());// 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaengerOrt() != null) {
+		if (StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerOrt())) {
 			pstlAdr.setTwnNm(normalize(auszahlungDTO.getZahlungsempfaengerOrt()));// 2.79
 		}
-		if (auszahlungDTO.getZahlungsempfaengerLand() != null) {
+		if (StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerLand())) {
 			pstlAdr.setCtry(auszahlungDTO.getZahlungsempfaengerLand());// 2.79
 		}
 
@@ -327,11 +311,11 @@ public class Pain001V00109CH03Service implements Pain001Service {
 
 	@SuppressWarnings("checkstyle:BooleanExpressionComplexity")
 	private boolean hasAddressData(@Nonnull AuszahlungDTO auszahlungDTO) {
-		return auszahlungDTO.getZahlungsempfaengerStrasse() != null
-			|| auszahlungDTO.getZahlungsempfaengerHausnummer() != null
-			|| auszahlungDTO.getZahlungsempfaengerPlz() != null
-			|| auszahlungDTO.getZahlungsempfaengerOrt() != null
-			|| auszahlungDTO.getZahlungsempfaengerLand() != null;
+		return StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerStrasse())
+			|| StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerHausnummer())
+			|| StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerPlz())
+			|| StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerOrt())
+			|| StringUtils.isNotBlank(auszahlungDTO.getZahlungsempfaengerLand());
 	}
 
 	@Contract("!null->!null; null->null;")

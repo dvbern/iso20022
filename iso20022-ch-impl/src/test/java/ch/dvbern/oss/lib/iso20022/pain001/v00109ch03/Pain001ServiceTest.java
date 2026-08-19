@@ -90,7 +90,7 @@ public class Pain001ServiceTest {
 		auszahlung1.setZahlungsempfaengerLand("CH");
 		auszahlung1.setZahlungsempfaengerName("Auszahlung 1");
 		auszahlung1.setZahlungsempfaengerStrasse("Teststrasse");
-		auszahlung1.setZahlungsempfaengerHausnummer("1");
+		auszahlung1.setZahlungsempfaengerHausnummer("");
 		auszahlung1.setZahlungsempfaengerPlz("3000");
 		auszahlung1.setZahlungsempfaengerOrt("Bern");
 		auszahlung1.setZahlungText("Auszahlung 1");
@@ -98,7 +98,6 @@ public class Pain001ServiceTest {
 
 		AuszahlungDTO auszahlung2 = new AuszahlungDTO();
 		auszahlung2.setBetragTotalZahlung(new BigDecimal(1000));
-		auszahlung2.setZahlungsempfaengerBankClearingNumber("700");
 		auszahlung2.setZahlungsempfaengerIBAN("CH4821966000009613388");
 		auszahlung2.setZahlungsempfaengerLand("CH");
 		auszahlung2.setZahlungsempfaengerName("Auszahlung 2");
@@ -125,7 +124,6 @@ public class Pain001ServiceTest {
 
 		AuszahlungDTO auszahlungWithout = new AuszahlungDTO();
 		auszahlungWithout.setBetragTotalZahlung(new BigDecimal(2000));
-		auszahlungWithout.setZahlungsempfaengerBIC("POFICHBEXXX");
 		auszahlungWithout.setZahlungsempfaengerIBAN("CH7280005000088877766");
 		auszahlungWithout.setZahlungsempfaengerName("Auszahlung Without address");
 		auszahlungen.add(auszahlungWithout);

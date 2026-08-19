@@ -143,12 +143,14 @@ public final class Iso20022Util {
 			return null;
 		}
 
-		if (choice.getDtTm() != null) {
-			return from(choice.getDtTm());
+		XMLGregorianCalendar dateTime = choice.getDtTm();
+		if (dateTime != null) {
+			return from(dateTime);
 		}
 
-		if (choice.getDt() != null) {
-			return from(choice.getDt());
+		XMLGregorianCalendar date = choice.getDt();
+		if (date != null) {
+			return from(date);
 		}
 
 		return null;

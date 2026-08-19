@@ -29,7 +29,8 @@ public class MyCDIEnabledClass {
     public void createDemoPainFile() {
         Pain001DTO pain001DTO = demoPaymentOrder();
         final byte[] painFileContent = pain001Service.getPainFileContent(pain001DTO);
-        writeResultsToFile(painFileContent);
+        
+		Files.write(Paths.get(STORE_PATH), painFileContent);
     }
         
     private Pain001DTO demoPaymentOrder() {
@@ -40,7 +41,11 @@ public class MyCDIEnabledClass {
         pain001DTO.setSchuldnerName("John Deptor");
         pain001DTO.setSchuldnerIBAN("CH9300762011623852957");
         pain001DTO.setSchuldnerBIC("POFICHBEXXX");
-        pain001DTO.setSoftwareName("DVBern Payment Tool");
+        pain001DTO.setSoftwareDetails(new Pain001SoftwareDTO(
+            "DVBern Payment Tool",
+            "DV Bern AG",
+            "V01"
+        ));
         pain001DTO.setMsgId("Test-ID");
             
         List<AuszahlungDTO> payments = new ArrayList<>();
@@ -48,7 +53,6 @@ public class MyCDIEnabledClass {
         // first paying out
         AuszahlungDTO payment1 = new AuszahlungDTO();
         payment1.setBetragTotalZahlung(BigDecimal.TEN);
-        payment1.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
         payment1.setZahlungsempfaengerIBAN("CH9300762011623852957");
         payment1.setZahlungsempfaengerLand("CH");
         payment1.setZahlungsempfaengerName("Hans Payee");
@@ -62,7 +66,6 @@ public class MyCDIEnabledClass {
         // second paying out
         AuszahlungDTO payment2 = new AuszahlungDTO();
         payment2.setBetragTotalZahlung(new BigDecimal(1000));
-        payment2.setZahlungsempfaengerBankClearingNumber("POFICHBEXXX");
         payment2.setZahlungsempfaengerIBAN("CH9300762011623852957");
         payment2.setZahlungsempfaengerLand("CH");
         payment2.setZahlungsempfaengerName("Kurt Payee");
@@ -76,15 +79,6 @@ public class MyCDIEnabledClass {
         pain001DTO.setAuszahlungen(payments);
         
         return pain001DTO;        
-    }
-        
-    /**
-     * Write data to File
-    */
-    private void writeResultsToFile(byte[] data) throws IOException {
-        FileOutputStream fos = new FileOutputStream(STORE_PATH);
-        fos.write(data);
-        fos.close();
     }
 }
     

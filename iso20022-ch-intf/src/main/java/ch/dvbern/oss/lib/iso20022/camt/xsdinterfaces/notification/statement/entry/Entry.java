@@ -97,11 +97,15 @@ public interface Entry {
 	Boolean isRvslInd();
 
 	default boolean isCreditingEntry() {
-		return getCdtDbtInd() != null && getCdtDbtInd().isCreditingEntry();
+		SharedCreditDebitCode cdtDbtInd = getCdtDbtInd();
+
+		return cdtDbtInd != null && cdtDbtInd.isCreditingEntry();
 	}
 
 	default boolean isBookedEntry() {
-		return getSts() != null && getSts().isBooked();
+		EntryStatus sts = getSts();
+
+		return sts != null && sts.isBooked();
 	}
 
 	default boolean isReversal() {

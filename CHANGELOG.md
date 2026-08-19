@@ -1,3 +1,22 @@
+# 9.0.1
+
+## Bugfixes
+- Addressed the issue where empty adress elements are generated. 
+  When providing an empty string for an adress element such as the hausnummer, the library generated an empty
+  xml element. This is not valid according to the standard. Adress Elements are now only generated if the 
+  provided dto attribute is not blank (neither empty string nor null)
+# 9.0.0
+
+## BREAKING CHANGES
+
+Remove `zahlungsempfaengerBankClearingNumber` from `AuszahlungDTO`.
+The `zahlungsempfaengerIBAN` has always been required, even though that was not yet reflected in the DTO.
+
+According to the Swiss Payment Standards SPS 2026 Version 2.3, section 3.12, specifying the Creditor Agent is not
+necessary when using an IBAN – although it is recommended for payment type `X`. Therefore, the Creditor Agent is
+now optionally specified when the user sets a value for `zahlungsempfaengerBIC`. Otherwise, it is omitted entirely.
+
+
 # 8.0.3
 
 Fix publishing to github.

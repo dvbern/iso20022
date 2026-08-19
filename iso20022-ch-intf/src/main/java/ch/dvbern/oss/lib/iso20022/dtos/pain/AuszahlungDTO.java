@@ -18,7 +18,9 @@ package ch.dvbern.oss.lib.iso20022.dtos.pain;
 
 import java.math.BigDecimal;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotEmpty;
 
 public class AuszahlungDTO {
 
@@ -43,11 +45,9 @@ public class AuszahlungDTO {
 	@Nullable
 	private String zahlungsempfaengerLand = null;
 
-	@Nullable
-	private String zahlungsempfaengerIBAN = null;
-
-	@Nullable
-	private String zahlungsempfaengerBankClearingNumber = null;
+	@Nonnull
+	@NotEmpty
+	private String zahlungsempfaengerIBAN = "";
 
 	@Nullable
 	private String zahlungsempfaengerBIC = null;
@@ -121,22 +121,13 @@ public class AuszahlungDTO {
 		this.zahlungsempfaengerLand = zahlungsempfaengerLand;
 	}
 
-	@Nullable
+	@Nonnull
 	public String getZahlungsempfaengerIBAN() {
 		return zahlungsempfaengerIBAN;
 	}
 
-	public void setZahlungsempfaengerIBAN(@Nullable String zahlungsempfaengerIBAN) {
+	public void setZahlungsempfaengerIBAN(@Nonnull String zahlungsempfaengerIBAN) {
 		this.zahlungsempfaengerIBAN = zahlungsempfaengerIBAN;
-	}
-
-	@Nullable
-	public String getZahlungsempfaengerBankClearingNumber() {
-		return zahlungsempfaengerBankClearingNumber;
-	}
-
-	public void setZahlungsempfaengerBankClearingNumber(@Nullable String zahlungsempfaengerBankClearingNumber) {
-		this.zahlungsempfaengerBankClearingNumber = zahlungsempfaengerBankClearingNumber;
 	}
 
 	@Nullable
